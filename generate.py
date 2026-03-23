@@ -33,17 +33,19 @@ try:
     with open("index.html", "r", encoding="utf-8") as f:
         index_html = f.read()
     
-    # Създаваме HTML кода за новия линк
-    new_link_html = f'\n<div style="margin: 15px 0; padding: 10px; border-left: 4px solid #007bff; background: #f8f9fa;">\n  🚀 <strong>New:</strong> <a href="{filename}" style="text-decoration: none; color: #007bff;">{topic_title}</a>\n</div>'
-    
-    # Търсим котвата и я заместваме с новия линк + самата котва (за следващия път)
-    if '' in index_html:
-        updated_index = index_html.replace('', new_link_html)
-        with open("index.html", "w", encoding="utf-8") as f:
-            f.write(updated_index)
-        print("БИНГО: Линкът е добавен в началната страница!")
+    # ПРОВЕРКА ЗА ДУБЛИРАНЕ: Ако файлът вече е линкнат, спираме!
+    if filename in index_html:
+        print("БИНГО: Този линк вече съществува на сайта. Няма да го дублирам!")
     else:
-        print("Внимание: Котвата не е намерена в index.html")
+        new_link_html = f'\n<div style="margin: 15px 0; padding: 10px; border-left: 4px solid #007bff; background: #f8f9fa;">\n  🚀 <strong>New:</strong> <a href="{filename}" style="text-decoration: none; color: #007bff;">{topic_title}</a>\n</div>'
+        
+        if '' in index_html:
+            updated_index = index_html.replace('', new_link_html)
+            with open("index.html", "w", encoding="utf-8") as f:
+                f.write(updated_index)
+            print("БИНГО: Линкът е добавен успешно!")
+        else:
+            print("Внимание: Котвата не е намерена.")
 
 except Exception as e:
     print(f"Грешка: {e}")
