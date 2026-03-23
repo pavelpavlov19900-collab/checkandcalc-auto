@@ -1,46 +1,43 @@
-import os, datetime, random
+import os, datetime
 from google import genai
 
-# Инициализация на клиента
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-# Тема на статията
 topic_title = "Safe Online Shopping 2026: The Ultimate Protection Guide"
 
 try:
-    # 1. ГЕНЕРИРАНЕ (Използваме най-съвместимия модел)
+    # 1. Генериране на статията
     response = client.models.generate_content(
-        model='gemini-1.5-flash', 
-        contents=f"Write a 1000 word SEO article about: {topic_title}. Format as strict HTML. Return ONLY raw HTML code."
+        model='gemini-2.5-pro',
+        contents=f"Write a 1000 word SEO article about: {topic_title}. Return ONLY raw HTML."
     )
     html_content = response.text.replace('```html', '').replace('```', '').strip()
     
-    # ПРАВИМ ИМЕТО УНИКАЛНО (добавяме случаен номер, за да тестваме успешно сега)
-    rand_id = random.randint(1000, 9999)
-    filename = f"safety-guide-{rand_id}.html"
-    
+    filename = f"safety-guide-{datetime.date.today()}.html"
     with open(filename, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print(f"✅ Статията е създадена: {filename}")
 
-    # 2. ИНТЕГРАЦИЯ В index.html
-    target_file = "index.html" 
-    with open(target_file, "r", encoding="utf-8") as f:
-        index_content = f.read()
+    # 2. ТЕСТОВА ИНТЕГРАЦИЯ В test.html (ПЪРВО ТЕСТВАМЕ ТУК!)
+    target_file = "index.html" # Когато тестваш успешно, тук ще напишем "index.html"
     
-    # ТВОЯТ ТАЕН КОД (БЕЗ ИНТЕРВАЛИ - провери го в index.html!)
+    with open(target_file, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    # Твоята нова котва
     anchor = "<li></li>"
     
-    if anchor in index_content:
-        # МАГИЯТА: Инжектираме новия линк под котвата
-        new_entry = f'{anchor}\n  <li>🚀 <a href="{filename}" style="color:#93c5fd;text-decoration:none;">{topic_title} (ID: {rand_id})</a></li>'
-        updated_html = index_content.replace(anchor, new_entry)
+    if filename in content:
+        print("Линкът вече е там. Спирам.")
+    elif anchor in content:
+        # Създаваме чист списъчен елемент за новата статия
+        new_entry = f'{anchor}\n  <li>🚀 <a href="{filename}">{topic_title}</a></li>'
+        new_content = content.replace(anchor, new_entry)
         
         with open(target_file, "w", encoding="utf-8") as f:
-            f.write(updated_html)
-        print(f"🎯 БИНГО: Линкът е на витрината!")
+            f.write(new_content)
+        print(f"Успешно добавен линк в {target_file}")
     else:
-        print(f"❌ ГРЕШКА: Не намерих '{anchor}' в index.html. Провери файла!")
+        print(f"Грешка: Не намерих котвата {anchor} в {target_file}")
 
 except Exception as e:
-    print(f"⚠️ Критична грешка: {e}")
+    print(f"Грешка в системата: {e}")
