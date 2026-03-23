@@ -1,0 +1,27 @@
+name: Auto AI Blogger
+on:
+  schedule:
+    - cron: '0 8 * * 1' # Всеки понеделник
+  workflow_dispatch: # Бутон за ръчен старт
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install Google AI
+        run: pip install google-generativeai
+      - name: Run SEO Machine
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python generate.py
+      - name: Save to Netlify
+        run: |
+          git config --global user.name 'AI Factory'
+          git config --global user.email 'factory@checkandcalc.com'
+          git add .
+          git commit -m "New High-Value SEO Article" || exit 0
+          git push
