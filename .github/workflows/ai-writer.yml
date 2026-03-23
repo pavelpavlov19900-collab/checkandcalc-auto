@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: '3.x'
       - name: Install Google AI
-        run: pip install google-generativeai
+        run: pip install google-genai
       - name: Run SEO Machine
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
