@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://checkandcalc-site.netlify.app/sitemap.xml

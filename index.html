@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LXJ2T5DJZH');
+</script>
+<meta name="google-site-verification" content="UrI39TtjuiUYluqiSJH-_ilwdEybnkPITccIGvM_oDk" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3266692272156100"
+     crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <title>Check&Calc Tools – Scam Check, AI Detector, YouTube Money Calculator</title>
+  <meta name="description" content="Free tools: website scam risk checker, simple AI text heuristic, and YouTube earnings calculator.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="Check&Calc Tools – Scam Check, AI Detector, YouTube Money Calculator">
+  <meta property="og:description" content="Check if a site looks risky, estimate AI-likeness of text, and calculate YouTube earnings. All in one place.">
+  <meta property="og:type" content="website">
+
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: light dark;
+    }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    header {
+      border-bottom: 1px solid #1f2937;
+      padding: 16px 20px;
+      background: radial-gradient(circle at top left, #1d283a, #020617);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.6rem;
+    }
+
+    .tagline {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #9ca3af;
+    }
+
+    nav {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav button.active {
+      background: #22c55e;
+      color: #020617;
+      border-color: #16a34a;
+      font-weight: 600;
+    }
+
+    nav button span.icon {
+      font-size: 1rem;
+    }
+
+    main {
+      padding: 24px 0 32px;
+    }
+
+    .tool {
+      display: none;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid #1f2937;
+      background: radial-gradient(circle at top, #020617, #020617 40%, #030712);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+    }
+
+    .tool.active {
+      display: block;
+    }
+
+    .tool h2 {
+      margin-top: 0;
+      margin-bottom: 4px;
+      font-size: 1.3rem;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      font-size: 0.92rem;
+      color: #9ca3af;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      margin-top: 4px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+    }
+
+    input:focus, textarea:focus {
+      outline: 1px solid #22c55e;
+      border-color: #22c55e;
+    }
+
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+    }
+
+    button.primary {
+      margin-top: 14px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      background: #22c55e;
+      color: #020617;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    button.primary:hover {
+      background: #16a34a;
+    }
+
+    #scoreTitle, #scamDetails, #aiResult, #ytResult {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .low { background:#166534; color:#bbf7d0; }
+    .medium { background:#854d0e; color:#fef3c7; }
+    .high { background:#991b1b; color:#fee2e2; }
+
+    .note {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    footer {
+      border-top: 1px solid #1f2937;
+      padding: 16px 0 24px;
+      background: #020617;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 14px 12px; }
+      .container { padding: 0 12px; }
+      .tool { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Check&Calc Tools</h1>
+      <p class="tagline">Scam risk check • AI text heuristic • YouTube money calculator – all in one simple page.</p>
+
+      <nav id="nav">
+        <button class="active" data-section="scam">
+          <span class="icon">🛡️</span>
+          SafeSiteCheck
+        </button>
+        <button data-section="ai">
+          <span class="icon">🧠</span>
+          HumanScore
+        </button>
+        <button data-section="yt">
+          <span class="icon">📺</span>
+          TubeEarnings
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- 1) SafeSiteCheck -->
+      <section id="tool-scam" class="tool active">
+        <h2>SafeSiteCheck – Scam Risk Heuristic</h2>
+        <p class="subtitle">
+<p class="note">
+  Want more details? Read the full guide and use the dedicated tool page:
+  <a href="scam-checker.html">Free Scam Website Checker – learn more</a>.
+</p>
+          Paste a URL to get a quick heuristic risk score (0–100). This does <strong>not</strong> guarantee safety – it just highlights obvious red flags.
+        </p>
+
+        <label for="urlInput">Website URL</label>
+        <input id="urlInput" placeholder="https://example.com">
+        <button class="primary" onclick="checkUrl()">Check risk</button>
+
+        <div id="scoreTitle"></div>
+        <div id="scamDetails"></div>
+
+        <p class="note">
+          This is a simple front-end checker based on domain patterns (length, TLD, digits, dashes, IP). 
+          Always double-check reviews, company details, and prices that look too good to be true.
+        </p>
+      </section>
+
+      <!-- 2) HumanScore -->
+      <section id="tool-ai" class="tool">
+        <h2>HumanScore – Simple AI Text Heuristic</h2>
+        <p class="subtitle">
+<p class="note">
+  Want a full explanation and dedicated page? 
+  <a href="ai-detector.html">Open the free AI text detector →</a>
+</p>
+          Paste text and get a rough “AI-likeness” score. This is <strong>not</strong> a reliable detector – just a quick signal.
+        </p>
+
+        <label for="textInput">Your text</label>
+        <textarea id="textInput" placeholder="Paste your text here..."></textarea>
+        <button class="primary" onclick="analyzeText()">Analyze</button>
+
+        <div id="aiResult"></div>
+
+        <p class="note">
+          Universities and companies treat AI detectors only as an initial signal, not proof. 
+          Never punish anyone based on a single score.
+        </p>
+      </section>
+
+      <!-- 3) TubeEarnings -->
+      <section id="tool-yt" class="tool">
+        <h2>TubeEarnings – YouTube Money Calculator</h2>
+        <p class="subtitle">
+<p class="note">
+  Need more examples and tips? 
+  <a href="youtube-money-calculator.html">Open the full YouTube money calculator guide →</a>
+</p>
+
+          Estimate YouTube ad revenue from daily views and RPM (revenue per 1000 views). Real earnings depend on niche and country.
+        </p>
+
+        <label for="views">Daily views</label>
+        <input id="views" type="number" value="10000" min="0">
+
+        <label for="rpmLow">RPM low estimate (USD per 1000 views)</label>
+        <input id="rpmLow" type="number" value="2" min="0" step="0.1">
+
+        <label for="rpmHigh">RPM high estimate (USD per 1000 views)</label>
+        <input id="rpmHigh" type="number" value="6" min="0" step="0.1">
+
+        <button class="primary" onclick="calcYt()">Calculate</button>
+
+        <div id="ytResult"></div>
+
+        <p class="note">
+          Use conservative RPMs for broad niches and non-tier-1 countries; higher RPMs are typical for finance, B2B, and US/UK/CA audiences.
+        </p>
+      </section>
+
+    </div>
+<section aria-labelledby="guides-heading" style="margin-top:40px;padding:24px 18px;border-radius:18px;border:1px solid #1f2937;background:radial-gradient(circle at top,#020617,#020617 55%,#030712);">
+  <div class="container" style="max-width:900px;margin:0 auto;">
+    <h2 id="guides-heading" style="margin:0 0 8px;font-size:1.6rem;">Guides & calculators to help you stay safe and get paid</h2>
+    <p style="margin:0 0 18px;font-size:0.95rem;color:#9ca3af;">
+      Read our practical guides on spotting scam websites, understanding AI detectors and estimating your YouTube income.
+      All articles are written in simple language and connect directly to our free tools.
+    </p>
+
+    <div style="display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+
+      <!-- Scam & online safety -->
+      <div style="padding:14px 12px;border-radius:14px;border:1px solid #1f2937;background:#020617;">
+        <h3 style="margin:0 0 8px;font-size:1.05rem;">Scam & online shopping safety</h3>
+        <ul style="list-style:none;padding:0;margin:0;font-size:0.93rem;line-height:1.6;">
+          <li>
+            <a href="10-red-flags-that-a-website-is-a-scam.html" style="color:#93c5fd;text-decoration:none;">
+              10 red flags that a website is a scam
+            </a>
+          </li>
+          <li>
+            <a href="how-to-shop-online-safely-and-avoid-fake-stores.html" style="color:#93c5fd;text-decoration:none;">
+              How to shop online safely and avoid fake stores
+            </a>
+          </li>
+          <li>
+            <a href="what-to-do-if-you-paid-on-a-scam-website.html" style="color:#93c5fd;text-decoration:none;">
+              What to do if you paid on a scam website
+            </a>
+          </li>
+          <li>
+            <a href="how-to-check-if-a-website-is-legit.html" style="color:#93c5fd;text-decoration:none;">
+              How to check if a website is legit (step-by-step)
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- AI detectors & writing -->
+      <div style="padding:14px 12px;border-radius:14px;border:1px solid #1f2937;background:#020617;">
+        <h3 style="margin:0 0 8px;font-size:1.05rem;">AI detectors & human writing</h3>
+        <ul style="list-style:none;padding:0;margin:0;font-size:0.93rem;line-height:1.6;">
+          <li>
+            <a href="can-ai-detectors-really-detect-chatgpt.html" style="color:#93c5fd;text-decoration:none;">
+              Can AI detectors really detect ChatGPT?
+            </a>
+          </li>
+          <li>
+            <a href="ai-detector-false-positives-explained.html" style="color:#93c5fd;text-decoration:none;">
+              AI detector false positives explained
+            </a>
+          </li>
+          <li>
+            <a href="how-to-make-ai-assisted-writing-sound-more-human.html" style="color:#93c5fd;text-decoration:none;">
+              How to make AI-assisted writing sound more human
+            </a>
+          </li>
+          <li>
+            <a href="how-accurate-are-ai-detectors.html" style="color:#93c5fd;text-decoration:none;">
+              How accurate are AI detectors in real life?
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- YouTube money & RPM -->
+      <div style="padding:14px 12px;border-radius:14px;border:1px solid #1f2937;background:#020617;">
+        <h3 style="margin:0 0 8px;font-size:1.05rem;">YouTube money & RPM</h3>
+        <ul style="list-style:none;padding:0;margin:0;font-size:0.93rem;line-height:1.6;">
+          <li>
+            <a href="how-much-money-do-youtubers-make-per-1000-views.html" style="color:#93c5fd;text-decoration:none;">
+              How much do YouTubers make per 1,000 views?
+            </a>
+          </li>
+          <li>
+            <a href="how-much-do-youtubers-really-make-per-million-views.html" style="color:#93c5fd;text-decoration:none;">
+              How much do YouTubers really make per million views?
+            </a>
+          </li>
+          <li>
+            <a href="youtube-cpm-vs-rpm-whats-the-difference.html" style="color:#93c5fd;text-decoration:none;">
+              YouTube CPM vs RPM – what’s the difference?
+            </a>
+          </li>
+          <li>
+            <a href="factors-that-change-your-youtube-ad-revenue.html" style="color:#93c5fd;text-decoration:none;">
+              7 factors that change your YouTube ad revenue
+            </a>
+          </li>
+          <li>
+            <a href="how-to-estimate-your-youtube-adsense-income.html" style="color:#93c5fd;text-decoration:none;">
+              How to estimate your YouTube AdSense income
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><h2>Guides & articles</h2>
+<ul>
+  <li>
+    <a href="how-to-check-if-a-website-is-legit.html">
+      How to check if a website is legit (simple checklist)
+    </a>
+  </li>
+  <li>
+    <a href="how-accurate-are-ai-detectors.html">
+      How accurate are AI detectors? What they can and can’t do
+    </a>
+  </li>
+  <li>
+    <a href="how-much-money-do-youtubers-make-per-1000-views.html">
+      How much money do YouTubers make per 1000 views?
+    </a>
+  </li>
+</ul>
+
+        Disclaimer: All tools on this page are heuristic and informational only – no legal, financial, or security advice.
+      </p>
+      <p>
+        <a href="index.html">Home – all tools</a> ·
+        <a href="privacy.html">Privacy Policy</a> ·
+        <a href="disclosure.html">Affiliate &amp; Ads Disclosure</a>
+ · <a href="about.html">About &amp; Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple tab navigation
+    const nav = document.getElementById('nav');
+    const buttons = nav.querySelectorAll('button');
+    const sections = {
+      scam: document.getElementById('tool-scam'),
+      ai: document.getElementById('tool-ai'),
+      yt: document.getElementById('tool-yt')
+    };
+
+    nav.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-section]');
+      if (!btn) return;
+      const target = btn.getAttribute('data-section');
+
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      Object.keys(sections).forEach(key => {
+        sections[key].classList.toggle('active', key === target);
+      });
+
+      // optional: update hash for SEO / direct links
+      if (history.pushState) {
+        history.pushState(null, '', '#' + target);
+      } else {
+        location.hash = target;
+      }
+    });
+
+    // On load – open section based on hash (e.g. #ai)
+    window.addEventListener('load', () => {
+      const hash = location.hash.replace('#', '');
+      if (hash && sections[hash]) {
+        const btn = nav.querySelector(`button[data-section="${hash}"]`);
+        if (btn) btn.click();
+      }
+    });
+
+    // 1) SafeSiteCheck logic
+    function extractHostname(url) {
+      try {
+        if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+        return new URL(url).hostname.toLowerCase();
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function isIp(host) {
+      return /^\d{1,3}(\.\d{1,3}){3}$/.test(host);
+    }
+
+    function getTld(host) {
+      const parts = host.split(".");
+      return parts.length > 1 ? parts[parts.length - 1] : "";
+    }
+
+    function computeRisk(host) {
+      let risk = 0;
+      const reasons = [];
+
+      if (!host) {
+        reasons.push("Invalid URL.");
+        return { risk: 100, reasons };
+      }
+
+      if (host.length > 20) {
+        risk += 15;
+        reasons.push("Very long domain name.");
+      }
+
+      const dashCount = (host.match(/-/g) || []).length;
+      if (dashCount >= 2) {
+        risk += 10;
+        reasons.push("Multiple dashes in domain.");
+      }
+
+      if (/\d/.test(host)) {
+        risk += 10;
+        reasons.push("Numbers in domain name.");
+      }
+
+      if (isIp(host)) {
+        risk += 30;
+        reasons.push("Uses numeric IP instead of domain name.");
+      }
+
+      const badTlds = ["xyz", "top", "club", "click", "work", "tk", "ml", "ga", "cf", "gq"];
+      const tld = getTld(host);
+      if (badTlds.includes(tld)) {
+        risk += 25;
+        reasons.push("Cheap / commonly abused TLD: ." + tld);
+      }
+
+      if (/\d{4}/.test(host)) {
+        risk += 10;
+        reasons.push("Year-like numbers in domain (common in fake shops).");
+      }
+
+      if (risk > 100) risk = 100;
+      return { risk, reasons };
+    }
+
+    function labelFromRisk(risk) {
+      if (risk <= 25) return { label: "Low risk", cls: "low" };
+      if (risk <= 60) return { label: "Medium risk", cls: "medium" };
+      return { label: "High risk", cls: "high" };
+    }
+
+    function checkUrl() {
+      const input = document.getElementById("urlInput").value.trim();
+      const host = extractHostname(input);
+      const { risk, reasons } = computeRisk(host);
+      const badge = labelFromRisk(risk);
+
+      const title = document.getElementById("scoreTitle");
+      title.innerHTML = host
+        ? `Result for <strong>${host}</strong>: <span class="badge ${badge.cls}">${badge.label} (${risk}/100)</span>`
+        : `<span class="badge high">Invalid URL (100/100)</span>`;
+
+      const details = document.getElementById("scamDetails");
+      if (!reasons.length) {
+        details.textContent = "No obvious red flags found. This does NOT guarantee the site is safe.";
+      } else {
+        details.innerHTML = "<strong>Why:</strong><br>• " + reasons.join("<br>• ")
+          + "<br><br>Always double-check reviews, contact info and prices that look too good to be true.";
+      }
+    }
+
+    // 2) HumanScore logic
+    function analyzeText() {
+      const text = document.getElementById("textInput").value.trim();
+      const out = document.getElementById("aiResult");
+
+      if (!text) {
+        out.textContent = "Please paste some text.";
+        return;
+      }
+
+      const words = text.split(/\s+/).filter(Boolean);
+      const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+
+      const wordCount = words.length;
+      const avgSentenceLen = wordCount / Math.max(1, sentences.length);
+
+      const uniqueWords = new Set(words.map(w => w.toLowerCase()));
+      const uniquenessRatio = uniqueWords.size / wordCount; // 0–1
+
+      let score = 0;
+
+      if (avgSentenceLen > 20) score += 25;
+      if (avgSentenceLen > 30) score += 15;
+
+      if (uniquenessRatio < 0.45) score += 25;
+      if (uniquenessRatio < 0.35) score += 15;
+
+      if (wordCount > 400) score += 10;
+      if (wordCount > 800) score += 10;
+
+      score += Math.floor(Math.random() * 6) - 3; // noise -3..+2
+
+      if (score < 0) score = 0;
+      if (score > 100) score = 100;
+
+      let label = "";
+      if (score <= 35) label = "Looks mostly human-like.";
+      else if (score <= 70) label = "Mixed signals – could be human or AI.";
+      else label = "Looks strongly machine-like.";
+
+      out.innerHTML =
+        `<strong>AI-likeness score:</strong> ${score}/100<br>${label}`;
+    }
+
+    // 3) TubeEarnings logic
+    function calcYt() {
+      const views = parseFloat(document.getElementById("views").value) || 0;
+      const rpmLow = parseFloat(document.getElementById("rpmLow").value) || 0;
+      const rpmHigh = parseFloat(document.getElementById("rpmHigh").value) || 0;
+
+      const dailyLow = views / 1000 * rpmLow;
+      const dailyHigh = views / 1000 * rpmHigh;
+
+      const monthlyLow = dailyLow * 30;
+      const monthlyHigh = dailyHigh * 30;
+
+      const yearlyLow = dailyLow * 365;
+      const yearlyHigh = dailyHigh * 365;
+
+      const fmt = n => n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+      const out = document.getElementById("ytResult");
+      out.innerHTML =
+        `<strong>Estimated earnings:</strong><br>
+         Daily: $${fmt(dailyLow)} – $${fmt(dailyHigh)}<br>
+         Monthly (30 days): $${fmt(monthlyLow)} – $${fmt(monthlyHigh)}<br>
+         Yearly (365 days): $${fmt(yearlyLow)} – $${fmt(yearlyHigh)}<br><br>
+         <span class="note">
+           Real RPM depends on niche, audience country, season, and extra income sources (sponsorships, affiliates).
+         </span>`;
+    }
+  </script>
+</body>
+</html>

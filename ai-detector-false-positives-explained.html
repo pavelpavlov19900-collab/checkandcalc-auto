@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Detector False Positives: Why Human Text Sometimes Looks Like AI</title>
+  <meta name="description" content="Human writing can be flagged as AI by detectors. Learn why false positives happen and how to use AI detectors safely and fairly.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="AI Detector False Positives Explained">
+  <meta property="og:description" content="A plain-language guide to why AI detectors sometimes mark human text as AI and how to avoid unfair decisions.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://checkandcalc-site.netlify.app/ai-detector-false-positives-explained">
+
+  <style>
+    :root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0f172a; color: #e5e7eb; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+    header { padding: 18px 0 12px; border-bottom: 1px solid #1f2937; background: radial-gradient(circle at top left, #1d283a, #020617); }
+    header h1 { margin: 0 0 6px; font-size: 1.8rem; }
+    header p { margin: 0; font-size: 0.95rem; color: #9ca3af; max-width: 700px; }
+    header nav { margin-top: 12px; font-size: 0.85rem; }
+    header nav a { color: #9ca3af; text-decoration: none; }
+    header nav a:hover { text-decoration: underline; }
+    main { padding: 24px 0 40px; }
+    h2 { font-size: 1.3rem; margin-top: 24px; margin-bottom: 6px; }
+    h3 { font-size: 1.05rem; margin-top: 16px; margin-bottom: 4px; }
+    p, li { font-size: 0.95rem; line-height: 1.7; }
+    ul, ol { padding-left: 20px; }
+    a { color: #93c5fd; }
+    .info-box {
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      background: radial-gradient(circle at top, #020617, #020617 50%, #030712);
+      padding: 14px 16px;
+      margin: 18px 0;
+      font-size: 0.92rem;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+    .hero-img {
+      margin-top: 18px;
+      border-radius: 16px;
+      border: 1px solid #1f2937;
+      max-width: 100%;
+      display: block;
+    }
+    footer { border-top: 1px solid #1f2937; background: #020617; padding: 16px 0 24px; font-size: 0.8rem; color: #6b7280; }
+    footer a { color: #9ca3af; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 640px) { header h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="index.html">← Back to home</a> ·
+        <a href="ai-detector.html">Open the AI detector</a>
+      </nav>
+      <h1>AI Detector False Positives: Why Human Text Sometimes Looks Like AI</h1>
+      <p>
+        If you’ve ever seen a detector mark a clearly human-written text as “likely AI”, you’ve seen a false positive in action.
+        Here’s why it happens and how to avoid unfair decisions.
+      </p>
+      <div style="margin-top:10px;">
+        <span class="pill">AI detector false positive</span>
+        <span class="pill">human text flagged as AI</span>
+        <span class="pill">AI detection risks</span>
+      </div>
+      <img src="ai-detector-false-positives.png" alt="Futuristic illustration of a judge or scale weighing human writing against an AI label on a glowing screen" class="hero-img" loading="lazy">
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="info-box">
+        <strong>Reminder:</strong> our <a href="ai-detector.html">HumanScore AI-likeness checker</a> is a heuristic tool.
+        It should never be the only basis for serious academic or workplace decisions.
+      </div>
+
+      <h2>What is a false positive in AI detection?</h2>
+      <p>
+        A false positive happens when an AI detector says “this text is probably AI-generated”
+        but the text was actually written by a human.
+      </p>
+      <p>
+        This can create serious problems if teachers, managers or platforms treat the detector as a final authority.
+      </p>
+
+      <h2>Why human writing can look “AI-like”</h2>
+      <p>There are several reasons why purely human text may trigger an AI detector:</p>
+      <ul>
+        <li><strong>Very formal style:</strong> academic essays, reports and manuals often have predictable patterns.</li>
+        <li><strong>Limited vocabulary:</strong> non-native speakers may reuse safe phrases and simple structures.</li>
+        <li><strong>Templates:</strong> emails, cover letters and corporate documents follow common patterns.</li>
+      </ul>
+
+      <h2>Short texts are especially risky</h2>
+      <p>
+        Many AI detectors struggle with short texts (a few sentences or a single paragraph).
+        With so little data, small variations can change the score drastically – for human or AI text.
+      </p>
+
+      <h2>Model drift and training data limits</h2>
+      <p>
+        Detectors are trained on examples of “AI text” and “human text”. But:
+      </p>
+      <ul>
+        <li>Newer AI models may not match the old training patterns.</li>
+        <li>Human writing styles are extremely diverse.</li>
+        <li>Language evolves quickly, especially online.</li>
+      </ul>
+
+      <h2>Why false positives are dangerous</h2>
+      <p>
+        Treating AI detectors as perfect can harm innocent people:
+      </p>
+      <ul>
+        <li>Students wrongly accused of cheating.</li>
+        <li>Job applicants rejected without explanation.</li>
+        <li>Writers and freelancers judged unfairly.</li>
+      </ul>
+
+      <h2>How to use AI detectors more fairly</h2>
+      <p>
+        If you’re in a position where you need to evaluate text (teacher, manager, editor), consider this:
+      </p>
+      <ul>
+        <li>Use detector scores as a <strong>starting point</strong>, not a final decision.</li>
+        <li>Talk to the person and ask for drafts, notes or previous work.</li>
+        <li>Look at consistency with their past writing style.</li>
+      </ul>
+
+      <h2>What writers can do if their text is flagged</h2>
+      <p>
+        If your human-written text is marked as “likely AI”, you can:
+      </p>
+      <ul>
+        <li>Stay calm and ask which tool was used and how.</li>
+        <li>Show earlier drafts, outlines or notes to prove authorship.</li>
+        <li>Ask for a human review instead of an automated verdict.</li>
+      </ul>
+
+      <div class="info-box">
+        <strong>Bottom line:</strong> AI detectors are best used as rough indicators and educational tools,
+        not as automatic lie detectors. Human judgement still matters more than any single score.
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="index.html">Home – all tools</a> ·
+        <a href="ai-detector.html">AI text detector</a> ·
+        <a href="scam-checker.html">Scam website checker</a> ·
+        <a href="youtube-money-calculator.html">YouTube money calculator</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

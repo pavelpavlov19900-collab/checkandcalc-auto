@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>How Accurate Are AI Detectors? What They Can and Can’t Do</title>
+  <meta name="description" content="How accurate are AI text detectors really? Learn what AI detectors can and can’t do, why they fail, and how to use them responsibly – plus a free AI text checker.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="How Accurate Are AI Detectors? What They Can and Can’t Do">
+  <meta property="og:description" content="A practical look at AI text detectors: accuracy, limitations, false positives and how to combine them with your own judgement.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://checkandcalc-site.netlify.app/how-accurate-are-ai-detectors">
+
+  <style>
+    :root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0f172a; color: #e5e7eb; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+    header { padding: 18px 0 12px; border-bottom: 1px solid #1f2937; background: radial-gradient(circle at top left, #1d283a, #020617); }
+    header h1 { margin: 0 0 6px; font-size: 1.8rem; }
+    header p { margin: 0; font-size: 0.95rem; color: #9ca3af; max-width: 700px; }
+    header nav { margin-top: 12px; font-size: 0.85rem; }
+    header nav a { color: #9ca3af; text-decoration: none; }
+    header nav a:hover { text-decoration: underline; }
+    main { padding: 24px 0 40px; }
+    h2 { font-size: 1.3rem; margin-top: 24px; margin-bottom: 6px; }
+    h3 { font-size: 1.05rem; margin-top: 16px; margin-bottom: 4px; }
+    p, li { font-size: 0.95rem; line-height: 1.7; }
+    ul, ol { padding-left: 20px; }
+    a { color: #93c5fd; }
+    .info-box {
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      background: radial-gradient(circle at top, #020617, #020617 50%, #030712);
+      padding: 14px 16px;
+      margin: 18px 0;
+      font-size: 0.92rem;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+    footer { border-top: 1px solid #1f2937; background: #020617; padding: 16px 0 24px; font-size: 0.8rem; color: #6b7280; }
+    footer a { color: #9ca3af; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 640px) { header h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="index.html">← Back to home</a> ·
+        <a href="ai-detector.html">Open the AI text detector</a>
+      </nav>
+      <h1>How Accurate Are AI Detectors? What They Can and Can’t Do</h1>
+      <p>
+        AI text detectors promise to tell you whether content was written by a human or a model like GPT. In reality, their accuracy is limited and context matters a lot.
+        Here’s what you should know before you rely on them.
+      </p>
+      <div style="margin-top:10px;">
+        <span class="pill">how accurate are AI detectors</span>
+        <span class="pill">AI text detection limits</span>
+        <span class="pill">GPT detector reliability</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="info-box">
+        <strong>Quick tool:</strong> you can run a simple AI-likeness check with our free heuristic detector:<br>
+        👉 <a href="ai-detector.html">HumanScore – AI vs human-like writing</a><br>
+        It analyzes sentence length, vocabulary diversity and repetition directly in your browser.
+      </div>
+
+      <h2>1. What AI text detectors actually do</h2>
+      <p>
+        Most AI detectors don’t “read the model’s mind”. Instead, they look at statistical patterns in the text and compare them to what they know about
+        human and machine-generated writing. Common features include:
+      </p>
+      <ul>
+        <li>Average sentence length and structure.</li>
+        <li>Vocabulary diversity (how many unique words appear).</li>
+        <li>Frequency of certain phrases and structures.</li>
+        <li>Repetition and predictability.</li>
+      </ul>
+      <p>
+        If a piece of text matches patterns that are common in outputs from large language models, the detector labels it as “likely AI-generated”.
+        But that doesn’t mean it’s always right.
+      </p>
+
+      <h2>2. Why AI detectors fail (and will keep failing sometimes)</h2>
+      <p>There are several reasons why AI detectors are not perfectly accurate:</p>
+      <ul>
+        <li><strong>AI is evolving quickly.</strong> Newer models can produce more diverse, human-like text that is harder to detect.</li>
+        <li><strong>Humans can write like AI.</strong> If someone writes in a very formal, generic or templated style, detectors may flag it as AI.</li>
+        <li><strong>Post-editing breaks patterns.</strong> When people edit AI-generated text by hand, it often moves closer to human style.</li>
+        <li><strong>Short texts are hard to judge.</strong> A single paragraph rarely has enough signal to be classified confidently.</li>
+      </ul>
+
+      <h2>3. False positives and false negatives</h2>
+      <p>
+        Two types of mistakes are especially important when you think about how accurate AI detectors are:
+      </p>
+      <ul>
+        <li><strong>False positive:</strong> human-written text is labeled as AI.</li>
+        <li><strong>False negative:</strong> AI-generated text is labeled as human.</li>
+      </ul>
+      <p>
+        In education or hiring, false positives can be very damaging. A detector might say “90% AI” and a teacher or manager may treat that as proof,
+        even though the tool is only giving a probability based on patterns.
+      </p>
+
+      <h2>4. How to use AI detectors responsibly</h2>
+      <p>
+        If you want to use AI detectors in a fair way, here are a few principles:
+      </p>
+      <ol>
+        <li><strong>Never rely on a single score for serious decisions.</strong> Treat the result as one signal among many.</li>
+        <li><strong>Look at writing history.</strong> Compare the text with older work from the same person.</li>
+        <li><strong>Talk to the writer.</strong> Ask questions about their process and reasoning; genuine authors can explain their work.</li>
+        <li><strong>Combine tools.</strong> Use AI detectors together with plagiarism checkers and your own judgement.</li>
+      </ol>
+
+      <h2>5. When AI detectors can be helpful</h2>
+      <p>
+        Even with limited accuracy, AI detectors can be useful in low-stakes scenarios where you just want a quick sense of how heavily AI might have been involved.
+      </p>
+      <ul>
+        <li>Blog editors checking whether a writer is relying 100% on AI without disclosure.</li>
+        <li>Business owners reviewing product descriptions or emails for overly generic, “robotic” language.</li>
+        <li>Readers who are simply curious whether an online article looks more human or AI-like.</li>
+      </ul>
+
+      <h2>6. Try a simple AI-likeness heuristic yourself</h2>
+      <p>
+        Our <a href="ai-detector.html">HumanScore AI text detector</a> is a lightweight, browser-based tool that estimates AI-likeness on a 0–100 scale.
+        It doesn’t claim to catch every model or version; it just highlights when text has several machine-like characteristics.
+      </p>
+      <p>
+        You can paste a paragraph, essay or email and see:
+      </p>
+      <ul>
+        <li>Approximate AI-likeness score.</li>
+        <li>A short interpretation of what that score means.</li>
+      </ul>
+      <p>
+        Use it as a quick helper, not as a judge or jury.
+      </p>
+
+      <h2>FAQ: AI detector accuracy</h2>
+
+      <h3>Can AI detectors be 100% accurate?</h3>
+      <p>
+        No. As long as humans and AI models can produce similar text, and as long as text can be edited after generation,
+        there will always be overlap. Any tool claiming perfect accuracy should be treated with scepticism.
+      </p>
+
+      <h3>Is it fair to punish students based only on an AI detector?</h3>
+      <p>
+        Most experts say no. AI detectors can be one part of a broader investigation, but relying solely on a score is risky and can hurt honest students.
+      </p>
+
+      <h3>Do AI detectors improve over time?</h3>
+      <p>
+        Yes, many services update their models to better handle new AI systems and writing styles. But AI models also improve, so it’s an ongoing race.
+        Detectors will probably get better, but not perfect.
+      </p>
+
+      <h3>Is your AI detector a professional tool?</h3>
+      <p>
+        No. Our AI detector is a simple heuristic that runs in the browser and is meant for quick checks and curiosity. 
+        For high-stakes use cases, you should consider professional tools and a clear policy on AI usage.
+      </p>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="index.html">Home – all tools</a> ·
+        <a href="ai-detector.html">AI text detector</a> ·
+        <a href="scam-checker.html">Scam website checker</a> ·
+        <a href="youtube-money-calculator.html">YouTube money calculator</a>.
+    <a href="about.html">About &amp; Contact</a>
+
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

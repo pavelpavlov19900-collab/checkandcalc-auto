@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Free AI Text Detector – Simple AI Content Heuristic Checker</title>
+  <meta name="description" content="Use this free AI text detector to get a simple AI-likeness score for any text. Check if content looks more human or machine-generated in seconds.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Free AI Text Detector – Simple AI Content Heuristic Checker">
+  <meta property="og:description" content="Paste text and get a quick AI-likeness score. A simple heuristic AI content detector to see if writing looks human or machine-generated.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://checkandcalc-site.netlify.app/ai-detector">
+
+  <!-- AdSense auto ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3266692272156100"
+          crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: light dark;
+    }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    header {
+      padding: 18px 0 12px;
+      border-bottom: 1px solid #1f2937;
+      background: radial-gradient(circle at top left, #1d283a, #020617);
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #9ca3af;
+      max-width: 650px;
+    }
+
+    header nav {
+      margin-top: 12px;
+      font-size: 0.85rem;
+    }
+
+    header nav a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 24px 0 40px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top, #020617, #020617 50%, #030712);
+      border-radius: 18px;
+      border: 1px solid #1f2937;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      font-size: 0.95rem;
+      color: #9ca3af;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 4px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+      min-height: 220px;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: 1px solid #22c55e;
+      border-color: #22c55e;
+    }
+
+    button.primary {
+      margin-top: 14px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      background: #22c55e;
+      color: #020617;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    button.primary:hover {
+      background: #16a34a;
+    }
+
+    #aiResult {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    section {
+      margin-bottom: 26px;
+    }
+
+    ul, ol {
+      padding-left: 18px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      border-top: 1px solid #1f2937;
+      background: #020617;
+      padding: 16px 0 24px;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      header h1 { font-size: 1.45rem; }
+      .card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="index.html">← Back to all tools</a>
+      </nav>
+      <h1>Free AI Text Detector – Simple AI Content Heuristic</h1>
+      <p>
+        Paste any text into this free AI text detector and get a simple AI-likeness score (0–100). 
+        See if content looks more human or machine-generated before you rely on it.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- TOOL CARD -->
+      <div class="card">
+        <h2>HumanScore – AI vs human-like writing</h2>
+        <p class="subtitle">
+          This AI content detector uses simple writing-pattern signals to estimate how machine-like a text looks. 
+          It is not a perfect GPT detector – treat it as a quick signal, not proof.
+        </p>
+
+        <div>
+          <span class="pill">free AI text detector</span>
+          <span class="pill">AI content detector</span>
+          <span class="pill">GPT-like text checker</span>
+        </div>
+
+        <label for="textInput">Your text</label>
+        <textarea id="textInput" placeholder="Paste your paragraph, essay, article or email here..."></textarea>
+        <button class="primary" onclick="analyzeText()">Analyze AI-likeness</button>
+
+        <div id="aiResult"></div>
+
+        <p class="note">
+          Tip: If the score looks high and the text feels overly generic, repetitive or “too perfect”, it may have been generated by AI.
+          Always combine this with your own judgement and other tools.
+        </p>
+      </div>
+
+      <!-- SEO CONTENT -->
+      <section>
+        <h2>How this free AI text detector works</h2>
+        <p>
+          HumanScore is a lightweight AI content checker that gives you a quick first impression of whether a text looks more human or machine-like.
+          Instead of trying to guess the exact model (GPT, Claude, etc.), it focuses on simple, transparent signals such as sentence length, vocabulary variety
+          and repetition. These patterns are often different in AI-generated content compared to natural human writing.
+        </p>
+        <p>
+          The detector calculates an AI-likeness score between 0 and 100. Lower scores usually mean the text looks more human-like, while higher scores
+          indicate that the text has more machine-like characteristics. The score is heuristic and can be wrong, but it helps you decide when to look closer
+          at a piece of content.
+        </p>
+      </section>
+
+      <section>
+        <h2>What signals does the AI content detector use?</h2>
+        <p>
+          This free AI detector does not send your text to a remote server. It runs directly in your browser and uses a few basic statistics:
+        </p>
+        <ul>
+          <li><strong>Average sentence length</strong> – very long, uniform sentences often appear in AI-generated essays and articles.</li>
+          <li><strong>Vocabulary diversity</strong> – the ratio between unique words and total words. Lower diversity can signal repetitive, templated writing.</li>
+          <li><strong>Text length</strong> – extremely long and consistently structured content may be a sign of AI assistance.</li>
+          <li><strong>Small random noise</strong> – a bit of randomness is added to avoid giving a false sense of absolute precision.</li>
+        </ul>
+        <p>
+          None of these signals alone can reliably prove whether a text was written by a human or by AI. They simply highlight patterns that are statistically
+          common in machine-generated content.
+        </p>
+      </section>
+
+      <section>
+        <h2>Limitations of AI detectors and why you should be careful</h2>
+        <p>
+          AI detectors – including this simple online AI text checker – are not perfect. Language models evolve quickly, and human writers can also mimic
+          AI-like patterns. On the other hand, people using AI tools can post-edit the result so that it looks more natural and diverse.
+        </p>
+        <p>
+          Because of this, you should never punish or accuse someone based only on an AI content score. Use detectors as one small signal among many:
+          your knowledge of the person, writing history, plagiarism checks and the context in which the text appears.
+        </p>
+      </section>
+
+      <section>
+        <h2>Common use cases for this AI text detector</h2>
+        <ul>
+          <li><strong>Teachers and educators</strong> checking whether homework or essays might be heavily AI-assisted.</li>
+          <li><strong>Editors and content managers</strong> verifying if articles follow internal guidelines about AI usage.</li>
+          <li><strong>Business owners</strong> reviewing blog posts or product descriptions they bought from freelancers.</li>
+          <li><strong>Curious readers</strong> who simply want to know whether an online text looks more human or AI-like.</li>
+        </ul>
+        <p>
+          For high-stakes decisions, consider combining this tool with professional AI detection services and plagiarism checkers.
+        </p>
+      </section>
+
+      <section>
+        <h2>FAQ: questions about the AI detector</h2>
+
+        <h3>Is this AI text detector accurate enough for exams or legal decisions?</h3>
+        <p>
+          No. This is a heuristic tool designed for quick checks and curiosity, not for legal or disciplinary decisions.
+          It can highlight suspicious patterns, but it cannot prove that a text was generated by AI. Always use multiple sources of evidence.
+        </p>
+
+        <h3>Does this AI detector send my text to a server?</h3>
+        <p>
+          No. The current version runs entirely in your browser using JavaScript. The AI-likeness score is calculated locally.
+          That means your text is not stored or transmitted to a remote server by this tool.
+        </p>
+
+        <h3>Can I use this AI detector for long texts?</h3>
+        <p>
+          Yes, but very long texts may take a bit more time to process in the browser. For best results, you can analyze one section at a time,
+          for example 3–8 paragraphs. That often gives a clearer picture than analyzing a whole book or thesis at once.
+        </p>
+
+        <h3>What does a high AI-likeness score mean?</h3>
+        <p>
+          A high score means that the text has several machine-like characteristics based on the simple metrics we use. It is a reason to look closer, 
+          but not proof of AI authorship. Human writers can also produce repetitive or templated content that looks “AI-ish”.
+        </p>
+
+        <h3>Is this AI detector free to use?</h3>
+        <p>
+          Yes, this AI content checker is free. It is supported by ads and by other tools on this site, such as the scam website checker and
+          the YouTube money calculator. You can bookmark this page and reuse it whenever you want a quick AI-likeness estimate.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        Disclaimer: This free AI text detector is heuristic and informational only.
+        It cannot definitively prove whether content was written by a human or AI.
+      </p>
+      <p>
+        <a href="index.html">Home – all tools</a> ·
+        <a href="scam-checker.html">Scam website checker</a> ·
+        <a href="youtube-money-calculator.html">YouTube money calculator</a> .
+ <a href="privacy.html">Privacy Policy</a> ·
+      <a href="disclosure.html">Affiliate &amp; Ads Disclosure</a>.
+  <a href="about.html">About &amp; Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function analyzeText() {
+      const text = document.getElementById("textInput").value.trim();
+      const out = document.getElementById("aiResult");
+
+      if (!text) {
+        out.textContent = "Please paste some text to analyze.";
+        return;
+      }
+
+      const words = text.split(/\s+/).filter(Boolean);
+      const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+
+      const wordCount = words.length;
+      const avgSentenceLen = wordCount / Math.max(1, sentences.length);
+
+      const uniqueWords = new Set(words.map(w => w.toLowerCase()));
+      const uniquenessRatio = uniqueWords.size / wordCount; // 0–1
+
+      let score = 0;
+
+      if (avgSentenceLen > 20) score += 25;
+      if (avgSentenceLen > 30) score += 15;
+
+      if (uniquenessRatio < 0.45) score += 25;
+      if (uniquenessRatio < 0.35) score += 15;
+
+      if (wordCount > 400) score += 10;
+      if (wordCount > 800) score += 10;
+
+      score += Math.floor(Math.random() * 6) - 3; // noise -3..+2
+      if (score < 0) score = 0;
+      if (score > 100) score = 100;
+
+      let label = "";
+      if (score <= 35) label = "Looks mostly human-like.";
+      else if (score <= 70) label = "Mixed signals – could be human or AI.";
+      else label = "Looks strongly machine-like.";
+
+      out.innerHTML =
+        `<strong>AI-likeness score:</strong> ${score}/100<br>${label}`;
+    }
+  </script>
+</body>
+</html>

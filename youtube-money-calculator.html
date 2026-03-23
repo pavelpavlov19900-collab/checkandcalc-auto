@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Money Calculator – Estimate Earnings From Views & RPM</title>
+  <meta name="description" content="Free YouTube money calculator. Estimate how much money you can make from YouTube views based on daily views and RPM (revenue per 1000 views).">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="YouTube Money Calculator – Estimate Earnings From Views & RPM">
+  <meta property="og:description" content="Enter your YouTube views and RPM to estimate daily, monthly and yearly earnings. A simple, free YouTube revenue calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://checkandcalc-site.netlify.app/youtube-money-calculator">
+
+  <!-- AdSense auto ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3266692272156100"
+          crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: light dark;
+    }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    header {
+      padding: 18px 0 12px;
+      border-bottom: 1px solid #1f2937;
+      background: radial-gradient(circle at top left, #1d283a, #020617);
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #9ca3af;
+      max-width: 650px;
+    }
+
+    header nav {
+      margin-top: 12px;
+      font-size: 0.85rem;
+    }
+
+    header nav a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 24px 0 40px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top, #020617, #020617 50%, #030712);
+      border-radius: 18px;
+      border: 1px solid #1f2937;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      font-size: 0.95rem;
+      color: #9ca3af;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      margin-top: 4px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+    }
+
+    input:focus {
+      outline: 1px solid #22c55e;
+      border-color: #22c55e;
+    }
+
+    button.primary {
+      margin-top: 14px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      background: #22c55e;
+      color: #020617;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    button.primary:hover {
+      background: #16a34a;
+    }
+
+    #ytResult {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    section {
+      margin-bottom: 26px;
+    }
+
+    ul, ol {
+      padding-left: 18px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      border-top: 1px solid #1f2937;
+      background: #020617;
+      padding: 16px 0 24px;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      header h1 { font-size: 1.45rem; }
+      .card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="index.html">← Back to all tools</a>
+      </nav>
+      <h1>YouTube Money Calculator – Estimate Earnings From Views</h1>
+      <p>
+        Enter your YouTube daily views and RPM (revenue per 1000 views) to estimate daily, monthly and yearly ad revenue.
+        This free YouTube money calculator is a simple way to see what your channel could earn.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- TOOL CARD -->
+      <div class="card">
+        <h2>TubeEarnings – YouTube revenue estimator</h2>
+        <p class="subtitle">
+
+          This YouTube money calculator uses your daily views and RPM to calculate a realistic earnings range.
+          It does not connect to your account – it’s a simple estimator based on the numbers you provide.
+        </p>
+
+        <div>
+          <span class="pill">YouTube money calculator</span>
+          <span class="pill">YouTube earnings estimator</span>
+          <span class="pill">RPM / CPM calculator</span>
+        </div>
+
+        <label for="views">Daily views</label>
+        <input id="views" type="number" value="10000" min="0">
+
+        <label for="rpmLow">RPM low estimate (USD per 1000 views)</label>
+        <input id="rpmLow" type="number" value="2" min="0" step="0.1">
+
+        <label for="rpmHigh">RPM high estimate (USD per 1000 views)</label>
+        <input id="rpmHigh" type="number" value="6" min="0" step="0.1">
+
+        <button class="primary" onclick="calcYt()">Calculate earnings</button>
+
+        <div id="ytResult"></div>
+
+        <p class="note">
+          Tip: Start with a conservative RPM (for example $1–$3 for broad entertainment) and then test higher RPM ranges for niches like finance, B2B or software.
+        </p>
+      </div>
+
+      <!-- SEO CONTENT -->
+      <section>
+        <h2>How the YouTube money calculator works</h2>
+        <p>
+          This free YouTube revenue calculator estimates how much money a channel can make from ad views. It uses two main inputs:
+          daily views and RPM (revenue per 1000 views). With these, it calculates an earnings range for a typical month and year.
+        </p>
+        <p>
+          RPM is different from CPM. RPM already includes YouTube’s cut and is closer to what a creator actually receives per 1000 monetized views.
+          Because RPM can change a lot between niches, countries and seasons, the calculator lets you enter a low and high value to see a realistic spectrum.
+        </p>
+      </section>
+
+      <section>
+        <h2>Which factors affect YouTube RPM and earnings?</h2>
+        <ul>
+          <li><strong>Channel niche</strong> – finance, SaaS, B2B and software tutorials often have higher RPM than pure entertainment or memes.</li>
+          <li><strong>Audience country</strong> – views from the US, Canada, UK, Germany or Australia usually pay more than views from lower-income regions.</li>
+          <li><strong>Video length and watch time</strong> – longer videos with higher watch time can show more ads and often have higher RPM.</li>
+          <li><strong>Seasonality</strong> – Q4 (October–December) usually brings higher ad budgets, while January can be significantly lower.</li>
+          <li><strong>Content type and advertiser friendliness</strong> – family-friendly, educational and business content tends to attract better ads.</li>
+        </ul>
+        <p>
+          Because of all these factors, no calculator can give a perfect prediction. However, a simple RPM-based estimate is a good starting point
+          when planning a YouTube channel or setting income goals.
+        </p>
+      </section>
+
+      <section>
+        <h2>Example YouTube earnings scenarios</h2>
+        <p>
+          Here are a few quick examples using this YouTube money calculator:
+        </p>
+        <ul>
+          <li>
+            <strong>Small growing channel</strong> – 10,000 views per day with RPM between $2 and $4  
+            → around $600–$1,200 per month in ad revenue.
+          </li>
+          <li>
+            <strong>Mid-size channel</strong> – 50,000 views per day with RPM between $3 and $6  
+            → roughly $4,500–$9,000 per month.
+          </li>
+          <li>
+            <strong>Large channel</strong> – 200,000 views per day with RPM between $2 and $8  
+            → around $12,000–$48,000 per month.
+          </li>
+        </ul>
+        <p>
+          These are only rough ranges and do not include extra income sources like sponsorships, affiliate marketing, digital products or channel memberships,
+          which can significantly boost total revenue.
+        </p>
+      </section>
+
+      <section>
+        <h2>How to increase your YouTube earnings beyond RPM</h2>
+        <ol>
+          <li><strong>Improve click-through rate (CTR)</strong> with better thumbnails and titles to get more views from the same impressions.</li>
+          <li><strong>Increase watch time</strong> with strong hooks, clear storytelling and better pacing.</li>
+          <li><strong>Add affiliate links</strong> in the description for products and tools you genuinely recommend.</li>
+          <li><strong>Create your own digital products</strong> such as templates, presets, courses or memberships.</li>
+          <li><strong>Work with brands</strong> for sponsored segments that align with your audience.</li>
+        </ol>
+        <p>
+          Use the YouTube earnings calculator regularly to track how changes in views and RPM affect your potential income.
+        </p>
+      </section>
+
+      <section>
+        <h2>FAQ: questions about the YouTube money calculator</h2>
+
+        <h3>Does this calculator connect to my YouTube account?</h3>
+        <p>
+          No. This tool is a simple estimator and does not connect to your YouTube account or read your analytics data.
+          You manually enter daily views and RPM, and the calculator shows possible earnings ranges.
+        </p>
+
+        <h3>What is the difference between RPM and CPM?</h3>
+        <p>
+          CPM is the cost per 1000 ad impressions paid by advertisers. RPM (revenue per 1000 views) is calculated from the creator’s perspective and already
+          includes YouTube’s share. In most cases, RPM is the more useful number when estimating your actual income.
+        </p>
+
+        <h3>Can I use this calculator in any currency?</h3>
+        <p>
+          The tool uses US dollars (USD) by default. If your YouTube Studio shows earnings in a different currency, you can convert them to USD or simply treat
+          the numbers as “units” and compare relative differences rather than exact amounts.
+        </p>
+
+        <h3>Why are my real YouTube earnings different from the estimate?</h3>
+        <p>
+          Real earnings depend on many details: ad fill rate, audience demographics, content category, advertiser budgets and more. The calculator provides a clean,
+          simplified model. Use it for planning and “what if” scenarios, not as a guaranteed in
