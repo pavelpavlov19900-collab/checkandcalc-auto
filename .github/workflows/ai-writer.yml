@@ -1,15 +1,15 @@
 name: Auto AI Blogger
 on:
   schedule:
-    - cron: '0 8 * * 1' # Всеки понеделник
-  workflow_dispatch: # Бутон за ръчен старт
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - name: Install Google AI
