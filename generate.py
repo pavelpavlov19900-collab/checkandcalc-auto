@@ -37,40 +37,64 @@ try:
     with open(filename, "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    # --- СТЪПКА 3: ИНДУСТРИАЛЕН КАТАЛОГИЗАТОР ---
+   # --- СТЪПКА 3: ИНТЕЛЕКТУАЛНО СОРТИРАНЕ ПО КАТЕГОРИИ ---
     target_file = "index.html"
     
-    # Използваме този формат, за да не се скрие текстът в чата:
-    start_marker = "<" + "!-- AUTO_GENERATED_LIST_START --" + ">"
-    end_marker = "<" + "!-- AUTO_GENERATED_LIST_END --" + ">"
+    # Използваме този формат, за да виждаш буквите в чата:
+    s_start = "<" + "!-- SCAM_LIST_START --" + ">"
+    s_end   = "<" + "!-- SCAM_LIST_END --" + ">"
     
-    # 1. Сканираме всички статии
+    a_start = "<" + "!-- AI_LIST_START --" + ">"
+    a_end   = "<" + "!-- AI_LIST_END --" + ">"
+    
+    y_start = "<" + "!-- YT_LIST_START --" + ">"
+    y_end   = "<" + "!-- YT_LIST_END --" + ">"
+    
+    # 1. Сканираме всички генерирани статии
     all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html']]
     all_files.sort(key=os.path.getmtime, reverse=True)
+
+    # Кошове за линковете
+    scam_links, ai_links, yt_links = "", "", ""
     
-    # 2. Изграждаме списъка
-    links_html = ""
+    # Ключови думи за разпознаване
+    ai_keywords = ['ai', 'detector', 'chatgpt', 'writing', 'human', 'deepfake']
+    yt_keywords = ['youtube', 'earnings', 'money', 'views', 'rpm', 'adsense', 'cpm', 'tube']
+
     for file in all_files:
         pretty_title = file.replace('.html', '').replace('-', ' ').title()
-        links_html += f'          <li>🚀 <a href="{file}" style="color:#93c5fd;text-decoration:none;">{pretty_title}</a></li>\n'
+        link_tag = f'          <li>🚀 <a href="{file}" style="color:#93c5fd;text-decoration:none;">{pretty_title}</a></li>\n'
+        
+        file_lower = file.lower()
+        if any(k in file_lower for k in yt_keywords):
+            yt_links += link_tag
+        elif any(k in file_lower for k in ai_keywords):
+            ai_links += link_tag
+        else:
+            scam_links += link_tag
 
-    # 3. Четем index.html
+    # 2. Четем index.html
     with open(target_file, "r", encoding="utf-8") as f:
-        content = f.read()
+        html_content = f.read()
 
-    # 4. Проверяваме за маркерите
-    if start_marker in content and end_marker in content:
-        parts = content.split(start_marker)
-        rest = parts[1].split(end_marker)
-        
-        # Сглобяваме всичко
-        new_content = parts[0] + start_marker + "\n" + links_html + "          " + end_marker + rest[1]
-        
-        with open(target_file, "w", encoding="utf-8") as f:
-            f.write(new_content)
-        print("✅ УСПЕХ: Списъкът е обновен!")
-    else:
-        print("❌ ГРЕШКА: Маркерите липсват в index.html!")
+    # 3. Функция за замяна
+    def update_block(content, start, end, links):
+        if start in content and end in content:
+            parts = content.split(start)
+            rest = parts[1].split(end)
+            return parts[0] + start + "\n" + links + "          " + end + rest[1]
+        return content
+
+    # Обновяваме трите секции
+    html_content = update_block(html_content, s_start, s_end, scam_links)
+    html_content = update_block(html_content, a_start, a_end, ai_links)
+    html_content = update_block(html_content, y_start, y_end, yt_links)
+
+    # 4. Запазваме финалния резултат
+    with open(target_file, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    
+    print("🎯 Системата подреди всички статии по категории!")
 
     # 4. ОБНОВЯВАНЕ НА SITEMAP.XML
     sitemap_file = 'sitemap.xml'
