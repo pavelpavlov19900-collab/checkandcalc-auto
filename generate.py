@@ -41,8 +41,8 @@ try:
     target_file = "index.html"
     
     # 1. Дефинираме маркерите (трябва да са ТОЧНО като тези в HTML)
-    start_marker = ""
-    end_marker = ""
+    start_marker = " "
+    end_marker = " "
     
     # 2. Сканираме папката за всички статии (автоматично намира всичко)
     all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html']]
