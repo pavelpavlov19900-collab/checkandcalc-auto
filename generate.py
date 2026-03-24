@@ -40,33 +40,35 @@ try:
     # --- СТЪПКА 3: ИНДУСТРИАЛЕН КАТАЛОГИЗАТОР ---
     target_file = "index.html"
     
-    # 1. Дефинираме маркерите (трябва да са ТОЧНО като тези в HTML)
-    start_marker = " "
-    end_marker = " "
+    # Използваме този формат, за да не се скрие текстът в чата:
+    start_marker = "<" + "!-- AUTO_GENERATED_LIST_START --" + ">"
+    end_marker = "<" + "!-- AUTO_GENERATED_LIST_END --" + ">"
     
-    # 2. Сканираме папката за всички статии (автоматично намира всичко)
+    # 1. Сканираме всички статии
     all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html']]
-    all_files.sort(key=os.path.getmtime, reverse=True) # Най-новите отгоре
+    all_files.sort(key=os.path.getmtime, reverse=True)
     
-    # 3. Подготвяме новия списък с линкове
+    # 2. Изграждаме списъка
     links_html = ""
     for file in all_files:
         pretty_title = file.replace('.html', '').replace('-', ' ').title()
         links_html += f'          <li>🚀 <a href="{file}" style="color:#93c5fd;text-decoration:none;">{pretty_title}</a></li>\n'
 
-    # 4. Вграждаме всичко в index.html
+    # 3. Четем index.html
     with open(target_file, "r", encoding="utf-8") as f:
         content = f.read()
 
+    # 4. Проверяваме за маркерите
     if start_marker in content and end_marker in content:
-        # МАГИЯТА: Режем стария списък и заменяме с новия
         parts = content.split(start_marker)
         rest = parts[1].split(end_marker)
+        
+        # Сглобяваме всичко
         new_content = parts[0] + start_marker + "\n" + links_html + "          " + end_marker + rest[1]
         
         with open(target_file, "w", encoding="utf-8") as f:
             f.write(new_content)
-        print("✅ Фабриката обнови списъка автоматично!")
+        print("✅ УСПЕХ: Списъкът е обновен!")
     else:
         print("❌ ГРЕШКА: Маркерите липсват в index.html!")
 
