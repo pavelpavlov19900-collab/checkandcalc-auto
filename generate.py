@@ -37,16 +37,38 @@ try:
     with open(filename, "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    # 3. ДОБАВЯНЕ В INDEX.HTML
+    # --- СТЪПКА 3: ИНДУСТРИАЛЕН КАТАЛОГИЗАТОР ---
     target_file = "index.html"
-    with open(target_file, "r", encoding="utf-8") as f:
-        index_content = f.read()
     
-    anchor = "<li></li>"
-    if anchor in index_content and filename not in index_content:
-        new_entry = f'{anchor}\n    <li>🚀 <a href="{filename}">{topic_title}</a></li>'
+    # 1. Дефинираме маркерите (трябва да са ТОЧНО като тези в HTML)
+    start_marker = ""
+    end_marker = ""
+    
+    # 2. Сканираме папката за всички статии (автоматично намира всичко)
+    all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html']]
+    all_files.sort(key=os.path.getmtime, reverse=True) # Най-новите отгоре
+    
+    # 3. Подготвяме новия списък с линкове
+    links_html = ""
+    for file in all_files:
+        pretty_title = file.replace('.html', '').replace('-', ' ').title()
+        links_html += f'          <li>🚀 <a href="{file}" style="color:#93c5fd;text-decoration:none;">{pretty_title}</a></li>\n'
+
+    # 4. Вграждаме всичко в index.html
+    with open(target_file, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    if start_marker in content and end_marker in content:
+        # МАГИЯТА: Режем стария списък и заменяме с новия
+        parts = content.split(start_marker)
+        rest = parts[1].split(end_marker)
+        new_content = parts[0] + start_marker + "\n" + links_html + "          " + end_marker + rest[1]
+        
         with open(target_file, "w", encoding="utf-8") as f:
-            f.write(index_content.replace(anchor, new_entry))
+            f.write(new_content)
+        print("✅ Фабриката обнови списъка автоматично!")
+    else:
+        print("❌ ГРЕШКА: Маркерите липсват в index.html!")
 
     # 4. ОБНОВЯВАНЕ НА SITEMAP.XML
     sitemap_file = 'sitemap.xml'
