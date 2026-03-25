@@ -1,3 +1,4 @@
+import re
 import os, datetime, random
 from google import genai
 
@@ -5,7 +6,7 @@ from google import genai
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 try:
-    # 1. ИЗБОР НА УНИКАЛНА ТЕМА
+   # 1. ИЗБОР НА УНИКАЛНА ТЕМА
     if not os.path.exists('topics.txt'):
         print("Липсва topics.txt!")
         exit()
@@ -15,9 +16,14 @@ try:
 
     existing_files = os.listdir('.')
     available = []
+    
     for t in topics:
-        slug = t.lower().replace(' ', '-').replace(':', '').replace('?', '').replace('!', '') + ".html"
-        if slug not in existing_files:
+        # "Бронирано" почистване на името за проверка
+        temp_slug = t.lower().replace(' ', '-')
+        temp_slug = re.sub(r'[^a-z0-9-]', '', temp_slug)
+        temp_slug = re.sub(r'-+', '-', temp_slug).strip('-') + ".html"
+        
+        if temp_slug not in existing_files:
             available.append(t)
 
     if not available:
@@ -25,7 +31,11 @@ try:
         exit()
 
     topic_title = random.choice(available)
-    filename = topic_title.lower().replace(' ', '-').replace(':', '').replace('?', '').replace('!', '') + ".html"
+    
+    # Финално генериране на чисто име на файл
+    clean_name = topic_title.lower().replace(' ', '-')
+    clean_name = re.sub(r'[^a-z0-9-]', '', clean_name)
+    filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
     # 2. ГЕНЕРИРАНЕ (С ТВОЯ МОДЕЛ)
     # --- ГЕНЕРИРАНЕ ---
