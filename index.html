@@ -206,7 +206,30 @@
       header { padding: 14px 12px; }
       .container { padding: 0 12px; }
       .tool { padding: 16px; }
+    } 
+    /* --- НОВИЯТ ПРЕМИУМ СТИЛ ЗА TELEGRAM --- */
+    .premium-hook-home {
+      margin: 24px 0;
+      padding: 30px;
+      background: linear-gradient(145deg, #111827, #1e293b);
+      border: 1px solid #3b82f6;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     }
+    .hook-title { color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; }
+    .hook-text { color: #94a3b8; font-size: 1rem; margin-bottom: 20px; }
+    .tg-btn-home {
+      display: inline-block;
+      background: #3b82f6;
+      color: #ffffff !important;
+      padding: 14px 30px;
+      border-radius: 12px;
+      font-weight: 900;
+      text-decoration: none !important;
+      transition: all 0.3s;
+    }
+    .tg-btn-home:hover { transform: translateY(-3px); background: #2563eb; }
   </style>
 </head>
 <body>
@@ -231,7 +254,15 @@
       </nav>
     </div>
   </header>
-
+<div class="container">
+    <div class="premium-hook-home">
+        <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+        <p class="hook-text">
+            Don't wait for the headlines. Join our <strong>Private Telegram Feed</strong> for real-time AI security updates and digital wealth strategies.
+        </p>
+        <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-home">⚡ JOIN THE 1% NOW</a>
+    </div>
+  </div>
   <main>
     <div class="container">
 
