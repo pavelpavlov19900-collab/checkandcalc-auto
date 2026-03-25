@@ -1,7 +1,6 @@
 import os
 import tweepy
 from google import genai
-import time
 
 # Конфигурация
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
@@ -33,7 +32,7 @@ def get_latest_article():
 def generate_tweet(title):
     client = genai.Client(api_key=GEMINI_KEY)
     prompt = f"Create a short, viral and engaging tweet for this article title: '{title}'. Include 2-3 hashtags and a call to action. Keep it under 240 characters. No emojis like 'robot'."
-   response = client.models.generate_content(model="gemini-2.5-pro", contents=prompt)
+    response = client.models.generate_content(model="gemini-2.5-pro", contents=prompt)
     return response.text.strip()
 
 def post_tweet():
