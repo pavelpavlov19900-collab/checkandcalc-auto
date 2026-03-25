@@ -35,7 +35,7 @@ try:
     )
     html_content = response.text.replace('```html', '').replace('```', '').strip()
     
-# --- ПЕРФЕКТНИЯТ ДИЗАЙН (ШАБЛОН) ---
+   # --- ПЕРФЕКТНИЯТ ДИЗАЙН (ШАБЛОН) С УНИВЕРСАЛНА КУКА ---
     html_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,6 +54,33 @@ try:
         ul, ol {{ margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }}
         li {{ margin-bottom: 10px; }}
         strong {{ color: #f8fafc; }}
+        
+        /* Premium Telegram Box - Universal Hook */
+        .premium-hook {{
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(145deg, #111827, #1e293b);
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }}
+        .hook-title {{ color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }}
+        .hook-text {{ color: #94a3b8; font-size: 1rem; margin-bottom: 25px; }}
+        .tg-btn-premium {{
+            display: inline-block;
+            background: #3b82f6;
+            color: #ffffff !important;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }}
+        .tg-btn-premium:hover {{ transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #2563eb; }}
+        
         .back-btn {{ display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }}
         .back-btn:hover {{ background-color: #334155; color: #ffffff; cursor: pointer; }}
     </style>
@@ -61,6 +88,14 @@ try:
 <body>
     <div class="article-container">
         {html_content}
+        
+        <div class="premium-hook">
+            <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+            <p class="hook-text">
+                Don't wait for the headlines. Our <strong>Private Telegram Channel</strong> delivers real-time AI security updates and digital wealth strategies before they go viral. Stay protected. Stay ahead.
+            </p>
+            <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-premium">⚡ JOIN THE 1% NOW</a>
+        </div>
         
         <div style="text-align: center;">
             <a href="index.html" class="back-btn">🚀 Back to Homepage</a>
