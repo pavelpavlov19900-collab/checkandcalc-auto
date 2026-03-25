@@ -15,17 +15,23 @@ jobs:
           python-version: '3.x'
 
       - name: Install Dependencies
-        run: pip install google-genai  # Махнахме tweepy
+        run: pip install google-genai requests  # Добавихме requests за Телеграм
 
       - name: Run SEO Machine
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python generate.py  # Скриптът за статии продължава да работи
+        run: python generate.py
+
+      - name: Post to Telegram
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: python post_to_telegram.py  # Новият скрипт за Телеграм
 
       - name: Save to GitHub
         run: |
           git config --global user.name 'AI Factory'
           git config --global user.email 'factory@checkandcalc.com'
           git add .
-          git commit -m "New High-Value SEO Article" || exit 0
+          git commit -m "New SEO Article and Telegram Post" || exit 0
           git push
