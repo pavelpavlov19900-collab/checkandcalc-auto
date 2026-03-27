@@ -1,12 +1,13 @@
 import re
 import os, datetime, random
 from google import genai
+from google.genai import types  # НОВО: Нужно ни е за контрол на разходите!
 
 # ИНИЦИАЛИЗАЦИЯ
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 try:
-   # 1. ИЗБОР НА УНИКАЛНА ТЕМА
+    # 1. ИЗБОР НА УНИКАЛНА ТЕМА
     if not os.path.exists('topics.txt'):
         print("Липсва topics.txt!")
         exit()
@@ -18,7 +19,6 @@ try:
     available = []
     
     for t in topics:
-        # "Бронирано" почистване на името за проверка
         temp_slug = t.lower().replace(' ', '-')
         temp_slug = re.sub(r'[^a-z0-9-]', '', temp_slug)
         temp_slug = re.sub(r'-+', '-', temp_slug).strip('-') + ".html"
@@ -31,19 +31,40 @@ try:
         exit()
 
     topic_title = random.choice(available)
-    
-    # Финално генериране на чисто име на файл
     clean_name = topic_title.lower().replace(' ', '-')
     clean_name = re.sub(r'[^a-z0-9-]', '', clean_name)
     filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
-    # 2. ГЕНЕРИРАНЕ (С ТВОЯ МОДЕЛ)
-    # --- ГЕНЕРИРАНЕ ---
-    response = client.models.generate_content(
-        model='gemini-2.5-pro',
-        contents=f"Write a 1000 word SEO article in English about: {topic_title}. Return ONLY the raw HTML body content (headings, paragraphs, lists). Do NOT include <html>, <head>, <style>, or <body> tags."
-    )
+    # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
+    prompt_text = f"Write a 1000 word SEO article in English about: {topic_title}. Return ONLY the raw HTML body content (headings, paragraphs, lists). Do NOT include <html>, <head>, <style>, or <body> tags."
+    
+    try:
+        print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt_text,
+            config=types.GenerateContentConfig(
+                max_output_tokens=2000, # ТАВАН НА РАЗХОДИТЕ: Спира модела след ~1500 думи
+                temperature=0.7
+            )
+        )
+    except Exception as e:
+        print(f"Flash върна грешка ({e}). Включваме резервния план с Pro...")
+        response = client.models.generate_content(
+            model='gemini-2.5-pro',
+            contents=prompt_text,
+            config=types.GenerateContentConfig(
+                max_output_tokens=2000
+            )
+        )
+        
+    if not response or not response.text:
+        print("Критична грешка: Моделите не върнаха текст. Проверете темата за забранени думи.")
+        exit()
+
     html_content = response.text.replace('```html', '').replace('```', '').strip()
+
+    # --- ОТТУК НАТАТЪК КОДЪТ ТИ ЗА ДИЗАЙНА ОСТАВА СЪЩИЯТ ---
     
    # --- ПЕРФЕКТНИЯТ ДИЗАЙН (ШАБЛОН) С УНИВЕРСАЛНА КУКА ---
     html_template = f"""<!DOCTYPE html>
