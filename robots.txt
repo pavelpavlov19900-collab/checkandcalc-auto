@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://checkandcalc-site.netlify.app/sitemap.xml
+Sitemap: https://checkandcalc.com/sitemap.xml
