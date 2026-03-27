@@ -34,8 +34,8 @@ def send_telegram_msg():
         return
 
     title = filename.replace("-", " ").replace(".html", "").capitalize()
-    url_path = f"posts/{filename}" if "posts" in full_path else filename
-    url = f"https://checkandcalc.com/{url_path}"
+   # Винаги сочи към главната директория, за да няма 404 грешки
+    url = f"https://checkandcalc.com/{filename}"
     
     # Генерираме интелигентно описание с AI
     summary = generate_telegram_summary(title)
