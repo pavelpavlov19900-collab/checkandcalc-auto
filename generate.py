@@ -35,8 +35,8 @@ try:
     clean_name = re.sub(r'[^a-z0-9-]', '', clean_name)
     filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
-   # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
-    prompt_text = f"Write a highly detailed, comprehensive SEO article of at least 1500 words in English about: {topic_title}. You MUST structure the article with an engaging Introduction, at least 5 main sections using <h2> headings, highly detailed and long paragraphs (using <p> tags) under each heading, bullet points for readability, and a strong Conclusion. Include a section naturally discussing tools, solutions, or security measures related to the topic. Return ONLY the raw HTML body content. Do NOT include <html>, <head>, <style>, or <body> tags."
+  # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
+    prompt_text = f"Write a highly detailed, comprehensive SEO article of at least 1500 words in English about: {topic_title}. FORMAT STRICTLY IN HTML. DO NOT USE MARKDOWN (no **, no ##). You MUST use valid HTML tags: exactly <h2> for main headings, <h3> for subheadings, <p> for paragraphs, and <ul><li> for lists. Structure the article with an engaging Introduction, at least 5 main sections (<h2>), highly detailed and long paragraphs (<p>) under each heading, and a strong Conclusion. Include a section naturally discussing tools, solutions, or security measures. Return ONLY the raw HTML body content. Do NOT include <html>, <head>, <style>, or <body> tags."
     
     try:
         print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
