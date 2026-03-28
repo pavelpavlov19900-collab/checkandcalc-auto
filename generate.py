@@ -36,7 +36,7 @@ try:
     filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
   # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
-    prompt_text = f"Write a highly detailed SEO article of at least 1500 words in English about: {topic_title}. CRITICAL RULES: 1. You MUST use valid HTML tags for the entire text. 2. Use <h2> for main headings and <h3> for subheadings. 3. Wrap EVERY single paragraph in <p> and </p> tags. 4. Use <ul><li> for lists. 5. ABSOLUTELY NO MARKDOWN (no **, no ##). 6. Include an <h2> section about tools or solutions. Return ONLY raw HTML code (no <html>, <head>, or <body> wrappers)."
+    prompt_text = f"Write a massive, highly detailed SEO article in English about: {topic_title}. CRITICAL RULES: 1. Structure the article with an engaging Introduction, EXACTLY 5 to 7 main sections using <h2> tags, and a Conclusion. 2. You MUST write AT LEAST 300 WORDS of highly detailed content under EACH <h2> section. This is non-negotiable to ensure the article is long. 3. FORMAT STRICTLY IN HTML. 4. Wrap EVERY single paragraph flawlessly in <p> and </p> tags (this is vital for our system). 5. Use <ul><li> for lists. 6. ABSOLUTELY NO MARKDOWN (no **, no ##). 7. Include a dedicated <h2> section naturally discussing tools or solutions. Return ONLY the raw HTML body content. Do NOT output ```html code blocks, and do NOT include <html>, <head>, or <body> tags."
     
     try:
         print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
