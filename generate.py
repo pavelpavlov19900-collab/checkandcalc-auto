@@ -35,8 +35,8 @@ try:
     clean_name = re.sub(r'[^a-z0-9-]', '', clean_name)
     filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
-    # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
-    prompt_text = f"Write a 1000 word SEO article in English about: {topic_title}. Return ONLY the raw HTML body content (headings, paragraphs, lists). Do NOT include <html>, <head>, <style>, or <body> tags."
+   # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
+    prompt_text = f"Write a highly detailed, comprehensive SEO article of at least 1500 words in English about: {topic_title}. You MUST structure the article with an engaging Introduction, at least 5 main sections using <h2> headings, highly detailed and long paragraphs (using <p> tags) under each heading, bullet points for readability, and a strong Conclusion. Include a section naturally discussing tools, solutions, or security measures related to the topic. Return ONLY the raw HTML body content. Do NOT include <html>, <head>, <style>, or <body> tags."
     
     try:
         print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
@@ -44,7 +44,7 @@ try:
             model='gemini-2.5-flash',
             contents=prompt_text,
             config=types.GenerateContentConfig(
-                max_output_tokens=2000, # ТАВАН НА РАЗХОДИТЕ: Спира модела след ~1500 думи
+                max_output_tokens=6000, # 🚀 ТАВАН НА РАЗХОДИТЕ: Вдигнат до 6000 за брутално дълги SEO статии
                 temperature=0.7
             )
         )
@@ -54,10 +54,9 @@ try:
             model='gemini-2.5-pro',
             contents=prompt_text,
             config=types.GenerateContentConfig(
-                max_output_tokens=2000
+                max_output_tokens=6000 # 🚀 Същият висок таван и за резервния модел
             )
         )
-        
     if not response or not response.text:
         print("Критична грешка: Моделите не върнаха текст. Проверете темата за забранени думи.")
         exit()
