@@ -65,6 +65,36 @@ try:
     html_content = response.text.replace('```html', '').replace('```', '').strip()
     # 🚀 НОВО: Взимаме точната дата за SEO Schema Markup
     today_iso = datetime.date.today().isoformat()
+    # --- МОДУЛ ЗА АВТОМАТИЧНА МОНЕТИЗАЦИЯ (CTA GENERATOR) ---
+    topic_lower = topic_title.lower()
+    
+    # Твоите линкове (директно от "дигиталния ни склад")
+    link_ai = "https://undetectable.ai?_by=checkandcalc"
+    link_security = random.choice(["https://shop.ledger.com/?r=4afdb272c797", "https://affil.trezor.io/SH12N"])
+    link_youtube = "https://try.elevenlabs.io/jtoxn4vv4klp"
+
+    # Логика за избор на продукт според темата
+    if any(k in topic_lower for k in ['ai', 'detector', 'writing', 'human', 'bypass']):
+        cta_text, cta_sub, cta_btn, cta_url = "🛡️ STOP BEING FLAGGED BY AI", "Humanize your text and bypass any AI detector instantly with Undetectable AI.", "BYPASS AI DETECTION NOW", link_ai
+    elif any(k in topic_lower for k in ['scam', 'crypto', 'safety', 'wallet', 'fake', 'phishing']):
+        cta_text, cta_sub, cta_btn, cta_url = "🔐 PROTECT YOUR DIGITAL WEALTH", "Don't leave your crypto on exchanges. Secure your assets with the world's most trusted hardware wallets.", "GET YOUR HARDWARE WALLET", link_security
+    else:
+        cta_text, cta_sub, cta_btn, cta_url = "🎙️ START YOUR FACELESS CHANNEL", "Create professional AI voiceovers in seconds. The #1 tool for YouTube automation.", "GET ELEVENLABS FOR FREE", link_youtube
+
+    # Сглобяваме самия бутон
+    cta_box = f"""
+    <div class="premium-cta">
+        <div class="cta-tag">RECOMMENDED BY CHECK & CALC</div>
+        <div class="cta-title">{cta_text}</div>
+        <p class="cta-desc">{cta_sub}</p>
+        <a href="{cta_url}" target="_blank" class="cta-button">{cta_btn}</a>
+    </div>
+    """
+
+    # Магията: Инжектираме бутона точно по средата на статията
+    paragraphs = html_content.split('</p>')
+    mid = len(paragraphs) // 2
+    html_with_cta = '</p>'.join(paragraphs[:mid]) + cta_box + '</p>'.join(paragraphs[mid:])
 
     # --- ОТТУК НАТАТЪК КОДЪТ ТИ ЗА ДИЗАЙНА ОСТАВА СЪЩИЯТ ---
     
@@ -113,6 +143,13 @@ try:
         ul, ol {{ margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }}
         li {{ margin-bottom: 10px; }}
         strong {{ color: #f8fafc; }}
+        /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
+        .premium-cta {{ margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }}
+        .cta-tag {{ font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }}
+        .cta-title {{ font-size: 1.5rem; font-weight: 900; color: #f8fafc; margin-bottom: 10px; }}
+        .cta-desc {{ font-size: 1rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.4; }}
+        .cta-button {{ display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }}
+        .cta-button:hover {{ background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }}
         
         /* Premium Telegram Box - Universal Hook */
         .premium-hook {{
@@ -146,7 +183,7 @@ try:
 </head>
 <body>
     <div class="article-container">
-        {html_content}
+        {html_with_cta}
         
         <div class="premium-hook">
             <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
