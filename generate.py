@@ -36,7 +36,7 @@ try:
     filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
   # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
-    prompt_text = f"Write a highly detailed, comprehensive SEO article of at least 1500 words in English about: {topic_title}. FORMAT STRICTLY IN HTML. DO NOT USE MARKDOWN (no **, no ##). You MUST use valid HTML tags: exactly <h2> for main headings, <h3> for subheadings, <p> for paragraphs, and <ul><li> for lists. Structure the article with an engaging Introduction, at least 5 main sections (<h2>), highly detailed and long paragraphs (<p>) under each heading, and a strong Conclusion. Include a section naturally discussing tools, solutions, or security measures. Return ONLY the raw HTML body content. Do NOT include <html>, <head>, <style>, or <body> tags."
+    prompt_text = f"Write a highly detailed SEO article of at least 1500 words in English about: {topic_title}. CRITICAL RULES: 1. You MUST use valid HTML tags for the entire text. 2. Use <h2> for main headings and <h3> for subheadings. 3. Wrap EVERY single paragraph in <p> and </p> tags. 4. Use <ul><li> for lists. 5. ABSOLUTELY NO MARKDOWN (no **, no ##). 6. Include an <h2> section about tools or solutions. Return ONLY raw HTML code (no <html>, <head>, or <body> wrappers)."
     
     try:
         print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
@@ -44,7 +44,7 @@ try:
             model='gemini-2.5-flash',
             contents=prompt_text,
             config=types.GenerateContentConfig(
-                max_output_tokens=6000, # 🚀 ТАВАН НА РАЗХОДИТЕ: Вдигнат до 6000 за брутално дълги SEO статии
+                max_output_tokens=6000,
                 temperature=0.7
             )
         )
@@ -54,16 +54,19 @@ try:
             model='gemini-2.5-pro',
             contents=prompt_text,
             config=types.GenerateContentConfig(
-                max_output_tokens=6000 # 🚀 Същият висок таван и за резервния модел
+                max_output_tokens=6000
             )
         )
+        
     if not response or not response.text:
         print("Критична грешка: Моделите не върнаха текст. Проверете темата за забранени думи.")
         exit()
 
     html_content = response.text.replace('```html', '').replace('```', '').strip()
+    
     # 🚀 НОВО: Взимаме точната дата за SEO Schema Markup
     today_iso = datetime.date.today().isoformat()
+
     # --- МОДУЛ ЗА АВТОМАТИЧНА МОНЕТИЗАЦИЯ (CTA GENERATOR) ---
     topic_lower = topic_title.lower()
     
@@ -90,10 +93,15 @@ try:
     </div>
     """
 
-    # Магията: Инжектираме бутона точно по средата на статията
+    # Магията: Инжектираме бутона точно по средата на статията (С БРОНИРАНА ЗАЩИТА)
     paragraphs = html_content.split('</p>')
-    mid = len(paragraphs) // 2
-    html_with_cta = '</p>'.join(paragraphs[:mid]) + cta_box + '</p>'.join(paragraphs[mid:])
+    if len(paragraphs) > 2:
+        mid = len(paragraphs) // 2
+        # Възстановяваме скрития </p> таг, за да не чупим дизайна
+        html_with_cta = '</p>'.join(paragraphs[:mid]) + '</p>\n' + cta_box + '\n' + '</p>'.join(paragraphs[mid:])
+    else:
+        # Резервен план: Ако AI-то някога пак се обърка, пазим текста и бутона в безопасност
+        html_with_cta = cta_box + '<br><br>' + html_content
 
     # --- ОТТУК НАТАТЪК КОДЪТ ТИ ЗА ДИЗАЙНА ОСТАВА СЪЩИЯТ ---
     
