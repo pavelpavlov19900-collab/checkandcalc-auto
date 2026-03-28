@@ -21,7 +21,7 @@ def get_latest_article():
     full_path = os.path.join(search_path, latest_file)
     return latest_file, full_path
 
-# --- НОВАТА, ОПТИМИЗИРАНА ФУНКЦИЯ ---
+# --- НОВАТА, ОПТИМИЗИРАНА И БРОНИРАНА ФУНКЦИЯ ---
 def generate_telegram_summary(title):
     client = genai.Client(api_key=GEMINI_KEY)
     
@@ -36,12 +36,18 @@ def generate_telegram_summary(title):
                 max_output_tokens=150 # Финансова защита: Струва максимум $0.001
             )
         )
-        return response.text.strip()
+        
+        # 🛡️ ЗАЩИТАТА: Проверяваме дали реално има текст, преди да го пипаме
+        if response and response.text:
+            return response.text.strip()
+        else:
+            raise ValueError("Моделът мълчи. Възможно е да е ударил филтър за безопасност.")
+            
     except Exception as e:
         print(f"Грешка при Телеграм генерирането: {e}")
         # Резервен спасителен текст, ако AI-ът е временно недостъпен
         return f"🚨 New Insider Intel Unlocked: {title}. Don't miss out!"
-
+        
 def send_telegram_msg():
     filename, full_path = get_latest_article()
     if not filename:
