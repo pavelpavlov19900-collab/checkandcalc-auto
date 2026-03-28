@@ -63,6 +63,8 @@ try:
         exit()
 
     html_content = response.text.replace('```html', '').replace('```', '').strip()
+    # 🚀 НОВО: Взимаме точната дата за SEO Schema Markup
+    today_iso = datetime.date.today().isoformat()
 
     # --- ОТТУК НАТАТЪК КОДЪТ ТИ ЗА ДИЗАЙНА ОСТАВА СЪЩИЯТ ---
     
@@ -73,6 +75,32 @@ try:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{topic_title}</title>
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {{
+        "@type": "WebPage",
+        "@id": "https://checkandcalc.com/{filename}"
+      }},
+      "headline": "{topic_title}",
+      "datePublished": "{today_iso}",
+      "dateModified": "{today_iso}",
+      "author": {{
+        "@type": "Organization",
+        "name": "Check & Calc AI Security",
+        "url": "https://checkandcalc.com/"
+      }},
+      "publisher": {{
+        "@type": "Organization",
+        "name": "Check & Calc",
+        "logo": {{
+          "@type": "ImageObject",
+          "url": "https://checkandcalc.com/favicon.ico"
+        }}
+      }}
+    }}
+    </script>
     <style>
         body {{ font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }}
         .article-container {{ max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }}
@@ -159,9 +187,9 @@ try:
     # Кошове за линковете
     scam_links, ai_links, yt_links = "", "", ""
     
-    # Ключови думи за разпознаване
-    ai_keywords = ['ai', 'detector', 'chatgpt', 'writing', 'human', 'deepfake']
-    yt_keywords = ['youtube', 'earnings', 'money', 'views', 'rpm', 'adsense', 'cpm', 'tube']
+   # Ключови думи за разпознаване
+    ai_keywords = ['ai', 'detector', 'chatgpt', 'writing', 'human', 'deepfake', 'quillbot', 'claude', 'turnitin', 'gptzero']
+    yt_keywords = ['youtube', 'earnings', 'money', 'views', 'rpm', 'adsense', 'cpm', 'tube', 'shorts', 'monetize']
 
     for file in all_files:
         pretty_title = file.replace('.html', '').replace('-', ' ').title()
