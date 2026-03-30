@@ -25,31 +25,34 @@ def get_latest_article():
 def generate_telegram_summary(title):
     client = genai.Client(api_key=GEMINI_KEY)
     
-    # 🛡️ ПРЕЧИСТВАНЕ: Заменяме думи, които плашат AI филтрите
-    safe_title = title.lower().replace("kill switch", "emergency stop").replace("kill", "stop").replace("blackmail", "digital threat")
-    
-    # Моделът е gemini-2.5-pro за най-добро качество на туитове/социални постове
-    # 🛡️ Промптът е променен на "Експертен режим", за да заобиколи филтрите за безопасност
-    prompt = f"As a cybersecurity expert, create a very short, punchy Telegram post to educate people about this news: '{safe_title}'. Use 2 relevant emojis, include a hook, and keep it under 3 sentences. No hashtags."
+    # 🛡️ Край на играта на криеница! Пращаме истинското заглавие.
+    prompt = f"As a tech journalist, create a very short, punchy Telegram post for this news: '{title}'. Use 2 relevant emojis, include a hook, and keep it under 3 sentences. No hashtags."
     
     try:
         response = client.models.generate_content(
             model="gemini-2.5-pro", 
             contents=prompt,
             config=types.GenerateContentConfig(
-                max_output_tokens=150 # Финансова защита: Струва максимум $0.001
+                max_output_tokens=150,
+                # 🚀 THE MASTER KEY: Изключваме филтрите за безопасност!
+                safety_settings=[
+                    types.SafetySetting(category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_NONE"),
+                    types.SafetySetting(category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_NONE"),
+                    types.SafetySetting(category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_NONE"),
+                    types.SafetySetting(category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_NONE")
+                ]
             )
         )
         
-        # 🛡️ ЗАЩИТАТА: Проверяваме дали реално има текст, преди да го пипаме
+        # 🛡️ ЗАЩИТАТА: Проверяваме дали реално има текст
         if response and response.text:
             return response.text.strip()
         else:
-            raise ValueError("Моделът мълчи. Възможно е да е ударил филтър за безопасност.")
+            raise ValueError("Моделът мълчи дори без филтри.")
             
     except Exception as e:
         print(f"Грешка при Телеграм генерирането: {e}")
-        # Резервен спасителен текст, ако AI-ът е временно недостъпен
+        # Резервен спасителен текст
         return f"🚨 New Insider Intel Unlocked: {title}. Don't miss out!"
 
 def send_telegram_msg():
