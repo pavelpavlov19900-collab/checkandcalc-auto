@@ -37,6 +37,7 @@ try:
 
   # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
     prompt_text = f"Write a massive, highly detailed SEO article in English about: {topic_title}. CRITICAL RULES: 1. START the article with the main title wrapped in <h1> tags. 2. Follow with an engaging Introduction, EXACTLY 5 to 7 main sections using <h2> tags, and a Conclusion. 3. You MUST write AT LEAST 300 WORDS under EACH <h2> section. 4. FORMAT STRICTLY IN HTML with <p>, <ul>, <li> tags. 5. ABSOLUTELY NO MARKDOWN (no **, no ##). 6. Include a dedicated <h2> section about tools or solutions. Return ONLY the raw HTML body content starting with the <h1> title."
+    
     try:
         print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
         response = client.models.generate_content(
