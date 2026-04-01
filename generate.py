@@ -35,8 +35,8 @@ try:
     clean_name = re.sub(r'[^a-z0-9-]', '', clean_name)
     filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
-  # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА)
-    prompt_text = f"Write a massive, highly detailed SEO article in English about: {topic_title}. CRITICAL RULES: 1. Use a unique writing style adapted to the topic: be authoritative and urgent for security topics, or visionary and entrepreneurial for AI/business topics. NEVER start two articles with the same phrasing. 2. START with the main title in <h1> tags. 3. Follow with an engaging Introduction, EXACTLY 5 to 7 main sections using <h2> tags, and a Conclusion. 4. You MUST write AT LEAST 300 WORDS under EACH <h2> section. 5. FORMAT STRICTLY IN HTML with <p>, <ul>, <li> tags. 6. ABSOLUTELY NO MARKDOWN. 7. Include a dedicated <h2> section about tools or solutions. Return ONLY the raw HTML body content starting with <h1>."
+    # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА + GEO ОПТИМИЗАЦИЯ)
+    prompt_text = f"Write a massive, highly detailed SEO article in English about: {topic_title}. CRITICAL RULES: 1. Use a unique writing style adapted to the topic: be authoritative and urgent for security topics, or visionary and entrepreneurial for AI/business topics. NEVER start two articles with the same phrasing. 2. START with the main title in <h1> tags. 3. IMMEDIATELY AFTER the <h1>, generate a <div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul>...</ul></div> with 3-5 ultra-concise, highly factual bullet points summarizing the core answer using <strong> tags for key tools/entities. 4. Follow with an engaging Introduction, EXACTLY 5 to 7 main sections using <h2> tags, and a Conclusion. 5. You MUST write AT LEAST 300 WORDS under EACH <h2> section. 6. FORMAT STRICTLY IN HTML with <p>, <ul>, <li>, <strong> tags. 7. ABSOLUTELY NO MARKDOWN. 8. Include a dedicated <h2> section about tools or solutions. Return ONLY the raw HTML body content starting with <h1>."
     
     try:
         print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
@@ -151,6 +151,13 @@ try:
         ul, ol {{ margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }}
         li {{ margin-bottom: 10px; }}
         strong {{ color: #f8fafc; }}
+        
+        /* 🤖 AI & GEO Оптимизиран блок за ChatGPT/Gemini */
+        .ai-answer-box {{ background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; padding: 20px 25px; margin-bottom: 35px; border-radius: 0 8px 8px 0; border-top: 1px solid #1f2937; border-right: 1px solid #1f2937; border-bottom: 1px solid #1f2937; }}
+        .ai-answer-box h2 {{ color: #10b981; font-size: 1.2rem; margin-top: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase; letter-spacing: 1px; }}
+        .ai-answer-box ul {{ margin-bottom: 0; }}
+        .ai-answer-box li {{ color: #f8fafc; font-weight: 500; font-size: 1rem; }}
+        
         /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
         .premium-cta {{ margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }}
         .cta-tag {{ font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }}
