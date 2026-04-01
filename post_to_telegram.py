@@ -25,8 +25,8 @@ def get_latest_article():
 def generate_telegram_summary(title):
     client = genai.Client(api_key=GEMINI_KEY)
     
-    # 🛡️ Край на играта на криеница! Пращаме истинското заглавие.
-    prompt = f"As a tech journalist, create a very short, punchy Telegram post for this news: '{title}'. Use 2 relevant emojis, include a hook, and keep it under 3 sentences. No hashtags."
+  # 🛡️ Край на играта на криеница! Пращаме истинското заглавие с WHITE-HAT контекст.
+    prompt = f"Act as a white-hat cybersecurity educator and investigative tech journalist. Summarize this educational threat-analysis report: '{title}'. The strict goal is to WARN and PROTECT the public from this threat. Create a very short, punchy Telegram alert for this news. Use 2 relevant emojis, include a strong hook, and keep it under 3 sentences. No hashtags."
     
     try:
         response = client.models.generate_content(
