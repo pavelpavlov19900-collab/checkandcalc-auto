@@ -62,7 +62,13 @@ try:
         print("Критична грешка: Моделите не върнаха текст. Проверете темата за забранени думи.")
         exit()
 
+# 1. Изчистваме текста
     html_content = response.text.replace('```html', '').replace('```', '').strip()
+    
+    # 2. 🛡️ ПРЕДПАЗИТЕЛ ЗА ЗАВЪРШЕНОСТ (Слагаме го ТУК)
+    # Ако AI спре по средата, този код дописва смислен финал и затваря таговете
+    if not (html_content.endswith('</p>') or html_content.endswith('</ul>') or html_content.endswith('</li>')):
+        html_content += "... and implement these strategies to ensure long-term success.</p><h2>Conclusion</h2><p>In summary, staying ahead of these trends is the key to business longevity and security. By following this guide, you maximize your growth and ensure a stable digital future.</p>"
     
     # 🚀 НОВО: Взимаме точната дата за SEO Schema Markup
     today_iso = datetime.date.today().isoformat()
