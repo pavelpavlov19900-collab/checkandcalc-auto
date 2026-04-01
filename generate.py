@@ -67,22 +67,29 @@ try:
     # 🚀 НОВО: Взимаме точната дата за SEO Schema Markup
     today_iso = datetime.date.today().isoformat()
 
-    # --- МОДУЛ ЗА АВТОМАТИЧНА МОНЕТИЗАЦИЯ (CTA GENERATOR) ---
+    # --- МОДУЛ ЗА АВТОМАТИЧНА МОНЕТИЗАЦИЯ (CTA GENERATOR) - FINAL 2026 ---
     topic_lower = topic_title.lower()
     
-    # Твоите линкове (директно от "дигиталния ни склад")
+    # Твоите активирани "Golden Tier" афилиейт линкове
     link_ai = "https://undetectable.ai?_by=checkandcalc"
-    link_security = random.choice(["https://shop.ledger.com/?r=4afdb272c797", "https://affil.trezor.io/SH12N"])
-    link_youtube = "https://try.elevenlabs.io/jtoxn4vv4klp"
+    link_pictory = "https://pictory.ai?ref=pavel-pavlov83"
+    link_surfshark = "https://get.surfshark.net/aff_c?offer_id=1249&aff_id=45762&source=https://checkandcalc.com/"
+    link_security_hardware = random.choice(["https://shop.ledger.com/?r=4afdb272c797", "https://affil.trezor.io/SH12N"])
 
-    # Логика за избор на продукт според темата
-    if any(k in topic_lower for k in ['ai', 'detector', 'writing', 'human', 'bypass']):
+    # Интелигентна Profit логика (заменя старата if/elif/else структура)
+    if any(k in topic_lower for k in ['ai', 'detector', 'writing', 'human', 'bypass', 'chatgpt', 'claude']):
         cta_text, cta_sub, cta_btn, cta_url = "🛡️ STOP BEING FLAGGED BY AI", "Humanize your text and bypass any AI detector instantly with Undetectable AI.", "BYPASS AI DETECTION NOW", link_ai
-    elif any(k in topic_lower for k in ['scam', 'crypto', 'safety', 'wallet', 'fake', 'phishing']):
-        cta_text, cta_sub, cta_btn, cta_url = "🔐 PROTECT YOUR DIGITAL WEALTH", "Don't leave your crypto on exchanges. Secure your assets with the world's most trusted hardware wallets.", "GET YOUR HARDWARE WALLET", link_security
+        
+    elif any(k in topic_lower for k in ['youtube', 'video', 'content', 'channel', 'faceless', 'views', 'monetize']):
+        cta_text, cta_sub, cta_btn, cta_url = "🎬 CREATE AI VIDEOS IN MINUTES", "Turn your scripts into professional videos automatically. Use code PAVEL20 for 20% OFF!", "START CREATING WITH PICTORY", link_pictory
+        
+    elif any(k in topic_lower for k in ['vpn', 'hacker', 'privacy', 'wifi', 'tracking', 'security', 'online', 'safe', 'scam', 'protection', 'identity', 'phishing', 'fake']):
+        cta_text, cta_sub, cta_btn, cta_url = "🦈 SECURE YOUR DIGITAL LIFE", "Protect your identity and browse privately with Surfshark One - the all-in-one security suite.", "GET 60% OFF SURFSHARK NOW", link_surfshark
+        
     else:
-        cta_text, cta_sub, cta_btn, cta_url = "🎙️ START YOUR FACELESS CHANNEL", "Create professional AI voiceovers in seconds. The #1 tool for YouTube automation.", "GET ELEVENLABS FOR FREE", link_youtube
-
+        # Резервен вариант за крипто/хардуерна сигурност
+        cta_text, cta_sub, cta_btn, cta_url = "🔐 PROTECT YOUR ASSETS", "Secure your digital wealth with the world's most trusted hardware wallets.", "GET YOUR WALLET NOW", link_security_hardware
+        
     # Сглобяваме самия бутон
     cta_box = f"""
     <div class="premium-cta">
