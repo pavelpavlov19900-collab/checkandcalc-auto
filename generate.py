@@ -229,7 +229,8 @@ try:
         # Резервен план: Ако AI-то някога пак се обърка, пазим текста и бутона в безопасност
         html_with_cta = cta_box + '<br><br>' + html_content
 
-    # --- ОТТУК НАТАТЪК КОДЪТ ТИ ЗА ДИЗАЙНА ОСТАВА СЪЩИЯТ ---
+  # Ако имаме снимка, създаваме HTML таг, ако не - празен текст
+    img_tag = f'<img src="{image_name}" class="article-banner" alt="{topic_title}">' if image_name else ""
     
    # --- ПЕРФЕКТНИЯТ ДИЗАЙН (ШАБЛОН) С УНИВЕРСАЛНА КУКА ---
     html_template = f"""<!DOCTYPE html>
