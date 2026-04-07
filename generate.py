@@ -413,7 +413,7 @@ try:
     update_linkedin_database(
         article_title=topic_title,
         article_url=f"https://checkandcalc.com/{filename}",
-        article_summary=linkedin_hook
+        article_summary=linkedin_hook,
         image_file=image_name  # <--- Ето това е финалната връзка!
     )
     # -----------------------
