@@ -49,29 +49,42 @@ try:
         f"9. MANDATORY: You must finish the article with a formal Conclusion and ensure all HTML tags are perfectly closed. Do not stop mid-sentence. "
         f"Return ONLY the raw HTML body content starting with <h1>."
     )
-    try:
-        print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt_text,
-            config=types.GenerateContentConfig(
-                max_output_tokens=6000,
-                temperature=0.7
-            )
-        )
-    except Exception as e:
-        print(f"Flash върна грешка ({e}). Включваме резервния план с Pro...")
-        response = client.models.generate_content(
-            model='gemini-2.5-pro',
-            contents=prompt_text,
-            config=types.GenerateContentConfig(
-                max_output_tokens=6000
-            )
-        )
-        
+    # --- СТАРТ НА ПОПРАВКАТА ---
+    import time
+    response = None
+
+    for attempt in range(2):
+        try:
+            if attempt == 0:
+                print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=prompt_text,
+                    config=types.GenerateContentConfig(max_output_tokens=6000, temperature=0.7)
+                )
+            else:
+                print("Опит 2 (Последен): Резервен план с Pro...")
+                response = client.models.generate_content(
+                    model='gemini-2.5-pro',
+                    contents=prompt_text,
+                    config=types.GenerateContentConfig(max_output_tokens=6000)
+                )
+            
+            # Ако горният код зареди текст, излизаме от цикъла (break)
+            if response and response.text:
+                break
+
+        except Exception as e:
+            if attempt == 0:
+                print(f"Първият опит не успя ({e}). Изчакване 40 сек преди резервния план...")
+                time.sleep(40)
+            else:
+                print(f"Критична грешка и при втория опит: {e}")
+
     if not response or not response.text:
-        print("Критична грешка: Моделите не върнаха текст. Проверете темата за забранени думи.")
+        print("Критична грешка: Моделите са претоварени. Опитайте пак по-късно.")
         exit()
+    # --- КРАЙ НА ПОПРАВКАТА ---
 
 # 1. Изчистваме текста
     html_content = response.text.replace('```html', '').replace('```', '').strip()
