@@ -149,6 +149,7 @@ try:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{topic_title}</title>
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
     <link rel="canonical" href="https://checkandcalc.com/{filename}" />
     <script type="application/ld+json">
     {{
