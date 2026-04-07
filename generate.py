@@ -33,19 +33,41 @@ def generate_ai_image(client, prompt, project_id, filename):
     if not project_id:
         print("⚠️ Липсва PROJECT_ID. Снимката е прескочена.")
         return None
+    
     print(f"🎨 Опит за генериране на визия...")
-    image_prompt = f"Professional futuristic digital art, cyberpunk style, cinematic lighting, representing: {prompt}"
+    image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
+    
     try:
-        response = client.models.generate_image(
-            model='imagen-3', 
-            prompt=image_prompt,
-            config=types.GenerateImageConfig(project_id=project_id, location="us-central1")
-        )
+        # Пробваме новия метод (generate_image - единствено число)
+        if hasattr(client.models, 'generate_image'):
+            response = client.models.generate_image(
+                model='imagen-3', 
+                prompt=image_prompt,
+                config=types.GenerateImageConfig(project_id=project_id, location="us-central1")
+            )
+        # Пробваме алтернативния метод (generate_images - множествено число)
+        elif hasattr(client.models, 'generate_images'):
+            response = client.models.generate_images(
+                model='imagen-3', 
+                prompt=image_prompt,
+                config=types.GenerateImageConfig(project_id=project_id, location="us-central1")
+            )
+        else:
+            # Ако нито едно от двете не работи, ще изпишем какви функции ИМА налични за дебъг
+            available_methods = [m for m in dir(client.models) if not m.startswith('_')]
+            print(f"⚠️ SDK грешка: Не намерих метод за снимки. Налични методи: {available_methods}")
+            return None
+
         image_name = filename.replace('.html', '.png')
-        response.images[0].save(image_name)
+        # В зависимост от метода, резултатът може да е списък или единичен обект
+        image_obj = response.images[0] if hasattr(response, 'images') else response[0]
+        image_obj.save(image_name)
+        
+        print(f"✅ Снимката е готова: {image_name}")
         return image_name
+
     except Exception as e:
-        print(f"⚠️ Снимката не успя ({e}). Продължаваме без нея.")
+        print(f"⚠️ Снимката не успя: {e}")
         return None
 try:
     # 1. ИЗБОР НА УНИКАЛНА ТЕМА
