@@ -335,7 +335,7 @@ try:
 </head>
 <body>
     <div class="article-container">
-        {html_with_cta}
+       {img_tag}  {html_with_cta}
         
         <div class="premium-hook">
             <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
