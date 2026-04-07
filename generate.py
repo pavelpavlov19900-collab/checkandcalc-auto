@@ -1,13 +1,14 @@
 import re
-import os, datetime, random, json
+import os, datetime, random, json, requests # Добавка
 from google import genai
 from google.genai import types  # НОВО: Нужно ни е за контрол на разходите!
 
 # ИНИЦИАЛИЗАЦИЯ
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+G_PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT") # Трябва да го добавиш в GitHub Secrets
 
-# --- ДОБАВИ ТАЗИ ФУНКЦИЯ ТУК ---
-def update_linkedin_database(article_title, article_url, article_summary):
+# --- ОБНОВЕНА ФУНКЦИЯ ЗА LINKEDIN (С ПОДДРЪЖКА НА СНИМКА) ---
+def update_linkedin_database(article_title, article_url, article_summary, image_file=None):
     db_path = 'posts_database.json'
     if not os.path.exists(db_path):
         with open(db_path, 'w', encoding='utf-8') as f: json.dump([], f)
@@ -18,13 +19,34 @@ def update_linkedin_database(article_title, article_url, article_summary):
     new_entry = {
         "id": new_id, "title": article_title,
         "text": f"🚨 {article_summary}\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
-        "link": article_url, "published": False
+        "link": article_url, 
+        "image_path": image_file, # <--- НОВО
+        "published": False
     }
     posts.append(new_entry)
     with open(db_path, 'w', encoding='utf-8') as f:
         json.dump(posts, f, indent=2, ensure_ascii=False)
     print(f"✅ Добавено към LinkedIn опашката!")
 
+# --- НОВА ФУНКЦИЯ ЗА ГЕНЕРИРАНЕ НА СНИМКА (С ГРЕШКОУСТОЙЧИВОСТ) ---
+def generate_ai_image(client, prompt, project_id, filename):
+    if not project_id:
+        print("⚠️ Липсва PROJECT_ID. Снимката е прескочена.")
+        return None
+    print(f"🎨 Опит за генериране на визия...")
+    image_prompt = f"Professional futuristic digital art, cyberpunk style, cinematic lighting, representing: {prompt}"
+    try:
+        response = client.models.generate_image(
+            model='imagen-3', 
+            prompt=image_prompt,
+            config=types.GenerateImageConfig(project_id=project_id, location="us-central1")
+        )
+        image_name = filename.replace('.html', '.png')
+        response.images[0].save(image_name)
+        return image_name
+    except Exception as e:
+        print(f"⚠️ Снимката не успя ({e}). Продължаваме без нея.")
+        return None
 try:
     # 1. ИЗБОР НА УНИКАЛНА ТЕМА
     if not os.path.exists('topics.txt'):
@@ -110,15 +132,31 @@ try:
 # 1. Първо изчистваме целия отговор от Gemini и го записваме в raw_text
     raw_text = response.text.replace('```html', '').replace('```', '').strip()
 
-    # 2. Разделяме на статия и кукичка
+    # 2. Разделяме на статия, LinkedIn кукичка и визуален промпт
+    visual_description = f"Technology concept related to {topic_title}" # Резервен вариант
+    
     if "---LINKEDIN-HOOK---" in raw_text:
-        html_content, linkedin_hook = raw_text.split("---LINKEDIN-HOOK---")
-        html_content = html_content.strip()
-        linkedin_hook = linkedin_hook.strip()
+        # Първо цепим статията от всичко останало
+        parts = raw_text.split("---LINKEDIN-HOOK---")
+        html_content = parts[0].strip()
+        remaining_data = parts[1]
+        
+        # Сега проверяваме дали имаме визуален промпт в останалата част
+        if "---VISUAL-PROMPT---" in remaining_data:
+            linkedin_hook, visual_description = remaining_data.split("---VISUAL-PROMPT---")
+            linkedin_hook = linkedin_hook.strip()
+            visual_description = visual_description.strip()
+        else:
+            linkedin_hook = remaining_data.strip()
     else:
+        # План Б: Ако Gemini забрави разделителите
         html_content = raw_text
         linkedin_hook = f"New security insights about {topic_title} are now live!"
 
+    # --- ТУК Е МАГИЯТА: ГЕНЕРИРАНЕ НА СНИМКАТА ---
+    # Извикваме новата функция, която сложихме по-горе
+    image_name = generate_ai_image(client, visual_description, G_PROJECT, filename)
+    
     # 3. 🛡️ ПРЕДПАЗИТЕЛ ЗА ЗАВЪРШЕНОСТ (Важно: Подравнен вляво, за да важи за всичко!)
     if not (html_content.endswith('</p>') or html_content.endswith('</ul>') or html_content.endswith('</li>')):
         html_content += "... and implement these strategies to ensure long-term success.</p><h2>Conclusion</h2><p>In summary, staying ahead of these trends is the key to business longevity and security. By following this guide, you maximize your growth and ensure a stable digital future.</p>"
@@ -209,6 +247,16 @@ try:
     <style>
         body {{ font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }}
         .article-container {{ max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }}
+        /* ДОБАВИ ТОВА ТУК 👇 */
+        .article-banner { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+        /* ------------------ */
         h1 {{ color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }}
         h2 {{ color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }}
         h3 {{ color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }}
@@ -366,6 +414,7 @@ try:
         article_title=topic_title,
         article_url=f"https://checkandcalc.com/{filename}",
         article_summary=linkedin_hook
+        image_file=image_name  # <--- Ето това е финалната връзка!
     )
     # -----------------------
 
