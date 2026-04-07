@@ -20,6 +20,7 @@ jobs:
       - name: Run SEO Machine
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }} # <--- ДОБАВИ ТОВА
         run: python generate.py
 
       - name: Post to Telegram
