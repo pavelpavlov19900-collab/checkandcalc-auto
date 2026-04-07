@@ -15,7 +15,8 @@ jobs:
           python-version: '3.x'
 
       - name: Install Dependencies
-        run: pip install google-genai requests  # Добавихме requests за Телеграм
+        # Използваме --upgrade, за да отключим Imagen 3 и да запазим стабилността на requests
+        run: pip install --upgrade google-genai requests
 
       - name: Run SEO Machine
         env:
