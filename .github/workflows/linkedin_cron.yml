@@ -1,0 +1,36 @@
+name: LinkedIn Auto Post
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # Всеки ден в 09:00 UTC
+  workflow_dispatch: # Позволява ни да го пуснем и ръчно за тест
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Важно: За да може роботът да запише, че е публикувал!
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run automation
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+        run: python auto_post_linkedin.py
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add posts_database.json
+          git commit -m "Update post status [skip ci]" || echo "No changes to commit"
+          git push
