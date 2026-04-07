@@ -38,22 +38,38 @@ def generate_ai_image(client, prompt, project_id, filename):
     image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
     
     try:
-        # Използваме директен речник за конфигурацията - това е "бронираният" начин
-        response = client.models.generate_image(
+        # АВТОМАТИЧНО РАЗУЗНАВАНЕ: Търсим как точно се казва методът в тази версия
+        method_name = None
+        for name in ['generate_image', 'generate_images', 'image_generation', 'create_image']:
+            if hasattr(client.models, name):
+                method_name = name
+                break
+        
+        if not method_name:
+            # Ако не намерим нищо, изписваме наличните методи за твоя информация
+            available = [m for m in dir(client.models) if not m.startswith('_')]
+            print(f"⚠️ SDK грешка: Не намерих метод за снимки. Налични в client.models: {available}")
+            return None
+
+        # Извикваме намерения метод динамично
+        method = getattr(client.models, method_name)
+        response = method(
             model='imagen-3',
             prompt=image_prompt,
-            config={
-                'project_id': project_id,
-                'location': 'us-central1'
-            }
+            config={'project_id': project_id, 'location': 'us-central1'}
         )
 
         image_name = filename.replace('.html', '.png')
         
-        # Проверяваме дали резултатът е списък или обект и записваме
-        image_obj = response.images[0] if hasattr(response, 'images') else response[0]
+        # Интелигентно извличане на картинката
+        if hasattr(response, 'images') and response.images:
+            image_obj = response.images[0]
+        elif isinstance(response, list) and len(response) > 0:
+            image_obj = response[0]
+        else:
+            image_obj = response # Последен опит за директен запис
+            
         image_obj.save(image_name)
-        
         print(f"✅ Снимката е готова: {image_name}")
         return image_name
 
