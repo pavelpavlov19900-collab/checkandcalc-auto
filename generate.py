@@ -38,28 +38,19 @@ def generate_ai_image(client, prompt, project_id, filename):
     image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
     
     try:
-        # Пробваме новия метод (generate_image - единствено число)
-        if hasattr(client.models, 'generate_image'):
-            response = client.models.generate_image(
-                model='imagen-3', 
-                prompt=image_prompt,
-                config=types.GenerateImageConfig(project_id=project_id, location="us-central1")
-            )
-        # Пробваме алтернативния метод (generate_images - множествено число)
-        elif hasattr(client.models, 'generate_images'):
-            response = client.models.generate_images(
-                model='imagen-3', 
-                prompt=image_prompt,
-                config=types.GenerateImageConfig(project_id=project_id, location="us-central1")
-            )
-        else:
-            # Ако нито едно от двете не работи, ще изпишем какви функции ИМА налични за дебъг
-            available_methods = [m for m in dir(client.models) if not m.startswith('_')]
-            print(f"⚠️ SDK грешка: Не намерих метод за снимки. Налични методи: {available_methods}")
-            return None
+        # Използваме директен речник за конфигурацията - това е "бронираният" начин
+        response = client.models.generate_image(
+            model='imagen-3',
+            prompt=image_prompt,
+            config={
+                'project_id': project_id,
+                'location': 'us-central1'
+            }
+        )
 
         image_name = filename.replace('.html', '.png')
-        # В зависимост от метода, резултатът може да е списък или единичен обект
+        
+        # Проверяваме дали резултатът е списък или обект и записваме
         image_obj = response.images[0] if hasattr(response, 'images') else response[0]
         image_obj.save(image_name)
         
