@@ -51,7 +51,7 @@ def post_to_linkedin():
         post_to_send['published'] = True
         # Запазваме обновената база данни
         with open('posts_database.json', 'w', encoding='utf-8') as f:
-            json.dump(posts, f, indent=2, ensure_utf8=False)
+            json.dump(posts, f, indent=2, ensure_ascii=False)
     else:
         print(f"❌ Грешка: {response.json()}")
 
