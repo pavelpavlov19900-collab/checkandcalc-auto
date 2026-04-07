@@ -1,10 +1,29 @@
 import re
-import os, datetime, random
+import os, datetime, random, json
 from google import genai
 from google.genai import types  # НОВО: Нужно ни е за контрол на разходите!
 
 # ИНИЦИАЛИЗАЦИЯ
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+
+# --- ДОБАВИ ТАЗИ ФУНКЦИЯ ТУК ---
+def update_linkedin_database(article_title, article_url, article_summary):
+    db_path = 'posts_database.json'
+    if not os.path.exists(db_path):
+        with open(db_path, 'w', encoding='utf-8') as f: json.dump([], f)
+    with open(db_path, 'r', encoding='utf-8') as f:
+        try: posts = json.load(f)
+        except: posts = []
+    new_id = max([p['id'] for p in posts], default=0) + 1
+    new_entry = {
+        "id": new_id, "title": article_title,
+        "text": f"🚨 {article_summary}\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
+        "link": article_url, "published": False
+    }
+    posts.append(new_entry)
+    with open(db_path, 'w', encoding='utf-8') as f:
+        json.dump(posts, f, indent=2, ensure_ascii=False)
+    print(f"✅ Добавено към LinkedIn опашката!")
 
 try:
     # 1. ИЗБОР НА УНИКАЛНА ТЕМА
@@ -48,6 +67,8 @@ try:
         f"8. Include a dedicated <h2> section about tools or solutions. "
         f"9. MANDATORY: You must finish the article with a formal Conclusion and ensure all HTML tags are perfectly closed. Do not stop mid-sentence. "
         f"Return ONLY the raw HTML body content starting with <h1>."
+        f"IMPORTANT: After the final HTML tag, add exactly this separator '---LINKEDIN-HOOK---' "
+        f"followed by a one-sentence provocative summary for a LinkedIn post." # <--- ТОВА Е НОВОТО
     )
     # --- СТАРТ НА ПОПРАВКАТА ---
     import time
@@ -86,15 +107,23 @@ try:
         exit()
     # --- КРАЙ НА ПОПРАВКАТА ---
 
-# 1. Изчистваме текста
-    html_content = response.text.replace('```html', '').replace('```', '').strip()
-    
-    # 2. 🛡️ ПРЕДПАЗИТЕЛ ЗА ЗАВЪРШЕНОСТ (Слагаме го ТУК)
-    # Ако AI спре по средата, този код дописва смислен финал и затваря таговете
+# 1. Първо изчистваме целия отговор от Gemini и го записваме в raw_text
+    raw_text = response.text.replace('```html', '').replace('```', '').strip()
+
+    # 2. Разделяме на статия и кукичка
+    if "---LINKEDIN-HOOK---" in raw_text:
+        html_content, linkedin_hook = raw_text.split("---LINKEDIN-HOOK---")
+        html_content = html_content.strip()
+        linkedin_hook = linkedin_hook.strip()
+    else:
+        html_content = raw_text
+        linkedin_hook = f"New security insights about {topic_title} are now live!"
+
+    # 3. 🛡️ ПРЕДПАЗИТЕЛ ЗА ЗАВЪРШЕНОСТ (Важно: Подравнен вляво, за да важи за всичко!)
     if not (html_content.endswith('</p>') or html_content.endswith('</ul>') or html_content.endswith('</li>')):
         html_content += "... and implement these strategies to ensure long-term success.</p><h2>Conclusion</h2><p>In summary, staying ahead of these trends is the key to business longevity and security. By following this guide, you maximize your growth and ensure a stable digital future.</p>"
-    
-    # 🚀 НОВО: Взимаме точната дата за SEO Schema Markup
+
+    # 4. 🚀 Вземаме точната дата за SEO Schema Markup
     today_iso = datetime.date.today().isoformat()
 
     # --- МОДУЛ ЗА АВТОМАТИЧНА МОНЕТИЗАЦИЯ (CTA GENERATOR) - FINAL 2026 ---
@@ -331,6 +360,14 @@ try:
         if filename not in s_content:
             with open(sitemap_file, 'w', encoding='utf-8') as f:
                 f.write(s_content.replace("</urlset>", new_url))
+
+                # --- ТУК СЛАГАШ ТОВА ---
+    update_linkedin_database(
+        article_title=topic_title,
+        article_url=f"https://checkandcalc.com/{filename}",
+        article_summary=linkedin_hook
+    )
+    # -----------------------
 
     print(f"Готово! Нова статия: {topic_title}")
 
