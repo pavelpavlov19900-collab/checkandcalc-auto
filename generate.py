@@ -248,14 +248,14 @@ try:
         body {{ font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }}
         .article-container {{ max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }}
         /* ДОБАВИ ТОВА ТУК 👇 */
-        .article-banner { 
+        .article-banner {{ 
             width: 100%; 
             height: auto; 
             border-radius: 12px; 
             margin-bottom: 30px; 
             border: 1px solid #1f2937; 
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
-        }
+        }}
         /* ------------------ */
         h1 {{ color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }}
         h2 {{ color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }}
