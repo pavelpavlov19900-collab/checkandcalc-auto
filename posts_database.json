@@ -12,5 +12,13 @@
     "text": "Ever wondered how hackers use AI to stay invisible? Check our latest deep dive into stealth AI attacks. #Infosec #CheckAndCalc",
     "link": "https://checkandcalc.com/index.html",
     "published": false
+  },
+  {
+    "id": 3,
+    "title": "Securing Zoom and Teams: Stop \"Meeting Bombers\" from Stealing Data",
+    "text": "🚨 Your Zoom and Teams meetings are NOT as secure as you think: Are you inadvertently inviting data thieves to your next confidential discussion?\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
+    "link": "https://checkandcalc.com/securing-zoom-and-teams-stop-meeting-bombers-from-stealing-data.html",
+    "image_path": null,
+    "published": false
   }
 ]
