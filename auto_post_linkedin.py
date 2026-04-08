@@ -1,6 +1,5 @@
 import requests, json, os
 
-# 🚨 ПОПРАВКАТА: Търсим ключа по неговото ИМЕ в GitHub Secrets!
 ACCESS_TOKEN = os.environ.get('LINKEDIN_ACCESS_TOKEN')
 ORG_URN = 'urn:li:organization:112854903'
 
@@ -30,19 +29,29 @@ def post_to_linkedin():
     asset = upload_image(post.get('image_path'), ACCESS_TOKEN)
     headers = {'Authorization': f'Bearer {ACCESS_TOKEN}', 'X-Restli-Protocol-Version': '2.0.0', 'Content-Type': 'application/json'}
     
-    media = {
-        "status": "READY",
-        "media": asset if asset else post['link'],
-        "title": {"text": post['title']}
-    }
+    # 🚨 НОВАТА ЛОГИКА: Интелигентно превключване между Снимка и Линк
+    if asset:
+        media_content = {
+            "status": "READY",
+            "media": asset,  # За снимки LinkedIn иска това поле
+            "title": {"text": post['title']}
+        }
+        share_category = "IMAGE"
+    else:
+        media_content = {
+            "status": "READY",
+            "originalUrl": post['link'], # За линкове LinkedIn иска ТОВА поле
+            "title": {"text": post['title']}
+        }
+        share_category = "ARTICLE"
     
     payload = {
         "author": ORG_URN, "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
                 "shareCommentary": {"text": post['text']},
-                "shareMediaCategory": "IMAGE" if asset else "ARTICLE",
-                "media": [media]
+                "shareMediaCategory": share_category,
+                "media": [media_content]
             }
         },
         "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"}
