@@ -40,7 +40,7 @@ def post_to_linkedin():
     else:
         media_content = {
             "status": "READY",
-            "originalUrl": post['link'], # За линкове LinkedIn иска ТОВА поле
+            "originalUrl": f"{post['link']}?utm_source=linkedin&utm_medium=social&utm_campaign=ai_bot",
             "title": {"text": post['title']}
         }
         share_category = "ARTICLE"
