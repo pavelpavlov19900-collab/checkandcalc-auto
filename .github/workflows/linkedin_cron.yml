@@ -2,8 +2,8 @@ name: LinkedIn Auto Post
 
 on:
   schedule:
-    - cron: '0 9 * * *' # Всеки ден в 09:00 UTC
-  workflow_dispatch: # Позволява ни да го пуснем и ръчно за тест
+    - cron: '13 13 * * *' # Всеки ден в 13:13 UTC (Оптимално за ЕС и САЩ)
+  workflow_dispatch: # Позволява ръчно пускане за тест
 
 jobs:
   build:
@@ -12,15 +12,17 @@ jobs:
       contents: write # Важно: За да може роботът да запише, че е публикувал!
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Използваме най-новата версия на checkout
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # Използваме най-новата версия на setup-python
         with:
-          python-version: '3.9'
+          python-version: '3.x' # Използваме най-новата стабилна версия на Python 3
 
       - name: Install dependencies
-        run: pip install requests
+        run: |
+          pip install --upgrade pip
+          pip install requests
 
       - name: Run automation
         env:
