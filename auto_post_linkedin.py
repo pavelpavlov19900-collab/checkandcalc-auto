@@ -1,6 +1,7 @@
 import requests, json, os
 
-ACCESS_TOKEN = os.environ.get('AQUcW3nHGRClRKWhz3fMjyJRnPiQ2p1FUcgRB8EYaeAE0WB2LEM8_0JeuIQYg7hvy7dAGP_aYoBUBCDPEDxb_RgMRJe1JdBFyaTu7m6PVGdvG8gUXJOnUFKkMf8JnLrh5I-sLdCpmJHxA8SG4zW2-PZTwd1XwXunI4xZ4gu_jlDARA0cAUkmEaTKyPGeTFPfFLnawJoIZDrsSpcyc-zm0kCvsvnlsj58QTMQvnXo5ATK_PTNK2ZEaIQtcZ1adWzdYidhFQ3CLqExvFAmgftO7HVz0uEfLL0eXafH6r6YMVjNI5Q-g1sZSTb5lrbgvKbset-6MaiH-3YHV6_eVANt_iZp-PFK1g')
+# 🚨 ПОПРАВКАТА: Търсим ключа по неговото ИМЕ в GitHub Secrets!
+ACCESS_TOKEN = os.environ.get('LINKEDIN_ACCESS_TOKEN')
 ORG_URN = 'urn:li:organization:112854903'
 
 def upload_image(image_path, token):
@@ -21,8 +22,10 @@ def upload_image(image_path, token):
 
 def post_to_linkedin():
     with open('posts_database.json', 'r', encoding='utf-8') as f: posts = json.load(f)
-    post = next((p for p in posts if not p['published']), None)
-    if not post: return
+    post = next((p for p in posts if not p.get('published')), None)
+    if not post: 
+        print("Няма нови статии за публикуване.")
+        return
 
     asset = upload_image(post.get('image_path'), ACCESS_TOKEN)
     headers = {'Authorization': f'Bearer {ACCESS_TOKEN}', 'X-Restli-Protocol-Version': '2.0.0', 'Content-Type': 'application/json'}
@@ -49,6 +52,8 @@ def post_to_linkedin():
     if res.status_code == 201:
         post['published'] = True
         with open('posts_database.json', 'w', encoding='utf-8') as f: json.dump(posts, f, indent=2, ensure_ascii=False)
-        print("✅ Успех!")
+        print("✅ Успех! Статията е публикувана в LinkedIn.")
+    else:
+        print(f"⚠️ Грешка при публикуване: {res.status_code} - {res.text}")
 
 if __name__ == "__main__": post_to_linkedin()
