@@ -30,44 +30,45 @@ def update_linkedin_database(article_title, article_url, article_summary, image_
 
 # --- НОВА ФУНКЦИЯ ЗА ГЕНЕРИРАНЕ НА СНИМКА (С ГРЕШКОУСТОЙЧИВОСТ) ---
 def generate_ai_image(client, prompt, project_id, filename):
-    if not project_id:
-        print("⚠️ Липсва PROJECT_ID. Снимката е прескочена.")
-        return None
-    
     print(f"🎨 Опит за генериране на визия...")
     image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
     
     try:
-        # АВТОМАТИЧНО РАЗУЗНАВАНЕ: Търсим как точно се казва методът в тази версия
+        # АВТОМАТИЧНО РАЗУЗНАВАНЕ: (вече знаем, че методът е generate_images)
         method_name = None
-        for name in ['generate_image', 'generate_images', 'image_generation', 'create_image']:
+        for name in ['generate_images', 'generate_image']:
             if hasattr(client.models, name):
                 method_name = name
                 break
         
         if not method_name:
-            # Ако не намерим нищо, изписваме наличните методи за твоя информация
-            available = [m for m in dir(client.models) if not m.startswith('_')]
-            print(f"⚠️ SDK грешка: Не намерих метод за снимки. Налични в client.models: {available}")
+            print("⚠️ SDK грешка: Не намерих метод за снимки.")
             return None
 
-        # Извикваме намерения метод динамично
         method = getattr(client.models, method_name)
+
+        # 🚀 ПОПРАВКАТА: Премахваме project_id и location.
+        # Добавяме aspect_ratio: '16:9' за перфектен уеб банер!
         response = method(
-            model='imagen-3',
+            model='imagen-3.0-generate-002', # Използваме точното име на модела
             prompt=image_prompt,
-            config={'project_id': project_id, 'location': 'us-central1'}
+            config={
+                'number_of_images': 1,
+                'aspect_ratio': '16:9'
+            }
         )
 
         image_name = filename.replace('.html', '.png')
         
-        # Интелигентно извличане на картинката
-        if hasattr(response, 'images') and response.images:
+        # Интелигентно извличане за новото API
+        if hasattr(response, 'generated_images') and response.generated_images:
+            image_obj = response.generated_images[0].image
+        elif hasattr(response, 'images') and response.images:
             image_obj = response.images[0]
         elif isinstance(response, list) and len(response) > 0:
             image_obj = response[0]
         else:
-            image_obj = response # Последен опит за директен запис
+            image_obj = response
             
         image_obj.save(image_name)
         print(f"✅ Снимката е готова: {image_name}")
