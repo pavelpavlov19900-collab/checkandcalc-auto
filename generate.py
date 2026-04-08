@@ -34,7 +34,7 @@ def generate_ai_image(client, prompt, project_id, filename):
     image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
     
     try:
-        # АВТОМАТИЧНО РАЗУЗНАВАНЕ: (вече знаем, че методът е generate_images)
+        # АВТОМАТИЧНО РАЗУЗНАВАНЕ:
         method_name = None
         for name in ['generate_images', 'generate_image']:
             if hasattr(client.models, name):
@@ -47,10 +47,9 @@ def generate_ai_image(client, prompt, project_id, filename):
 
         method = getattr(client.models, method_name)
 
-        # 🚀 ПОПРАВКАТА: Премахваме project_id и location.
-        # Добавяме aspect_ratio: '16:9' за перфектен уеб банер!
+        # 🚀 ПОПРАВКАТА: Преминаваме към най-новото поколение - Imagen 4!
         response = method(
-            model='imagen-3.0-generate-002', # Използваме точното име на модела
+            model='imagen-4.0-generate-001', # <--- ТУК Е МАГИЯТА
             prompt=image_prompt,
             config={
                 'number_of_images': 1,
@@ -60,7 +59,7 @@ def generate_ai_image(client, prompt, project_id, filename):
 
         image_name = filename.replace('.html', '.png')
         
-        # Интелигентно извличане за новото API
+        # Интелигентно извличане
         if hasattr(response, 'generated_images') and response.generated_images:
             image_obj = response.generated_images[0].image
         elif hasattr(response, 'images') and response.images:
