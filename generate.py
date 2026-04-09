@@ -236,8 +236,11 @@ try:
         # Резервен план: Ако AI-то някога пак се обърка, пазим текста и бутона в безопасност
         html_with_cta = cta_box + '<br><br>' + html_content
 
-  # Ако имаме снимка, създаваме HTML таг, ако не - празен текст
-    img_tag = f'<img src="{image_name}" class="article-banner" alt="{topic_title}">' if image_name else ""
+ # ВАКСИНА: Премахваме двойните кавички от заглавието, за да не чупят HTML-а
+    safe_alt_title = topic_title.replace('"', "'")
+    
+    # Ако имаме снимка, създаваме HTML таг с БЕЗОПАСНОТО заглавие, ако не - празен текст
+    img_tag = f'<img src="{image_name}" class="article-banner" alt="{safe_alt_title}">' if image_name else ""
     
    # --- ПЕРФЕКТНИЯТ ДИЗАЙН (ШАБЛОН) С УНИВЕРСАЛНА КУКА ---
     html_template = f"""<!DOCTYPE html>
