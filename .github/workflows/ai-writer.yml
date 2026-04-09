@@ -35,6 +35,6 @@ jobs:
         run: |
           git config --global user.name 'AI Factory'
           git config --global user.email 'factory@checkandcalc.com'
-          git add .
-          git commit -m "New SEO Article and Telegram Post" || exit 0
+          git add posts_database.json *.html *.png  # <--- ТУК Е КЛЮЧЪТ
+          git commit -m "New SEO Article, Image and Telegram Post" || exit 0
           git push
