@@ -1,7 +1,7 @@
 name: Auto AI Blogger
 on:
   schedule:
-    - cron: '12 13 * * *'  # Всеки ден в 13:12 UTC (16:12 БГ време)
+    - cron: '47 11 * * *' # 14:47 българско време - Оптимизирано за избягване на 503 грешки
   workflow_dispatch:
 jobs:
   build:
