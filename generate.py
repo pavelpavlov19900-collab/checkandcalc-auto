@@ -121,12 +121,24 @@ try:
         f"IMPORTANT: After the final HTML tag, add exactly this separator '---LINKEDIN-HOOK---' "
         f"followed by a one-sentence provocative summary for a LinkedIn post." # <--- ТОВА Е НОВОТО
     )
-    # --- СТАРТ НА ПОПРАВКАТА ---
+    # --- СТАРТ НА ПОДОБРЕНАТА ПОПРАВКА (4 ОПИТА) ---
     import time
     response = None
 
-    for attempt in range(2):
+    # Дефинираме списък с време за изчакване за всеки опит
+    # Опит 1: 0 сек (веднага)
+    # Опит 2: 40 сек
+    # Опит 3: 600 сек (10 минути)
+    # Опит 4: 1320 сек (22 минути)
+    wait_times = [0, 40, 600, 1320]
+
+    for attempt in range(len(wait_times)):
         try:
+            # Първо изчакваме, ако не е първи опит
+            if wait_times[attempt] > 0:
+                print(f"⏳ Сървърът е претоварен. Изчакване {wait_times[attempt] // 60} мин и {wait_times[attempt] % 60} сек...")
+                time.sleep(wait_times[attempt])
+
             if attempt == 0:
                 print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
                 response = client.models.generate_content(
@@ -135,27 +147,23 @@ try:
                     config=types.GenerateContentConfig(max_output_tokens=6000, temperature=0.7)
                 )
             else:
-                print("Опит 2 (Последен): Резервен план с Pro...")
+                print(f"Опит {attempt + 1}: Резервен план с Pro (Стратегическо изчакване)...")
                 response = client.models.generate_content(
                     model='gemini-2.5-pro',
                     contents=prompt_text,
                     config=types.GenerateContentConfig(max_output_tokens=6000)
                 )
             
-            # Ако горният код зареди текст, излизаме от цикъла (break)
+            # Ако получим текст, излизаме от цикъла
             if response and response.text:
+                print(f"✅ Успех при опит {attempt + 1}!")
                 break
 
         except Exception as e:
-            if attempt == 0:
-                print(f"Първият опит не успя ({e}). Изчакване 40 сек преди резервния план...")
-                time.sleep(40)
-            else:
-                print(f"Критична грешка и при втория опит: {e}")
-
-    if not response or not response.text:
-        print("Критична грешка: Моделите са претоварени. Опитайте пак по-късно.")
-        exit()
+            print(f"⚠️ Опит {attempt + 1} не успя поради грешка: {e}")
+            if attempt == len(wait_times) - 1:
+                print("❌ Критична грешка: Всички стратегически опити се провалиха.")
+                exit()
     # --- КРАЙ НА ПОПРАВКАТА ---
 
 # 1. Първо изчистваме целия отговор от Gemini и го записваме в raw_text
