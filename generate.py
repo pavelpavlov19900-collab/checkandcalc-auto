@@ -121,50 +121,56 @@ try:
         f"IMPORTANT: After the final HTML tag, add exactly this separator '---LINKEDIN-HOOK---' "
         f"followed by a one-sentence provocative summary for a LinkedIn post." # <--- ТОВА Е НОВОТО
     )
-    # --- СТАРТ НА ПОДОБРЕНАТА ПОПРАВКА (4 ОПИТА) ---
+    # --- СТАРТ НА БРОНИРАНАТА СТРАТЕГИЯ (7 ОПИТА С JITTER) ---
     import time
     response = None
 
-    # Дефинираме списък с време за изчакване за всеки опит
-    # Опит 1: 0 сек (веднага)
-    # Опит 2: 40 сек
-    # Опит 3: 600 сек (10 минути)
-    # Опит 4: 1320 сек (22 минути)
-    wait_times = [0, 40, 600, 1320]
+    # Архитектура: 5 опита с Flash, 2 опита с Pro
+    # Времената са в секунди и използват "Jitter" (нестандартни числа), 
+    # за да гарантират, че ударът към сървъра НИКОГА не пада на кръгла минута (0, 5, 10, 15...).
+    # Общо максимално време за изчакване: ~49.4 минути.
+    attempts_config = [
+        ('gemini-2.5-flash', 0),     # Опит 1: Веднага (0 сек)
+        ('gemini-2.5-flash', 43),    # Опит 2: След 43 сек 
+        ('gemini-2.5-flash', 137),   # Опит 3: След 2 мин и 17 сек
+        ('gemini-2.5-flash', 311),   # Опит 4: След 5 мин и 11 сек
+        ('gemini-2.5-flash', 613),   # Опит 5: След 10 мин и 13 сек
+        ('gemini-2.5-pro', 877),     # Опит 6: Спасителен план 1 (След 14 мин и 37 сек)
+        ('gemini-2.5-pro', 983)      # Опит 7: Спасителен план 2 (След 16 мин и 23 сек)
+    ]
 
-    for attempt in range(len(wait_times)):
+    for i, (model_name, wait_time) in enumerate(attempts_config):
+        attempt_num = i + 1
         try:
-            # Първо изчакваме, ако не е първи опит
-            if wait_times[attempt] > 0:
-                print(f"⏳ Сървърът е претоварен. Изчакване {wait_times[attempt] // 60} мин и {wait_times[attempt] % 60} сек...")
-                time.sleep(wait_times[attempt])
+            if wait_time > 0:
+                print(f"⏳ Сървърът е претоварен. Изчакване {wait_time // 60} мин и {wait_time % 60} сек (Опит {attempt_num}/7)...")
+                time.sleep(wait_time)
 
-            if attempt == 0:
-                print("Опит 1: Генериране с бюджетния gemini-2.5-flash...")
-                response = client.models.generate_content(
-                    model='gemini-2.5-flash',
-                    contents=prompt_text,
-                    config=types.GenerateContentConfig(max_output_tokens=6000, temperature=0.7)
-                )
-            else:
-                print(f"Опит {attempt + 1}: Резервен план с Pro (Стратегическо изчакване)...")
-                response = client.models.generate_content(
-                    model='gemini-2.5-pro',
-                    contents=prompt_text,
-                    config=types.GenerateContentConfig(max_output_tokens=6000)
-                )
+            print(f"Опит {attempt_num}: Генериране с {model_name}...")
             
-            # Ако получим текст, излизаме от цикъла
+            # Конфигурация: Flash пести ресурси, Pro използва максимална мощност
+            if 'flash' in model_name:
+                gen_config = types.GenerateContentConfig(max_output_tokens=6000, temperature=0.7)
+            else:
+                gen_config = types.GenerateContentConfig(max_output_tokens=6000)
+
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt_text,
+                config=gen_config
+            )
+            
+            # Победа: Имаме текст!
             if response and response.text:
-                print(f"✅ Успех при опит {attempt + 1}!")
+                print(f"✅ АБСОЛЮТЕН УСПЕХ при опит {attempt_num} с модел {model_name}!")
                 break
 
         except Exception as e:
-            print(f"⚠️ Опит {attempt + 1} не успя поради грешка: {e}")
-            if attempt == len(wait_times) - 1:
-                print("❌ Критична грешка: Всички стратегически опити се провалиха.")
+            print(f"⚠️ Опит {attempt_num} не успя поради грешка: {e}")
+            if attempt_num == len(attempts_config):
+                print("❌ Критичен срив: Всички 7 стратегически опита се провалиха. Google е напълно недостъпен.")
                 exit()
-    # --- КРАЙ НА ПОПРАВКАТА ---
+    # --- КРАЙ НА БРОНИРАНАТА СТРАТЕГИЯ ---
 
 # 1. Първо изчистваме целия отговор от Gemini и го записваме в raw_text
     raw_text = response.text.replace('```html', '').replace('```', '').strip()
