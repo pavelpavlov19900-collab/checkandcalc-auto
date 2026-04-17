@@ -21,7 +21,13 @@ def upload_image(image_path, token):
         reg_url = 'https://api.linkedin.com/v2/assets?action=registerUpload'
         reg_data = {"recipes": ["urn:li:digitalmediaRecipe:feedshare-image"], "owner": ORG_URN, "serviceRelationships": [{"relationshipType": "OWNER", "identifier": "urn:li:userGeneratedContent"}]}
         
-        r = requests.post(reg_url, headers=headers, json=reg_data).json()
+        r_response = requests.post(reg_url, headers=headers, json=reg_data)
+        r = r_response.json()
+        
+        if 'value' not in r:
+            print(f"❌ LinkedIn ОТХВЪРЛИ снимката! Техният отговор е: {r}")
+            return None
+            
         upload_url = r['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl']
         asset = r['value']['asset']
 
