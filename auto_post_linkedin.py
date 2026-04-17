@@ -4,12 +4,11 @@ ACCESS_TOKEN = os.environ.get('LINKEDIN_ACCESS_TOKEN')
 ORG_URN = 'urn:li:organization:112854903'
 
 def upload_image(image_path, token):
-    # --- ШПИОНИНЪТ: Записва в лога какво реално вижда машината ---
+    # --- ШПИОНИНЪТ ---
     print(f"🕵️‍♂️ Търся файла '{image_path}'. Ето какво виждам в текущата папка:")
     print(os.listdir('.')) 
-    # -----------------------------------------------------------------
 
-    # --- РАДАРЪТ: Намира точния път до файла на твърдия диск ---
+    # --- РАДАРЪТ ---
     absolute_path = os.path.abspath(image_path) if image_path else None
     
     if not absolute_path or not os.path.exists(absolute_path):
@@ -17,10 +16,25 @@ def upload_image(image_path, token):
         return None
         
     try:
-        headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
+        # --- НОВИЯТ ОФИЦИАЛЕН ПЛИК (ЗАДАДЕН ОТ LINKEDIN) ---
+        headers = {
+            'Authorization': f'Bearer {token}', 
+            'Content-Type': 'application/json',
+            'X-Restli-Protocol-Version': '2.0.0'
+        }
         reg_url = 'https://api.linkedin.com/v2/assets?action=registerUpload'
-        reg_data = {"recipes": ["urn:li:digitalmediaRecipe:feedshare-image"], "owner": ORG_URN, "serviceRelationships": [{"relationshipType": "OWNER", "identifier": "urn:li:userGeneratedContent"}]}
         
+        reg_data = {
+            "registerUploadRequest": {
+                "recipes": ["urn:li:digitalmediaRecipe:feedshare-image"], 
+                "owner": ORG_URN, 
+                "serviceRelationships": [
+                    {"relationshipType": "OWNER", "identifier": "urn:li:userGeneratedContent"}
+                ]
+            }
+        }
+        # ----------------------------------------------------
+
         r_response = requests.post(reg_url, headers=headers, json=reg_data)
         r = r_response.json()
         
@@ -34,6 +48,7 @@ def upload_image(image_path, token):
         with open(absolute_path, 'rb') as f:
             requests.post(upload_url, data=f, headers={'Authorization': f'Bearer {token}'})
         return asset
+
     except Exception as e: 
         print(f"Грешка при качване на снимката в LinkedIn: {e}")
         return None
