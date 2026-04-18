@@ -61,6 +61,16 @@ def post_to_linkedin():
         return
 
     asset = upload_image(post.get('image_path'), ACCESS_TOKEN)
+    # 🔗 ПОПРАВКА ЗА ЛИНКА: Ако е пост със снимка, линкът трябва да е в текста
+    commentary = post['text']
+    link_with_utm = f"{post['link']}?utm_source=linkedin&utm_medium=social&utm_campaign=ai_bot"
+    
+    if asset:
+        # Вмъкваме линка веднага след емоджито 👇 или го добавяме накрая
+        if "👇" in commentary:
+            commentary = commentary.replace("👇", f"👇\n{link_with_utm}")
+        else:
+            commentary += f"\n\n🔗 {link_with_utm}"
     headers = {'Authorization': f'Bearer {ACCESS_TOKEN}', 'X-Restli-Protocol-Version': '2.0.0', 'Content-Type': 'application/json'}
     
     # 🚨 НОВАТА ЛОГИКА: Интелигентно превключване между Снимка и Линк
@@ -83,7 +93,7 @@ def post_to_linkedin():
         "author": ORG_URN, "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {"text": post['text']},
+                "shareCommentary": {"text": commentary}, # ТУК използваме новата променлива
                 "shareMediaCategory": share_category,
                 "media": [media_content]
             }
