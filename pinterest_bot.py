@@ -67,7 +67,7 @@ def upload_to_pinterest(img_path, title, link):
     payload = {
         "board_id": BOARD_ID,
         "title": f"{title} | Check&Calc",
-        "description": f"Разбери повече за {title} на нашия сайт! Последвай ни за още полезни инструменти. #tech #tools #productivity",
+        "description": f"Discover more about {title} on our website! Follow Check&Calc for professional tools and insights. #tech #digitaltools #businessgrowth",
         "link": link,
         "media_source": {
             "source_type": "image_base64",
