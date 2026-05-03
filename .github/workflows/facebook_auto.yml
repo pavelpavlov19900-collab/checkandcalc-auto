@@ -26,7 +26,14 @@ jobs:
 
       - name: 🚀 Run Facebook Bot
         env:
-          # Вземаме тайните от Settings и ги подаваме на скрипта
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
         run: python facebook_bot.py
+
+      - name: 📝 Save history (Update posted_articles.txt)
+        run: |
+          git config --global user.name 'Factory Bot'
+          git config --global user.email 'bot@checkandcalc.com'
+          git add posted_articles.txt
+          git commit -m "Update history: Marked article as posted" || echo "No changes to commit"
+          git push
