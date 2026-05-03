@@ -1,24 +1,56 @@
 import os
 import requests
+import random
 
-# 1. Вземаме тайните ключове от сейфа на GitHub
+# 1. Вземаме тайните ключове
 PAGE_ID = os.environ.get("FB_PAGE_ID")
-TOKEN = os.environ.get("FB_PAGE_TOKEN") # В нашия случай това е System User Token-ът
+TOKEN = os.environ.get("FB_PAGE_TOKEN")
+BASE_URL = "https://checkandcalc.com/"
+HISTORY_FILE = "posted_articles.txt"
 
-# 2. Тук ще се връзваме с нашия AI генератор, но за сега задаваме структурата на английски!
-# Примерно генерирано съдържание от gemini-2.5-pro:
-post_message = "Is the 'Digital Nomad' lifestyle a trap? 🌴💻 Discover the hidden costs of remote work and how to protect your financial future. Read our latest deep dive! 👇 #RemoteWork #Finance #CheckAndCalc"
-article_link = "https://checkandcalc.com/digital-nomad-trap" # Тук ще подаваме новия линк
+def get_random_article():
+    # Сканираме директорията за .html файлове (без системните)
+    all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', '404.html']]
+    
+    # Четем историята на публикуваните
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, 'r') as f:
+            posted = f.read().splitlines()
+    else:
+        posted = []
+
+    # Филтрираме само тези, които още не са пускани
+    available = [f for f in all_files if f not in posted]
+    
+    if not available:
+        print("🔄 Всички статии са публикувани! Рестартираме списъка...")
+        available = all_files
+        posted = []
+
+    chosen = random.choice(available)
+    
+    # Записваме в историята
+    with open(HISTORY_FILE, 'a') as f:
+        f.write(chosen + '\n')
+        
+    return chosen
 
 def post_to_facebook():
-    # Защита: Ако все още чакаме токена, скриптът просто си почива и не дава грешка.
     if TOKEN == "WAITING_FOR_META_APPROVAL" or not TOKEN:
-        print("🏭 Factory Status: Waiting for Meta Token. Infrastructure is ready to fire!")
+        print("🏭 Factory Status: Waiting for Meta Token.")
         return
 
-    print("🔄 Стъпка 1: Обмяна на System User Token за Page Access Token...")
+    # --- ИЗБОР НА СТАТИЯ ---
+    chosen_file = get_random_article()
+    article_link = f"{BASE_URL}{chosen_file}"
+    # Превръщаме името на файла в заглавие за поста (махаме .html и тиретата)
+    clean_title = chosen_file.replace('.html', '').replace('-', ' ').capitalize()
+    post_message = f"Check out our latest insights: {clean_title}! 🚀 Read more here 👇 #Finance #CheckAndCalc"
+
+    print(f"🔄 Избрана статия: {chosen_file}")
     
-    # --- НОВОТО ПАРЧЕ КОД ЗА ОБМЯНА НА ТОКЕНА ---
+    # --- ТВОЯТ ОРИГИНАЛЕН КОД ЗА ТОКЕНА ---
+    print("🔄 Стъпка 1: Обмяна на System User Token за Page Access Token...")
     token_url = f"https://graph.facebook.com/v19.0/{PAGE_ID}?fields=access_token&access_token={TOKEN}"
     try:
         token_response = requests.get(token_url)
@@ -28,29 +60,24 @@ def post_to_facebook():
         print("✅ Успешно генериран Page Access Token!")
     except requests.exceptions.RequestException as e:
         print(f"❌ ГРЕШКА при взимане на Page Token: {e}")
-        if 'token_response' in locals() and token_response.content:
-            print(f"Детайли от Meta: {token_response.json()}")
-        return # Спираме изпълнението, защото без този токен не можем да публикуваме
-    # ---------------------------------------------
+        return
 
-    # API крайна точка за публикуване на постове с линкове
+    # API крайна точка
     url = f"https://graph.facebook.com/v19.0/{PAGE_ID}/feed"
     
     payload = {
         'message': post_message,
         'link': article_link,
-        'access_token': page_access_token # ВАЖНО: Тук вече подаваме токена за страницата!
+        'access_token': page_access_token
     }
 
     try:
-        print("🚀 Executing post to Facebook...")
+        print(f"🚀 Публикуване на: {article_link}")
         response = requests.post(url, data=payload)
-        response.raise_for_status() # Проверява за грешки от сървъра
-        print(f"✅ Success! Post published to Facebook. Post ID: {response.json().get('id')}")
+        response.raise_for_status()
+        print(f"✅ Success! Post ID: {response.json().get('id')}")
     except requests.exceptions.RequestException as e:
-        print(f"❌ Error publishing to Facebook: {e}")
-        if 'response' in locals() and response.content:
-            print(f"Meta error details: {response.json()}")
+        print(f"❌ Error: {e}")
 
 if __name__ == "__main__":
     post_to_facebook()
