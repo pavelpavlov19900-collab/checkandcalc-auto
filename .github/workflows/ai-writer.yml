@@ -35,6 +35,14 @@ jobs:
         run: |
           git config --global user.name 'AI Factory'
           git config --global user.email 'factory@checkandcalc.com'
-          git add posts_database.json *.html *.png  # <--- ТУК Е КЛЮЧЪТ
+          
+          # 1. Сваляме последните промени от сървъра, за да не се блъскаме с тях
+          git pull --rebase origin main
+          
+          # 2. Добавяме всичко ново: базата данни, статиите, снимките и историята
+          git add posts_database.json *.html *.png
+          git add posted_articles.txt || echo "No history file yet"
+          
+          # 3. Записваме и изпращаме
           git commit -m "New SEO Article, Image and Telegram Post" || exit 0
-          git push
+          git push origin main
