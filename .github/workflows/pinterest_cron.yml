@@ -1,32 +1,42 @@
-name: Pinterest Auto-Publisher
+name: Pinterest Hydra Bot
 
 on:
   schedule:
-    # Този код означава: Всеки ден в 18:00 UTC (което е 21:00 часа в България)
-    - cron: '0 18 * * *'
-  # Това ни позволява да пускаме бота ръчно с бутон, за да го тестваме
-  workflow_dispatch: 
-# 🚦 ТУК СЛАГАМЕ СВЕТОФАРА (ЕДНАКЪВ ЗА ВСИЧКИ 5 ФАЙЛА)
-concurrency: factory_queue
+    # 07:00 UTC = 10:00 сутринта българско време
+    - cron: '0 7 * * *'
+  workflow_dispatch: # Позволява ръчно стартиране с бутон "Run workflow" за тестове
+
+concurrency: factory_queue # Нашият дигитален светофар за защита от сблъсък
+
 jobs:
-  publish_to_pinterest:
+  run-pinterest-agent:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: 📥 Издърпване на фабриката (Checkout)
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+    - name: ⚙️ Инсталиране на работна среда (Python)
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install Pillow requests
+    - name: 📦 Зареждане на инструменти (Библиотеки)
+      # Инсталираме Pillow, за да може ботът да рисува дизайна
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests Pillow
 
-      - name: Run Pinterest Bot
-        env:
-          PINTEREST_TOKEN: ${{ secrets.PINTEREST_TOKEN }}
-        run: python pinterest_bot.py
+    - name: 🚀 Стартиране на Pinterest Агента
+      env:
+        PINTEREST_TOKEN: ${{ secrets.PINTEREST_TOKEN }}
+      run: python pinterest_bot.py
+
+    - name: 🧠 Записване в паметта (Commit History)
+      # Тази стъпка запазва историята и изтегления шрифт обратно в GitHub
+      run: |
+        git config --global user.name "Pinterest Hydra Bot"
+        git config --global user.email "bot@checkandcalc.com"
+        git add pinterest_history.txt Roboto-Bold.ttf || true
+        git commit -m "🤖 [Auto] Updated Pinterest history & saved assets" || echo "Няма нови промени за записване."
+        git push
