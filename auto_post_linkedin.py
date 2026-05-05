@@ -138,11 +138,15 @@ def post_to_linkedin():
         # FIRST COMMENT STRATEGY EXECUTION
         # ---------------------------------------------------------
         if post_urn and asset:
+            import time
             print("⏳ Waiting 7 seconds for LinkedIn to process the post...")
-            time.sleep(7) # <--- ЕТО ТУК ЗАБАВЯМЕ БОТА
+            time.sleep(7) # <--- Забавяме бота
             
             print("💬 Adding the link in the first comment...")
-            comment_url = f"https://api.linkedin.com/v2/socialActions/{post_urn}/comments"
+            # КОДОВИЯТ ХАК: Декодираме символите (:) за да не се бърка API-то
+            encoded_urn = urllib.parse.quote(post_urn) 
+            
+            comment_url = f"https://api.linkedin.com/v2/socialActions/{encoded_urn}/comments"
             comment_payload = {
                 "actor": ORG_URN,
                 "message": {
