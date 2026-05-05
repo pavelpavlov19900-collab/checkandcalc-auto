@@ -3,23 +3,17 @@ import requests
 import glob
 import re
 
-# Configuration
+# --- КОНФИГУРАЦИЯ ---
 DEV_TO_TOKEN = os.environ.get('DEV_TO_TOKEN')
 WEBSITE_URL = "https://checkandcalc.com"
 HISTORY_FILE = "devto_history.txt"
 
-print("🔍 Searching for the latest unpublished article WITH an image...")
+print("🚀 Старт на линията за премиум публикуване...")
 
-# Намираме всички HTML файлове
+# 1. ТЪРСЕНЕ И КАТЕГОРИЗАЦИЯ
 html_files = glob.glob('*.html')
-if not html_files:
-    print("❌ No HTML files found.")
-    exit(0)
+html_files.sort(key=os.path.getmtime, reverse=True) # От най-новите
 
-# Подреждаме ги от най-новите към най-старите
-html_files.sort(key=os.path.getmtime, reverse=True)
-
-# Зареждаме списъка с вече публикувани статии
 published_slugs = []
 if os.path.exists(HISTORY_FILE):
     with open(HISTORY_FILE, 'r') as f:
@@ -27,102 +21,88 @@ if os.path.exists(HISTORY_FILE):
 
 target_html = None
 file_slug = None
+found_image_path = None
 
-# ТЪРСАЧЪТ С КАЧЕСТВЕН КОНТРОЛ
+# 2. СТРОГ КАЧЕСТВЕН КОНТРОЛ (Само със снимка и непубликувани)
 for html_file in html_files:
     slug = html_file.replace('.html', '')
-    image_file = f"{slug}.png"
-    
-    # 1. Проверка дали вече е качена
+    # Търсим всякакво разширение за снимка (png, jpg, jpeg)
+    possible_images = glob.glob(f"{slug}.*")
+    image_file = next((img for img in possible_images if img.lower().endswith(('.png', '.jpg', '.jpeg'))), None)
+
     if slug in published_slugs:
-        print(f"⏩ '{slug}' is already published. Checking next...")
         continue
         
-    # 2. ПРОВЕРКА ЗА СНИМКА (Строг качествен контрол)
-    if not os.path.exists(image_file):
-        print(f"⚠️ '{slug}' doesn't have an image ({image_file}). Skipping to maintain premium quality!")
+    if not image_file:
+        print(f"⚠️ Пропускаме '{slug}' - липсва файл със снимка.")
         continue
         
-    # Ако мине и двете проверки, това е нашата статия!
     target_html = html_file
     file_slug = slug
+    found_image_path = image_file
     break
 
-# Ако всички са публикувани или нямат снимки
 if not target_html:
-    print("✅ All eligible high-quality articles have been published. Waiting for new content.")
+    print("✅ Всички статии със снимки са качени. Почивка за системата.")
     exit(0)
 
 article_url = f"{WEBSITE_URL}/{target_html}"
-image_url = f"{WEBSITE_URL}/{file_slug}.png"
+image_url = f"{WEBSITE_URL}/{found_image_path}"
 
-# Четем статията
+# 3. ЕКСТРАКЦИЯ НА СЪДЪРЖАНИЕТО
 with open(target_html, 'r', encoding='utf-8') as f:
     content = f.read()
 
-# Извличаме заглавието
-title = file_slug.replace('-', ' ').title()
-if '<title>' in content:
-    title = content.split('<title>')[1].split('</title>')[0]
+# Взимаме заглавието от <title> тага
+title_match = re.search(r'<title>(.*?)</title>', content, re.IGNORECASE)
+title = title_match.group(1) if title_match else file_slug.replace('-', ' ').title()
 
-print(f"📄 Preparing to publish: {title}")
+print(f"📄 Подготовка на: {title}")
 
-# --- ИНТЕЛИГЕНТНИЯТ ФИЛТЪР (Премахва шлюкавицата на 100%) ---
-# 1. Махаме системните тагове
-content = re.sub(r'<head.*?>.*?</head>', '', content, flags=re.DOTALL | re.IGNORECASE)
-content = re.sub(r'<style.*?>.*?</style>', '', content, flags=re.DOTALL | re.IGNORECASE)
-content = re.sub(r'<script.*?>.*?</script>', '', content, flags=re.DOTALL | re.IGNORECASE)
+# --- ИНТЕЛЕКТУАЛНО ПРЕЧИСТВАНЕ (Край на шлюкавицата и черните кутии) ---
 
-# 2. Взимаме само Body
+# А. Махаме <head>, <style>, <script> изцяло
+content = re.sub(r'<(head|style|script).*?>.*?</\1>', '', content, flags=re.DOTALL | re.IGNORECASE)
+
+# Б. Взимаме само чистия <body>
 body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL | re.IGNORECASE)
-if body_match:
-    content = body_match.group(1)
+content = body_match.group(1) if body_match else content
 
-# 3. АНТИ-КОД БЛОК СИСТЕМА (Премахва черните прозорци)
-# Премахваме всички отстъпи в началото на редовете, за да не се бърка Markdown парсъра
-content = "\n".join([line.strip() for line in content.splitlines()])
+# В. ПРЕМАХВАМЕ ВСИЧКИ СНИМКИ ОТ ТЯЛОТО (Остава само главната в хедъра)
+content = re.sub(r'<img.*?>', '', content, flags=re.IGNORECASE | re.DOTALL)
 
-# 4. ИЗЧИСТВАНЕ НА ЛОКАЛНО UI (Премахваме бутона "Back to Homepage", който чупи UX-а в Dev.to)
-content = re.sub(r'<div[^>]*>\s*<a href="index\.html"[^>]*>.*?</a>\s*</div>', '', content, flags=re.DOTALL | re.IGNORECASE)
+# Г. МАХАМЕ ЧЕРНИТЕ БАНЕРИ (Премахваме всички отстъпи в началото на редовете)
+# Това убива Markdown логиката за "Code Block"
+content = "\n".join([line.strip() for line in content.splitlines() if line.strip()])
 
-# 5. Опционално: Трансформираме Telegram кутията в изчистен текст (ако все пак е останала като HTML)
-# Тъй като вече няма отстъпи, Dev.to ще я рендира като нормален текст/линк, а не като черен прозорец.
+# Д. МАХАМЕ UI ЕЛЕМЕНТИ (Бутони "Back", Телеграм кутии и др.)
+content = re.sub(r'<div[^>]*>\s*<a href="index\.html".*?</a>\s*</div>', '', content, flags=re.DOTALL | re.IGNORECASE)
+content = re.sub(r'<div class="premium-hook".*?</div>', '', content, flags=re.DOTALL | re.IGNORECASE)
 
-# --- ФОРМАТИРАНЕ ЗА DEV.TO ---
-# Забиваме снимката най-отгоре, за да се вижда перфектно
-dev_content = f"![{title}]({image_url})\n\n" + content
+# 4. ФИНАЛНО ФОРМАТИРАНЕ ЗА DEV.TO
+# Тук не слагаме снимка в тялото, защото я подаваме като 'main_image' по-долу
+dev_content = content 
+dev_content += f"\n\n---\n\n> 🚀 **Originally published at [checkandcalc.com]({article_url})**. Explore our tools for financial independence."
 
-# SEO Кредит
-dev_content += f"<br><hr><p><em>🚀 Originally published at <a href='{article_url}'>checkandcalc.com</a>. Read more exclusive insights and use our advanced calculators on the main site.</em></p>"
-
-# API Данни
-headers = {
-    "api-key": DEV_TO_TOKEN,
-    "Content-Type": "application/json"
-}
+# 5. ИЗПРАЩАНЕ КЪМ API
+headers = {"api-key": DEV_TO_TOKEN, "Content-Type": "application/json"}
 
 payload = {
     "article": {
         "title": title,
         "body_markdown": dev_content,
         "published": True,
-        "main_image": image_url,
+        "main_image": image_url, # ТОВА Е ЕДИНСТВЕНАТА СНИМКА (най-отгоре)
         "canonical_url": article_url,
-        "tags": ["programming", "tech", "seo", "automation"]
+        "tags": ["tech", "automation", "productivity", "seo"]
     }
 }
 
-print("🚀 Sending to Dev.to servers...")
 response = requests.post("https://dev.to/api/articles", headers=headers, json=payload)
 
 if response.status_code == 201:
-    post_url = response.json().get('url')
-    print(f"✅ Successfully published on Dev.to! Link: {post_url}")
-    
-    # Записваме в дневника
+    print(f"✅ Успех! Статията е на живо: {response.json().get('url')}")
     with open(HISTORY_FILE, 'a') as f:
         f.write(f"{file_slug}\n")
 else:
-    print(f"❌ Error publishing: {response.status_code}")
-    print(response.text)
-    exit(1)
+    print(f"❌ Грешка {response.status_code}: {response.text}")
