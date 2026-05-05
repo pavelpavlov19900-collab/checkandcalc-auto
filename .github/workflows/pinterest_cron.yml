@@ -3,7 +3,7 @@ name: Pinterest Hydra Bot
 on:
   schedule:
     # 07:00 UTC = 10:00 сутринта българско време
-    - cron: '0 7 * * *'
+    - cron: '0 1,7 * * *'
   workflow_dispatch: # Позволява ръчно стартиране с бутон "Run workflow" за тестове
 
 concurrency: factory_queue # Нашият дигитален светофар за защита от сблъсък
