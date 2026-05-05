@@ -3,7 +3,7 @@ name: Facebook Auto-Publisher Factory
 on:
   schedule:
     # Работи всеки ден в 10:00 UTC (което е перфектно за сутрешен трафик в САЩ/Европа)
-    - cron: '45 12 * * *'
+    - cron: '0 19 * * *'
   workflow_dispatch: # Това създава бутон "Run workflow" за ръчно тестване
 # 🚦 ТУК СЛАГАМЕ СВЕТОФАРА (ЕДНАКЪВ ЗА ВСИЧКИ 5 ФАЙЛА)
 concurrency: factory_queue
