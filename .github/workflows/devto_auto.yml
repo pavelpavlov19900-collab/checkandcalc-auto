@@ -6,7 +6,8 @@ on:
     # Хваща перфектно ИТ специалистите, преди да започнат работа!
     - cron: '30 12 * * *'
   workflow_dispatch: # Бутон за ръчно стартиране
-
+# 🚦 ТУК СЛАГАМЕ СВЕТОФАРА (ЕДНАКЪВ ЗА ВСИЧКИ 5 ФАЙЛА)
+concurrency: factory_queue
 jobs:
   publish_to_devto:
     runs-on: ubuntu-latest
