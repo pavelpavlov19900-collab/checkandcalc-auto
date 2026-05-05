@@ -4,7 +4,8 @@ on:
   schedule:
     - cron: '13 13 * * *' # Всеки ден в 13:13 UTC (Оптимално за ЕС и САЩ)
   workflow_dispatch: # Позволява ръчно пускане за тест
-
+# 🚦 ТУК СЛАГАМЕ СВЕТОФАРА (ЕДНАКЪВ ЗА ВСИЧКИ 5 ФАЙЛА)
+concurrency: factory_queue
 jobs:
   build:
     runs-on: ubuntu-latest
