@@ -1,6 +1,7 @@
 import os
 import requests
 import glob
+import re
 
 # Configuration
 DEV_TO_TOKEN = os.environ.get('DEV_TO_TOKEN')
@@ -40,8 +41,25 @@ if '<title>' in content:
 
 print(f"📄 Preparing to publish: {title}")
 
-# SEO Credit - Strictly in English for the target audience
-dev_content = content + f"<br><hr><p><em>🚀 Originally published at <a href='{article_url}'>checkandcalc.com</a>. Read more exclusive insights on our main site.</em></p>"
+# --- ИНТЕЛИГЕНТНИЯТ ФИЛТЪР (Премахва шлюкавицата) ---
+# 1. Изрязваме системните хедъри
+content = re.sub(r'<head.*?>.*?</head>', '', content, flags=re.DOTALL | re.IGNORECASE)
+# 2. Изрязваме CSS дизайна (това, което се виждаше като код)
+content = re.sub(r'<style.*?>.*?</style>', '', content, flags=re.DOTALL | re.IGNORECASE)
+# 3. Изрязваме скриптовете
+content = re.sub(r'<script.*?>.*?</script>', '', content, flags=re.DOTALL | re.IGNORECASE)
+
+# 4. Взимаме само съдържанието между <body> таговете (същината на статията)
+body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL | re.IGNORECASE)
+if body_match:
+    content = body_match.group(1)
+
+# --- ГАРАНТИРАНЕ НА СНИМКАТА ---
+# Забиваме снимката най-отгоре в самата статия като Markdown
+dev_content = f"![{title}]({image_url})\n\n" + content
+
+# Добавяме SEO кредита
+dev_content += f"<br><hr><p><em>🚀 Originally published at <a href='{article_url}'>checkandcalc.com</a>. Read more exclusive insights on our main site.</em></p>"
 
 # API Payload
 headers = {
@@ -54,7 +72,7 @@ payload = {
         "title": title,
         "body_markdown": dev_content,
         "published": True,
-        "main_image": image_url,
+        "main_image": image_url, # Оставяме го и тук за всеки случай
         "canonical_url": article_url,
         "tags": ["ai", "tech", "seo", "automation"]
     }
