@@ -6,7 +6,7 @@ import re
 
 # 1. Вземаме тайните ключове
 PAGE_ID = os.environ.get("FB_PAGE_ID")
-TOKEN = os.environ.get("FB_PAGE_TOKEN") # Това е твоят System User Token
+TOKEN = os.environ.get("FB_PAGE_TOKEN") 
 BASE_URL = "https://checkandcalc.com/"
 HISTORY_FILE = "posted_articles.txt"
 
@@ -33,7 +33,7 @@ def extract_article_data(filepath):
                 
         return img_src, hook_text
     except Exception as e:
-        print(f"⚠️ Грешка при четене на {filepath}: {e}")
+        print(f"⚠️ Error reading {filepath}: {e}")
         return None, None
 
 def get_random_article():
@@ -54,7 +54,7 @@ def get_random_article():
             valid_articles.append((file, img, hook))
             
     if not valid_articles:
-        print("🔄 Всички статии със снимки са публикувани! Рестартираме конвейера...")
+        print("🔄 All articles with images have been posted! Restarting the pipeline...")
         open(HISTORY_FILE, 'w').close()
         for file in all_files:
             img, hook = extract_article_data(file)
@@ -62,7 +62,7 @@ def get_random_article():
                 valid_articles.append((file, img, hook))
 
     if not valid_articles:
-        print("❌ Фатална грешка: Няма нито една статия със снимка в хранилището!")
+        print("❌ Fatal Error: No articles with images found in the repository!")
         return None, None, None
 
     chosen_file, chosen_img, chosen_hook = random.choice(valid_articles)
@@ -77,21 +77,17 @@ def post_to_facebook():
         print("🏭 Factory Status: Missing Meta Token.")
         return
 
-    # --- СТЪПКА 1: Взимаме "Бадж за Страницата" (Page Access Token) ---
-    print("🔄 Стъпка 1: Обмяна на System User Token за Page Access Token...")
+    print("🔄 Step 1: Exchanging System User Token for Page Access Token...")
     token_url = f"https://graph.facebook.com/v19.0/{PAGE_ID}?fields=access_token&access_token={TOKEN}"
     try:
         token_response = requests.get(token_url)
         token_response.raise_for_status()
         page_access_token = token_response.json().get('access_token')
-        print("✅ Успешно генериран Page Access Token!")
+        print("✅ Page Access Token generated successfully!")
     except requests.exceptions.RequestException as e:
-        print(f"❌ ГРЕШКА при обмяна на токена: {e}")
-        if e.response is not None:
-            print(f"Детайли от Meta: {e.response.json()}")
+        print(f"❌ Token exchange failed: {e}")
         return
 
-    # --- СТЪПКА 2: Подготовка на съдържанието ---
     chosen_file, img_url, hook_text = get_random_article()
     if not chosen_file:
         return
@@ -107,47 +103,50 @@ def post_to_facebook():
     })
     
     article_link = f"{BASE_URL}{chosen_file}?{utm_tags}"
-    main_post_message = f"{hook_text}\n\n👇 Връзката към пълната статия е в първия коментар!"
-
-    print(f"🔄 Избрана статия: {chosen_file}")
-    print(f"📸 Открита снимка: {img_url}")
     
-    # --- СТЪПКА 3: Публикуваме СНИМКАТА ---
+    # ---------------------------------------------------------
+    # ПРОМЕНЕНО: Изцяло на английски с висококонвертиращ призив
+    # ---------------------------------------------------------
+    main_post_message = f"{hook_text}\n\n👇 The link to the full article is in the first comment!"
+
+    print(f"🔄 Selected article: {chosen_file}")
+    print(f"📸 Image found: {img_url}")
+    
     photo_url = f"https://graph.facebook.com/v19.0/{PAGE_ID}/photos"
     photo_payload = {
         'url': img_url,
         'message': main_post_message,
-        'access_token': page_access_token # Тук ВЕЧЕ използваме PAGE токена!
+        'access_token': page_access_token 
     }
 
     try:
-        print("🚀 Публикуване на главния пост...")
+        print("🚀 Publishing the main post...")
         photo_response = requests.post(photo_url, data=photo_payload)
         photo_response.raise_for_status()
         
         response_data = photo_response.json()
-        post_id = response_data.get('post_id') 
-        if not post_id:
-            post_id = response_data.get('id') 
+        post_id = response_data.get('post_id') or response_data.get('id')
             
-        print(f"✅ УСПЕХ на главния пост! Post ID: {post_id}")
+        print(f"✅ Main post SUCCESS! Post ID: {post_id}")
         
-        # --- СТЪПКА 4: Пускаме линка в първия коментар ---
-        print("💬 Добавяне на линка в първия коментар...")
+        # ---------------------------------------------------------
+        # ПРОМЕНЕНО: Коментарът е на перфектен английски
+        # ---------------------------------------------------------
+        print("💬 Adding the link in the first comment...")
         comment_url = f"https://graph.facebook.com/v19.0/{post_id}/comments"
         comment_payload = {
-            'message': f"🔗 Прочети цялата статия тук:\n{article_link}",
-            'access_token': page_access_token # Използваме PAGE токена и тук!
+            'message': f"🔗 Read the full guide here:\n{article_link}",
+            'access_token': page_access_token 
         }
         
         comment_response = requests.post(comment_url, data=comment_payload)
         comment_response.raise_for_status()
-        print("✅ УСПЕХ! Коментарът е добавен.")
+        print("✅ SUCCESS! Comment added.")
         
     except requests.exceptions.RequestException as e:
-        print(f"❌ ГРЕШКА при комуникация с Meta: {e}")
+        print(f"❌ Meta API Error: {e}")
         if e.response is not None:
-            print(f"Детайли от сървъра: {e.response.json()}")
+            print(f"Server details: {e.response.json()}")
 
 if __name__ == "__main__":
     post_to_facebook()
