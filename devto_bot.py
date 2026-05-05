@@ -8,60 +8,82 @@ DEV_TO_TOKEN = os.environ.get('DEV_TO_TOKEN')
 WEBSITE_URL = "https://checkandcalc.com"
 HISTORY_FILE = "devto_history.txt"
 
-print("🔍 Searching for the latest article...")
+print("🔍 Searching for the latest unpublished article WITH an image...")
 
-# Find the latest HTML file
+# Намираме всички HTML файлове
 html_files = glob.glob('*.html')
 if not html_files:
     print("❌ No HTML files found.")
     exit(0)
 
-latest_html = max(html_files, key=os.path.getmtime)
-file_slug = latest_html.replace('.html', '')
+# Подреждаме ги от най-новите към най-старите
+html_files.sort(key=os.path.getmtime, reverse=True)
 
-# ANTI-DUPLICATE SHIELD: Check if we already published this
+# Зареждаме списъка с вече публикувани статии
+published_slugs = []
 if os.path.exists(HISTORY_FILE):
     with open(HISTORY_FILE, 'r') as f:
         published_slugs = f.read().splitlines()
-    if file_slug in published_slugs:
-        print(f"⏩ Article '{file_slug}' has already been published to Dev.to. Skipping to protect the factory.")
-        exit(0)
 
-article_url = f"{WEBSITE_URL}/{latest_html}"
+target_html = None
+file_slug = None
+
+# ТЪРСАЧЪТ С КАЧЕСТВЕН КОНТРОЛ
+for html_file in html_files:
+    slug = html_file.replace('.html', '')
+    image_file = f"{slug}.png"
+    
+    # 1. Проверка дали вече е качена
+    if slug in published_slugs:
+        print(f"⏩ '{slug}' is already published. Checking next...")
+        continue
+        
+    # 2. ПРОВЕРКА ЗА СНИМКА (Новият качествен контрол)
+    if not os.path.exists(image_file):
+        print(f"⚠️ '{slug}' doesn't have an image ({image_file}). Skipping to maintain premium quality!")
+        continue
+        
+    # Ако мине и двете проверки, това е нашата статия!
+    target_html = html_file
+    file_slug = slug
+    break
+
+# Ако всички са публикувани или нямат снимки
+if not target_html:
+    print("✅ All eligible high-quality articles have been published. Waiting for new content.")
+    exit(0)
+
+article_url = f"{WEBSITE_URL}/{target_html}"
 image_url = f"{WEBSITE_URL}/{file_slug}.png"
 
-# Read the article content
-with open(latest_html, 'r', encoding='utf-8') as f:
+# Четем статията
+with open(target_html, 'r', encoding='utf-8') as f:
     content = f.read()
 
-# Extract title
+# Извличаме заглавието
 title = file_slug.replace('-', ' ').title()
 if '<title>' in content:
     title = content.split('<title>')[1].split('</title>')[0]
 
 print(f"📄 Preparing to publish: {title}")
 
-# --- ИНТЕЛИГЕНТНИЯТ ФИЛТЪР (Премахва шлюкавицата) ---
-# 1. Изрязваме системните хедъри
+# --- ИНТЕЛИГЕНТНИЯТ ФИЛТЪР (Премахва шлюкавицата на 100%) ---
 content = re.sub(r'<head.*?>.*?</head>', '', content, flags=re.DOTALL | re.IGNORECASE)
-# 2. Изрязваме CSS дизайна (това, което се виждаше като код)
 content = re.sub(r'<style.*?>.*?</style>', '', content, flags=re.DOTALL | re.IGNORECASE)
-# 3. Изрязваме скриптовете
 content = re.sub(r'<script.*?>.*?</script>', '', content, flags=re.DOTALL | re.IGNORECASE)
 
-# 4. Взимаме само съдържанието между <body> таговете (същината на статията)
 body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL | re.IGNORECASE)
 if body_match:
     content = body_match.group(1)
 
-# --- ГАРАНТИРАНЕ НА СНИМКАТА ---
-# Забиваме снимката най-отгоре в самата статия като Markdown
+# --- ФОРМАТИРАНЕ ЗА DEV.TO ---
+# Забиваме снимката най-отгоре, за да се вижда перфектно
 dev_content = f"![{title}]({image_url})\n\n" + content
 
-# Добавяме SEO кредита
+# SEO Кредит
 dev_content += f"<br><hr><p><em>🚀 Originally published at <a href='{article_url}'>checkandcalc.com</a>. Read more exclusive insights on our main site.</em></p>"
 
-# API Payload
+# API Данни
 headers = {
     "api-key": DEV_TO_TOKEN,
     "Content-Type": "application/json"
@@ -72,7 +94,7 @@ payload = {
         "title": title,
         "body_markdown": dev_content,
         "published": True,
-        "main_image": image_url, # Оставяме го и тук за всеки случай
+        "main_image": image_url,
         "canonical_url": article_url,
         "tags": ["ai", "tech", "seo", "automation"]
     }
@@ -85,7 +107,7 @@ if response.status_code == 201:
     post_url = response.json().get('url')
     print(f"✅ Successfully published on Dev.to! Link: {post_url}")
     
-    # Save to history so it never posts it again
+    # Записваме в дневника
     with open(HISTORY_FILE, 'a') as f:
         f.write(f"{file_slug}\n")
 else:
