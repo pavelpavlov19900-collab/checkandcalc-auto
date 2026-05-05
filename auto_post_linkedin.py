@@ -2,6 +2,7 @@ import requests
 import json
 import os
 import urllib.parse
+import time
 
 ACCESS_TOKEN = os.environ.get('LINKEDIN_ACCESS_TOKEN')
 ORG_URN = 'urn:li:organization:112854903'
@@ -137,6 +138,9 @@ def post_to_linkedin():
         # FIRST COMMENT STRATEGY EXECUTION
         # ---------------------------------------------------------
         if post_urn and asset:
+            print("⏳ Waiting 7 seconds for LinkedIn to process the post...")
+            time.sleep(7) # <--- ЕТО ТУК ЗАБАВЯМЕ БОТА
+            
             print("💬 Adding the link in the first comment...")
             comment_url = f"https://api.linkedin.com/v2/socialActions/{post_urn}/comments"
             comment_payload = {
