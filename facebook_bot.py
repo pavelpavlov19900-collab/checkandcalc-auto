@@ -1,6 +1,8 @@
 import os
 import requests
 import random
+import urllib.parse
+import re
 
 # 1. Вземаме тайните ключове
 PAGE_ID = os.environ.get("FB_PAGE_ID")
@@ -8,76 +10,145 @@ TOKEN = os.environ.get("FB_PAGE_TOKEN")
 BASE_URL = "https://checkandcalc.com/"
 HISTORY_FILE = "posted_articles.txt"
 
+def extract_article_data(filepath):
+    """Чете файла БЕЗ да го променя (Read-Only) и вади снимка и текст."""
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Търсим първата картинка в HTML-а
+        img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content, re.IGNORECASE)
+        if not img_match:
+            return None, None # Няма снимка, пропускаме статията
+            
+        img_src = img_match.group(1)
+        # Правим линка абсолютен, за да може Facebook да го изтегли
+        if not img_src.startswith('http'):
+            img_src = urllib.parse.urljoin(BASE_URL, img_src)
+            
+        # Търсим първия параграф за грабващ текст (Hook)
+        p_match = re.search(r'<p[^>]*>(.*?)</p>', content, re.IGNORECASE | re.DOTALL)
+        hook_text = ""
+        if p_match:
+            raw_text = p_match.group(1)
+            # Изчистваме HTML таговете, за да остане чист текст
+            hook_text = re.sub(r'<[^>]+>', '', raw_text).strip()
+            # Взимаме първите ~250 символа, за да заинтригуваме аудиторията
+            if len(hook_text) > 250:
+                hook_text = hook_text[:247] + "..."
+                
+        return img_src, hook_text
+        
+    except Exception as e:
+        print(f"⚠️ Грешка при четене на {filepath}: {e}")
+        return None, None
+
 def get_random_article():
-    # Сканираме директорията за .html файлове (без системните)
     all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', '404.html']]
     
-    # Четем историята на публикуваните
     if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, 'r') as f:
+        with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
             posted = f.read().splitlines()
     else:
         posted = []
 
-    # Филтрираме само тези, които още не са пускани
     available = [f for f in all_files if f not in posted]
     
-    if not available:
-        print("🔄 Всички статии са публикувани! Рестартираме списъка...")
-        available = all_files
-        posted = []
+    # Филтрираме - търсим само статии със снимки
+    valid_articles = []
+    for file in available:
+        img, hook = extract_article_data(file)
+        if img:
+            valid_articles.append((file, img, hook))
+            
+    if not valid_articles:
+        print("🔄 Всички статии със снимки са публикувани! Рестартираме конвейера...")
+        open(HISTORY_FILE, 'w').close() # Изчистваме историята
+        for file in all_files:
+            img, hook = extract_article_data(file)
+            if img:
+                valid_articles.append((file, img, hook))
 
-    chosen = random.choice(available)
+    if not valid_articles:
+        print("❌ Фатална грешка: Няма нито една статия със снимка в хранилището!")
+        return None, None, None
+
+    chosen_file, chosen_img, chosen_hook = random.choice(valid_articles)
     
-    # Записваме в историята
-    with open(HISTORY_FILE, 'a') as f:
-        f.write(chosen + '\n')
+    # Записваме в историята, че сме я публикували
+    with open(HISTORY_FILE, 'a', encoding='utf-8') as f:
+        f.write(chosen_file + '\n')
         
-    return chosen
+    return chosen_file, chosen_img, chosen_hook
 
 def post_to_facebook():
-    if TOKEN == "WAITING_FOR_META_APPROVAL" or not TOKEN:
-        print("🏭 Factory Status: Waiting for Meta Token.")
+    if not TOKEN or TOKEN == "WAITING_FOR_META_APPROVAL":
+        print("🏭 Factory Status: Missing Meta Token.")
         return
 
-    # --- ИЗБОР НА СТАТИЯ ---
-    chosen_file = get_random_article()
-    article_link = f"{BASE_URL}{chosen_file}"
-    # Превръщаме името на файла в заглавие за поста (махаме .html и тиретата)
+    chosen_file, img_url, hook_text = get_random_article()
+    
+    if not chosen_file:
+        return
+
     clean_title = chosen_file.replace('.html', '').replace('-', ' ').capitalize()
-    post_message = f"Check out our latest insights: {clean_title}! 🚀 Read more here 👇 #Finance #CheckAndCalc"
+    
+    # Ако статията няма параграф, слагаме резервен текст
+    if not hook_text:
+        hook_text = f"Ready to upgrade your financial knowledge? 🚀 Dive into our latest breakdown: {clean_title}."
+
+    utm_tags = urllib.parse.urlencode({
+        'utm_source': 'facebook',
+        'utm_medium': 'social_bot',
+        'utm_campaign': 'first_comment_strategy'
+    })
+    
+    article_link = f"{BASE_URL}{chosen_file}?{utm_tags}"
+    
+    # Форматираме текста за основния пост (Снимка + Текст)
+    main_post_message = f"{hook_text}\n\n👇 Връзката към пълната статия е в първия коментар!"
 
     print(f"🔄 Избрана статия: {chosen_file}")
+    print(f"📸 Открита снимка: {img_url}")
     
-    # --- ТВОЯТ ОРИГИНАЛЕН КОД ЗА ТОКЕНА ---
-    print("🔄 Стъпка 1: Обмяна на System User Token за Page Access Token...")
-    token_url = f"https://graph.facebook.com/v19.0/{PAGE_ID}?fields=access_token&access_token={TOKEN}"
-    try:
-        token_response = requests.get(token_url)
-        token_response.raise_for_status()
-        token_data = token_response.json()
-        page_access_token = token_data.get('access_token')
-        print("✅ Успешно генериран Page Access Token!")
-    except requests.exceptions.RequestException as e:
-        print(f"❌ ГРЕШКА при взимане на Page Token: {e}")
-        return
-
-    # API крайна точка
-    url = f"https://graph.facebook.com/v19.0/{PAGE_ID}/feed"
-    
-    payload = {
-        'message': post_message,
-        'link': article_link,
-        'access_token': page_access_token
+    # СТЪПКА 1: Публикуваме СНИМКАТА
+    photo_url = f"https://graph.facebook.com/v19.0/{PAGE_ID}/photos"
+    photo_payload = {
+        'url': img_url,
+        'message': main_post_message,
+        'access_token': TOKEN
     }
 
     try:
-        print(f"🚀 Публикуване на: {article_link}")
-        response = requests.post(url, data=payload)
-        response.raise_for_status()
-        print(f"✅ Success! Post ID: {response.json().get('id')}")
+        print("🚀 Публикуване на главния пост...")
+        photo_response = requests.post(photo_url, data=photo_payload)
+        photo_response.raise_for_status()
+        
+        # Meta API връща 'post_id' (ID на публикацията) и 'id' (ID на самата картинка)
+        response_data = photo_response.json()
+        post_id = response_data.get('post_id') 
+        
+        if not post_id:
+            post_id = response_data.get('id') 
+            
+        print(f"✅ УСПЕХ на главния пост! Post ID: {post_id}")
+        
+        # СТЪПКА 2: Пускаме линка в първия коментар
+        print("💬 Добавяне на линка в първия коментар...")
+        comment_url = f"https://graph.facebook.com/v19.0/{post_id}/comments"
+        comment_payload = {
+            'message': f"🔗 Прочети цялата статия тук:\n{article_link}",
+            'access_token': TOKEN
+        }
+        
+        comment_response = requests.post(comment_url, data=comment_payload)
+        comment_response.raise_for_status()
+        print("✅ УСПЕХ! Коментарът е добавен.")
+        
     except requests.exceptions.RequestException as e:
-        print(f"❌ Error: {e}")
+        print(f"❌ ГРЕШКА при комуникация с Meta: {e}")
+        if e.response is not None:
+            print(f"Детайли от сървъра: {e.response.json()}")
 
 if __name__ == "__main__":
     post_to_facebook()
