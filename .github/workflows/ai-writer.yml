@@ -3,6 +3,8 @@ on:
   schedule:
     - cron: '47 11 * * *' # 14:47 българско време - Оптимизирано за избягване на 503 грешки
   workflow_dispatch:
+  # 🚦 ТУК СЛАГАМЕ СВЕТОФАРА (ЕДНАКЪВ ЗА ВСИЧКИ 5 ФАЙЛА)
+concurrency: factory_queue
 jobs:
   build:
     runs-on: ubuntu-latest
