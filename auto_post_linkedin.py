@@ -1,22 +1,22 @@
-import requests, json, os
+import requests
+import json
+import os
+import urllib.parse
 
 ACCESS_TOKEN = os.environ.get('LINKEDIN_ACCESS_TOKEN')
 ORG_URN = 'urn:li:organization:112854903'
+DB_FILE = 'posts_database.json'
 
 def upload_image(image_path, token):
-    # --- ШПИОНИНЪТ ---
-    print(f"🕵️‍♂️ Търся файла '{image_path}'. Ето какво виждам в текущата папка:")
-    print(os.listdir('.')) 
-
-    # --- РАДАРЪТ ---
+    print(f"🕵️‍♂️ Scanning for image file: '{image_path}'...")
     absolute_path = os.path.abspath(image_path) if image_path else None
     
     if not absolute_path or not os.path.exists(absolute_path):
-        print(f"❌ ВНИМАНИЕ: Снимката не е намерена тук: {absolute_path}")
+        print(f"❌ WARNING: Image not found at path: {absolute_path}")
         return None
         
     try:
-        # --- НОВИЯТ ОФИЦИАЛЕН ПЛИК (ЗАДАДЕН ОТ LINKEDIN) ---
+        print("🔄 Step 1: Registering image upload with LinkedIn API...")
         headers = {
             'Authorization': f'Bearer {token}', 
             'Content-Type': 'application/json',
@@ -33,80 +33,132 @@ def upload_image(image_path, token):
                 ]
             }
         }
-        # ----------------------------------------------------
 
         r_response = requests.post(reg_url, headers=headers, json=reg_data)
+        r_response.raise_for_status()
         r = r_response.json()
         
-        if 'value' not in r:
-            print(f"❌ LinkedIn ОТХВЪРЛИ снимката! Техният отговор е: {r}")
-            return None
-            
         upload_url = r['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl']
         asset = r['value']['asset']
 
+        print("🚀 Step 2: Uploading image binary data...")
         with open(absolute_path, 'rb') as f:
-            requests.post(upload_url, data=f, headers={'Authorization': f'Bearer {token}'})
+            upload_req = requests.post(upload_url, data=f, headers={'Authorization': f'Bearer {token}'})
+            upload_req.raise_for_status()
+            
+        print("✅ Image uploaded successfully!")
         return asset
 
     except Exception as e: 
-        print(f"Грешка при качване на снимката в LinkedIn: {e}")
+        print(f"❌ Error during LinkedIn image upload: {e}")
         return None
 
 def post_to_linkedin():
-    with open('posts_database.json', 'r', encoding='utf-8') as f: posts = json.load(f)
+    if not ACCESS_TOKEN:
+        print("🏭 Factory Status: Missing LinkedIn Access Token.")
+        return
+
+    try:
+        with open(DB_FILE, 'r', encoding='utf-8') as f: 
+            posts = json.load(f)
+    except FileNotFoundError:
+        print(f"❌ Database file '{DB_FILE}' not found.")
+        return
+
     post = next((p for p in posts if not p.get('published')), None)
+    
     if not post: 
-        print("Няма нови статии за публикуване.")
+        print("🔄 All articles have been published. Waiting for new content.")
         return
 
     asset = upload_image(post.get('image_path'), ACCESS_TOKEN)
-    # 🔗 ПОПРАВКА ЗА ЛИНКА: Ако е пост със снимка, линкът трябва да е в текста
-    commentary = post['text']
-    link_with_utm = f"{post['link']}?utm_source=linkedin&utm_medium=social&utm_campaign=ai_bot"
     
-    if asset:
-        # Вмъкваме линка веднага след емоджито 👇 или го добавяме накрая
-        if "👇" in commentary:
-            commentary = commentary.replace("👇", f"👇\n{link_with_utm}")
-        else:
-            commentary += f"\n\n🔗 {link_with_utm}"
-    headers = {'Authorization': f'Bearer {ACCESS_TOKEN}', 'X-Restli-Protocol-Version': '2.0.0', 'Content-Type': 'application/json'}
+    utm_tags = urllib.parse.urlencode({
+        'utm_source': 'linkedin',
+        'utm_medium': 'social_bot',
+        'utm_campaign': 'first_comment_strategy'
+    })
+    link_with_utm = f"{post['link']}?{utm_tags}"
     
-    # 🚨 НОВАТА ЛОГИКА: Интелигентно превключване между Снимка и Линк
+    # ---------------------------------------------------------
+    # THE FIX: Pure value text in the main body.
+    # ---------------------------------------------------------
+    base_text = post.get('text', f"Explore our latest insights on {post['title']}")
+    # Clean up any leftover down-pointing emojis from old logic
+    base_text = base_text.replace("👇", "").strip() 
+    
+    commentary = f"{base_text}\n\n👇 The link to the full guide is in the first comment!"
+
+    headers = {
+        'Authorization': f'Bearer {ACCESS_TOKEN}', 
+        'X-Restli-Protocol-Version': '2.0.0', 
+        'Content-Type': 'application/json'
+    }
+    
     if asset:
         media_content = {
             "status": "READY",
-            "media": asset,  # За снимки LinkedIn иска това поле
+            "media": asset,  
             "title": {"text": post['title']}
         }
         share_category = "IMAGE"
     else:
+        # Fallback to article link if image upload fails
         media_content = {
             "status": "READY",
-            "originalUrl": f"{post['link']}?utm_source=linkedin&utm_medium=social&utm_campaign=ai_bot",
+            "originalUrl": link_with_utm,
             "title": {"text": post['title']}
         }
         share_category = "ARTICLE"
+        commentary = base_text # Revert text if we are forced to post the link directly
     
     payload = {
-        "author": ORG_URN, "lifecycleState": "PUBLISHED",
+        "author": ORG_URN, 
+        "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {"text": commentary}, # ТУК използваме новата променлива
+                "shareCommentary": {"text": commentary}, 
                 "shareMediaCategory": share_category,
-                "media": [media_content]
+                "media": [media_content] if asset or share_category == "ARTICLE" else []
             }
         },
         "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"}
     }
     
+    print(f"🚀 Publishing main post for: {post['title']}")
     res = requests.post('https://api.linkedin.com/v2/ugcPosts', headers=headers, json=payload)
+    
     if res.status_code == 201:
-        post['published'] = True
-        with open('posts_database.json', 'w', encoding='utf-8') as f: json.dump(posts, f, indent=2, ensure_ascii=False)
-        print("✅ Успех! Статията е публикувана в LinkedIn.")
-    else:
-        print(f"⚠️ Грешка при публикуване: {res.status_code} - {res.text}")
+        # LinkedIn returns the Post URN in the 'X-RestLi-Id' header
+        post_urn = res.headers.get('X-RestLi-Id')
+        print(f"✅ Main post SUCCESS! Post URN: {post_urn}")
+        
+        # ---------------------------------------------------------
+        # FIRST COMMENT STRATEGY EXECUTION
+        # ---------------------------------------------------------
+        if post_urn and asset:
+            print("💬 Adding the link in the first comment...")
+            comment_url = f"https://api.linkedin.com/v2/socialActions/{post_urn}/comments"
+            comment_payload = {
+                "actor": ORG_URN,
+                "message": {
+                    "text": f"🔗 Read the full guide here:\n{link_with_utm}"
+                }
+            }
+            comment_res = requests.post(comment_url, headers=headers, json=comment_payload)
+            if comment_res.status_code == 201:
+                print("✅ SUCCESS! Comment added.")
+            else:
+                print(f"⚠️ Warning: Failed to add comment. Code: {comment_res.status_code} - {comment_res.text}")
 
-if __name__ == "__main__": post_to_linkedin()
+        # Update database state
+        post['published'] = True
+        with open(DB_FILE, 'w', encoding='utf-8') as f: 
+            json.dump(posts, f, indent=2, ensure_ascii=False)
+            
+        print("🏭 Pipeline cycle completed successfully.")
+    else:
+        print(f"❌ Error during publishing: {res.status_code} - {res.text}")
+
+if __name__ == "__main__": 
+    post_to_linkedin()
