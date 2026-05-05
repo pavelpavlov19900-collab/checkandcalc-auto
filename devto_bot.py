@@ -38,7 +38,7 @@ for html_file in html_files:
         print(f"⏩ '{slug}' is already published. Checking next...")
         continue
         
-    # 2. ПРОВЕРКА ЗА СНИМКА (Новият качествен контрол)
+    # 2. ПРОВЕРКА ЗА СНИМКА (Строг качествен контрол)
     if not os.path.exists(image_file):
         print(f"⚠️ '{slug}' doesn't have an image ({image_file}). Skipping to maintain premium quality!")
         continue
@@ -68,20 +68,32 @@ if '<title>' in content:
 print(f"📄 Preparing to publish: {title}")
 
 # --- ИНТЕЛИГЕНТНИЯТ ФИЛТЪР (Премахва шлюкавицата на 100%) ---
+# 1. Махаме системните тагове
 content = re.sub(r'<head.*?>.*?</head>', '', content, flags=re.DOTALL | re.IGNORECASE)
 content = re.sub(r'<style.*?>.*?</style>', '', content, flags=re.DOTALL | re.IGNORECASE)
 content = re.sub(r'<script.*?>.*?</script>', '', content, flags=re.DOTALL | re.IGNORECASE)
 
+# 2. Взимаме само Body
 body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL | re.IGNORECASE)
 if body_match:
     content = body_match.group(1)
+
+# 3. АНТИ-КОД БЛОК СИСТЕМА (Премахва черните прозорци)
+# Премахваме всички отстъпи в началото на редовете, за да не се бърка Markdown парсъра
+content = "\n".join([line.strip() for line in content.splitlines()])
+
+# 4. ИЗЧИСТВАНЕ НА ЛОКАЛНО UI (Премахваме бутона "Back to Homepage", който чупи UX-а в Dev.to)
+content = re.sub(r'<div[^>]*>\s*<a href="index\.html"[^>]*>.*?</a>\s*</div>', '', content, flags=re.DOTALL | re.IGNORECASE)
+
+# 5. Опционално: Трансформираме Telegram кутията в изчистен текст (ако все пак е останала като HTML)
+# Тъй като вече няма отстъпи, Dev.to ще я рендира като нормален текст/линк, а не като черен прозорец.
 
 # --- ФОРМАТИРАНЕ ЗА DEV.TO ---
 # Забиваме снимката най-отгоре, за да се вижда перфектно
 dev_content = f"![{title}]({image_url})\n\n" + content
 
 # SEO Кредит
-dev_content += f"<br><hr><p><em>🚀 Originally published at <a href='{article_url}'>checkandcalc.com</a>. Read more exclusive insights on our main site.</em></p>"
+dev_content += f"<br><hr><p><em>🚀 Originally published at <a href='{article_url}'>checkandcalc.com</a>. Read more exclusive insights and use our advanced calculators on the main site.</em></p>"
 
 # API Данни
 headers = {
@@ -96,7 +108,7 @@ payload = {
         "published": True,
         "main_image": image_url,
         "canonical_url": article_url,
-        "tags": ["ai", "tech", "seo", "automation"]
+        "tags": ["programming", "tech", "seo", "automation"]
     }
 }
 
