@@ -49,20 +49,28 @@ def get_random_article():
     valid_articles = []
     
     for file in available:
-        img, hook = extract_article_data(file)
-        if img:
-            valid_articles.append((file, img, hook))
+        img_url, hook = extract_article_data(file)
+        
+        # ---------------------------------------------------------
+        # THE STRICT FILTER: Check for placeholders or broken links
+        # ---------------------------------------------------------
+        if img_url:
+            if 'placeholder' in img_url.lower():
+                print(f"⏭️ Skipping {file}: Found placeholder image tag.")
+                continue
+                
+            try:
+                img_ping = requests.head(img_url, allow_redirects=True, timeout=5)
+                if img_ping.status_code == 200:
+                    valid_articles.append((file, img_url, hook))
+                else:
+                    print(f"⏭️ Skipping {file}: Image link is broken (Code {img_ping.status_code}).")
+            except requests.exceptions.RequestException:
+                print(f"⏭️ Skipping {file}: Cannot reach image URL.")
             
     if not valid_articles:
-        print("🔄 All articles with images have been posted! Restarting the pipeline...")
+        print("🔄 All articles with VALID images have been posted! Restarting the pipeline...")
         open(HISTORY_FILE, 'w').close()
-        for file in all_files:
-            img, hook = extract_article_data(file)
-            if img:
-                valid_articles.append((file, img, hook))
-
-    if not valid_articles:
-        print("❌ Fatal Error: No articles with images found in the repository!")
         return None, None, None
 
     chosen_file, chosen_img, chosen_hook = random.choice(valid_articles)
