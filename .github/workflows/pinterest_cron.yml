@@ -6,7 +6,8 @@ on:
     - cron: '0 18 * * *'
   # Това ни позволява да пускаме бота ръчно с бутон, за да го тестваме
   workflow_dispatch: 
-
+# 🚦 ТУК СЛАГАМЕ СВЕТОФАРА (ЕДНАКЪВ ЗА ВСИЧКИ 5 ФАЙЛА)
+concurrency: factory_queue
 jobs:
   publish_to_pinterest:
     runs-on: ubuntu-latest
