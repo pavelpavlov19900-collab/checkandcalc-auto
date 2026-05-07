@@ -1,0 +1,32 @@
+name: Nightly SEO Sitemap Update
+
+on:
+  schedule:
+    # 00:00 UTC = 03:00 ч. българско време
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Бутон за ръчно пускане
+
+concurrency: factory_queue
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 📥 Изтегляне на репозиториума
+      uses: actions/checkout@v3
+
+    - name: ⚙️ Настройка на Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 🚀 Стартиране на Sitemap Генератора
+      run: python sitemap_builder.py
+
+    - name: 🧠 Записване на промените (Commit & Push)
+      run: |
+        git config --global user.name "SEO Factory Bot"
+        git config --global user.email "seo@checkandcalc.com"
+        git add sitemap.xml
+        git commit -m "🤖 [Nightly] Full sitemap reconstruction and SEO audit" || echo "No changes to commit"
+        git push
