@@ -1,11 +1,49 @@
 import re
-import os, datetime, random, json, requests # Добавка
+import os, datetime, random, json, requests, glob # Добавка
 from google import genai
 from google.genai import types  # НОВО: Нужно ни е за контрол на разходите!
 
 # ИНИЦИАЛИЗАЦИЯ
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 G_PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT") # Трябва да го добавиш в GitHub Secrets
+
+# --- ХИРУРГ ЗА ВЪТРЕШНИ ЛИНКОВЕ (SEO ПАЯЖИНА) ---
+def inject_surgical_links(html_content, current_filename):
+    print("🕸️ Изграждане на SEO паяжина (Internal Links)...")
+    
+    all_files = glob.glob('*.html')
+    valid_files = [f for f in all_files if f not in ['index.html', '404.html', current_filename]]
+
+    if len(valid_files) < 2:
+        return html_content 
+
+    chosen = random.sample(valid_files, 2)
+
+    def build_ui_block(filename):
+        title = filename.replace('.html', '').replace('-', ' ').title()
+        return f"""
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="{filename}" style="color: inherit; text-decoration: underline; font-weight: bold;">{title}</a>
+        </div>
+        """
+
+    link1 = build_ui_block(chosen[0])
+    link2 = build_ui_block(chosen[1])
+
+    p_tags = [m.start() for m in re.finditer(r'</p>', html_content, re.IGNORECASE)]
+
+    if len(p_tags) >= 6:
+        pos2 = p_tags[4] + 4
+        html_content = html_content[:pos2] + link2 + html_content[pos2:]
+        pos1 = p_tags[1] + 4
+        html_content = html_content[:pos1] + link1 + html_content[pos1:]
+    elif len(p_tags) >= 3:
+        pos1 = p_tags[1] + 4
+        html_content = html_content[:pos1] + link1 + html_content[pos1:]
+
+    return html_content
+
 
 # --- ОБНОВЕНА ФУНКЦИЯ ЗА LINKEDIN (С ПОДДРЪЖКА НА СНИМКА) ---
 def update_linkedin_database(article_title, article_url, article_summary, image_file=None):
@@ -249,7 +287,8 @@ try:
     else:
         # Резервен план: Ако AI-то някога пак се обърка, пазим текста и бутона в безопасност
         html_with_cta = cta_box + '<br><br>' + html_content
-
+ # --- ТУК СЛАГАШ ХИРУРГА (На ред 290) ---
+    html_with_cta = inject_surgical_links(html_with_cta, filename)
  # ВАКСИНА: Премахваме двойните кавички от заглавието, за да не чупят HTML-а
     safe_alt_title = topic_title.replace('"', "'")
     
