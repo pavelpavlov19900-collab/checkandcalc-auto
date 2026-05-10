@@ -198,9 +198,17 @@ try:
                 config=gen_config
             )
             
-            # Победа: Имаме текст!
+            # 🛑 QA ПАЗАЧ (CONTENT ENFORCER) 🛑
             if response and response.text:
-                print(f"✅ АБСОЛЮТЕН УСПЕХ при опит {attempt_num} с модел {model_name}!")
+                # 1. Броим думите в суровия отговор
+                word_count = len(response.text.split())
+                
+                # 2. Ако са под 1200, направо "чупим" опита и го караме да пише пак
+                if word_count < 1200:
+                    raise ValueError(f"AI-то мързелува! Написа само {word_count} думи. Изискват се минимум 1200. Изхвърляме и опитваме отново.")
+                
+                # 3. Ако мине теста, обявяваме победа
+                print(f"✅ АБСОЛЮТЕН УСПЕХ при опит {attempt_num} с модел {model_name}! (Обем: {word_count} думи 🏆)")
                 break
 
         except Exception as e:
