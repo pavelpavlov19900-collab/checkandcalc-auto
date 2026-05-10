@@ -501,22 +501,6 @@ try:
     
     print("🎯 Системата подреди всички статии по категории!")
 
-    # 4. ОБНОВЯВАНЕ НА SITEMAP.XML
-    sitemap_file = 'sitemap.xml'
-    today = datetime.date.today().isoformat()
-    new_url = f"""  <url>
-    <loc>https://checkandcalc.com/{filename}</loc>
-    <lastmod>{today}</lastmod>
-    <priority>0.80</priority>
-  </url>\n</urlset>"""
-
-    if os.path.exists(sitemap_file):
-        with open(sitemap_file, 'r', encoding='utf-8') as f:
-            s_content = f.read()
-        if filename not in s_content:
-            with open(sitemap_file, 'w', encoding='utf-8') as f:
-                f.write(s_content.replace("</urlset>", new_url))
-
                 # --- ТУК СЛАГАШ ТОВА ---
     update_linkedin_database(
         article_title=topic_title,
