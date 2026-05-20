@@ -50,8 +50,7 @@ def get_random_article():
     
     for file in available:
         img_url, hook = extract_article_data(file)
-        
-        # ---------------------------------------------------------
+       
         # THE STRICT FILTER: Check for placeholders or broken links
         # ---------------------------------------------------------
         if img_url:
@@ -59,7 +58,7 @@ def get_random_article():
                 print(f"⏭️ Skipping {file}: Found placeholder image tag.")
                 continue
             
-            # Извличаме името на файла от URL-а (напр. 'image.png')
+            # Извличаме името на файла от URL-а
             img_filename = os.path.basename(urllib.parse.urlparse(img_url).path)
             
             # Проверка дали файлът съществува в текущата папка
