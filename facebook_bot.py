@@ -58,15 +58,18 @@ def get_random_article():
             if 'placeholder' in img_url.lower():
                 print(f"⏭️ Skipping {file}: Found placeholder image tag.")
                 continue
-                
-            try:
-                img_ping = requests.head(img_url, allow_redirects=True, timeout=5)
-                if img_ping.status_code == 200:
-                    valid_articles.append((file, img_url, hook))
-                else:
-                    print(f"⏭️ Skipping {file}: Image link is broken (Code {img_ping.status_code}).")
-            except requests.exceptions.RequestException:
-                print(f"⏭️ Skipping {file}: Cannot reach image URL.")
+            
+            # Извличаме името на файла от URL-а (напр. 'image.png')
+            img_filename = os.path.basename(urllib.parse.urlparse(img_url).path)
+            
+            # Проверка дали файлът съществува в текущата папка
+            if os.path.exists(img_filename):
+                valid_articles.append((file, img_url, hook))
+            else:
+                # Ако няма файл, ползваме favicon.png като фалбек
+                fallback_img = "https://checkandcalc.com/favicon.png"
+                print(f"⚠️ Снимката {img_filename} не е намерена локално. Използвам фалбек за {file}.")
+                valid_articles.append((file, fallback_img, hook))
             
     if not valid_articles:
         print("🔄 All articles with VALID images have been posted! Restarting the pipeline...")
