@@ -119,19 +119,28 @@ def post_to_facebook():
     # ---------------------------------------------------------
     main_post_message = f"{hook_text}\n\n👇 The link to the full article is in the first comment!"
 
+    # ---------------------------------------------------------
+    # ЖЕЛЯЗНА ПОПРАВКА: Директен RAW линк от GitHub
+    # ---------------------------------------------------------
     print(f"🔄 Selected article: {chosen_file}")
-    print(f"📸 Image found: {img_url}")
+    
+    # Използваме директен RAW линк към GitHub, за да няма 404 грешки
+    img_filename = os.path.basename(urllib.parse.urlparse(img_url).path)
+    raw_img_url = f"https://raw.githubusercontent.com/pavelpavlov19900-collab/checkandcalc-auto/main/{img_filename}"
+    
+    print(f"📸 Image final link: {raw_img_url}")
     
     photo_url = f"https://graph.facebook.com/v19.0/{PAGE_ID}/photos"
     photo_payload = {
-        'url': img_url,
+        'url': raw_img_url,
         'message': main_post_message,
-        'access_token': page_access_token 
+        'access_token': page_access_token,
+        'published': 'true'
     }
 
     try:
         print("🚀 Publishing the main post...")
-        photo_response = requests.post(photo_url, data=photo_payload)
+        photo_response = requests.post(photo_url, params=photo_payload)
         photo_response.raise_for_status()
         
         response_data = photo_response.json()
