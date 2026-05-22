@@ -444,5 +444,13 @@
     "link": "https://checkandcalc.com/is-your-voice-being-stolen-how-to-protect-your-digital-identity-from-ai.html",
     "image_path": "is-your-voice-being-stolen-how-to-protect-your-digital-identity-from-ai.png",
     "published": false
+  },
+  {
+    "id": 57,
+    "title": "Two-Factor Authentication Flaws: Why SMS 2FA is No Longer Safe",
+    "text": "🚨 New security insights about Two-Factor Authentication Flaws: Why SMS 2FA is No Longer Safe are now live!\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
+    "link": "https://checkandcalc.com/two-factor-authentication-flaws-why-sms-2fa-is-no-longer-safe.html",
+    "image_path": "two-factor-authentication-flaws-why-sms-2fa-is-no-longer-safe.png",
+    "published": false
   }
 ]
