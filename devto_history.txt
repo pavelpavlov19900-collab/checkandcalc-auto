@@ -23,3 +23,4 @@ two-factor-authentication-flaws-why-sms-2fa-is-no-longer-safe
 top-free-tools-to-check-if-a-freelance-writer-is-using-chatgpt
 the-best-ai-video-generators-for-youtube-2026-sora-vs-kling-vs-veo
 the-2026-sim-swap-threat-how-to-protect-your-phone-number-today
+split-tunneling-explained-how-to-balance-security-and-speed-in-2026
