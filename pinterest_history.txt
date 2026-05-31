@@ -49,3 +49,4 @@ crypto-jacking-2026-why-your-phone-is-getting-hot-and-losing-battery_v1
 can-professors-tell-if-you-used-grammarly-or-an-ai-writing-assistant_v1
 the-auto-renew-trap-a-developers-guide-to-reclaiming-your-money_v1
 can-ai-detectors-identify-which-model-wrote-your-text-gpt-vs-claude-vs-llama_v1
+why-ai-is-making-your-passwords-obsolete-and-what-to-do_v1
