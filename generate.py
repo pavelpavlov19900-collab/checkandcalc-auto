@@ -515,31 +515,30 @@ try:
             categories["security"].append(link_html)
 
   # 3. Обновяване на INDEX.HTML (Само топ 15 най-нови)
-    latest_15 = all_files[:15]
-    latest_links_html = ""
-    for file in latest_15:
-        pretty_title = file.replace('.html', '').replace('-', ' ').title()
-        latest_links_html += f'<li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="{file}" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">{pretty_title}</a></li>\n'
-    
     try:
         with open("index.html", "r", encoding="utf-8") as f:
             index_content = f.read()
         
-        if "" in index_content and "" in index_content:
+        # 🛡️ БРОНИРАНА ПРОВЕРКА: Търсим специфичните маркери
+        start_marker = ""
+        end_marker = ""
+        
+        if start_marker in index_content and end_marker in index_content:
             import re
-            # Използваме Регулярен израз (Regex) - най-безопасният метод за замяна
-            new_index = re.sub(
-                r'.*?', 
-                f'\n{latest_links_html}', 
-                index_content, 
-                flags=re.DOTALL
-            )
+            # Използваме Регулярен израз, който търси САМО между двата маркера
+            pattern = re.escape(start_marker) + r'.*?' + re.escape(end_marker)
+            replacement = f'{start_marker}\n{latest_links_html}{end_marker}'
             
+            # Използваме flags=re.DOTALL, за да може точката да хване и нови редове
+            new_index = re.sub(pattern, replacement, index_content, flags=re.DOTALL)
+            
+            # ВИНАГИ 'w' (write mode) - презаписва файла на чисто!
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(new_index)
-            print("✅ Началната страница е обновена с топ 15 статии.")
+            print("✅ Началната страница е обновена безопасно.")
         else:
-            print("⚠️ Маркерите липсват в index.html!")
+            print("⚠️ Маркерите липсват в index.html! Скриптът не промени нищо.")
+            
     except Exception as e:
         print(f"⚠️ Грешка при обновяване на index.html: {e}")
             
