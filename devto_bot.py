@@ -14,7 +14,10 @@ SERIES_NAME = "Financial Independence & Security 101" # The Dev.to Series Hack
 print("🚀 Starting Premium Dev.to Publishing Pipeline...")
 
 # 1. SEARCH AND CATEGORIZATION
-html_files = glob.glob('*.html')
+# 🛡️ ЗАЩИТЕН ЩИТ: Изрично игнорираме системните файлове и SEO силозите
+system_files = ['index.html', '404.html', 'about.html', 'privacy.html', 'disclosure.html', 'scam-checker.html', 'google_verification.html']
+all_html = glob.glob('*.html')
+html_files = [f for f in all_html if f not in system_files and not f.startswith('category-')]
 html_files.sort(key=os.path.getmtime, reverse=True) 
 
 published_slugs = []
