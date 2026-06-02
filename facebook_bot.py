@@ -37,7 +37,9 @@ def extract_article_data(filepath):
         return None, None
 
 def get_random_article():
-    all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', '404.html']]
+    # 🛡️ ЗАЩИТА: Игнорираме системни файлове, архиви и стари страници
+    ignored = ['index.html', '404.html', 'about.html', 'privacy.html', 'disclosure.html', 'scam-checker.html', 'google_verification.html']
+    all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ignored and not f.startswith('category-')]
     
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
