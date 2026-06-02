@@ -63,7 +63,10 @@ def get_next_hydra_asset():
         with open(HISTORY_FILE, 'r') as f:
             published_records = f.read().splitlines()
 
-    html_files = glob.glob('*.html')
+   # 🛡️ ЗАЩИТА НА ХИДРАТА: Игнорираме системни файлове и архиви
+    system_files = ['index.html', '404.html', 'about.html', 'privacy.html', 'disclosure.html', 'scam-checker.html', 'google_verification.html']
+    all_html = glob.glob('*.html')
+    html_files = [f for f in all_html if f not in system_files and not f.startswith('category-')]
     html_files.sort(key=os.path.getmtime, reverse=True) # От най-новите към най-старите
 
     # HYDRA ЛОГИКА: Търсим липсваща версия последователно. 
