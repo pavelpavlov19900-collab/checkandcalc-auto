@@ -514,23 +514,13 @@ try:
         else:
             categories["security"].append(link_html)
 
- # 3. Обновяване на INDEX.HTML (С диагностика)
-    print("DEBUG: Започвам подготовка на списъка...")
-    
-    # 🛡️ ФИЛТЪР: Тук събираме файловете. Може би филтърът изключва всичко?
-    all_files = [f for f in glob.glob('*.html') if f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html', 'scam-checker.html', '404.html', 'google_verification.html'] and not f.startswith('category-')]
-    all_files.sort(key=os.path.getmtime, reverse=True)
-    
-    print(f"DEBUG: Намерих {len(all_files)} статии. Ето първите 5: {all_files[:5]}")
-    
+# 3. Обновяване на INDEX.HTML (С автоматична поправка на липсващи маркери)
     latest_15 = all_files[:15]
     latest_links_html = ""
     for file in latest_15:
         pretty_title = file.replace('.html', '').replace('-', ' ').title()
         latest_links_html += f'<li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="{file}" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">{pretty_title}</a></li>\n'
     
-    print(f"DEBUG: Генериран HTML за линковете: \n{latest_links_html}")
-
     try:
         with open("index.html", "r", encoding="utf-8") as f:
             index_content = f.read()
@@ -538,6 +528,16 @@ try:
         start_marker = "<!-- LATEST_START -->"
         end_marker = "<!-- LATEST_END -->"
         
+        # АВТОМАТИЧНА ПОПРАВКА: Ако маркерите ги няма, сложи ги в списъка
+        if start_marker not in index_content:
+            print("⚠️ Маркерите липсват! Инжектирам ги автоматично...")
+            # Търсим къде свършва списъка (</ul>) и ги слагаме там
+            if '</ul>' in index_content:
+                index_content = index_content.replace('</ul>', f'{start_marker}\n{end_marker}\n</ul>')
+            else:
+                print("❌ Критично: Не можах да намеря </ul> в index.html!")
+        
+        # Сега вече със сигурност ги имаме, продължаваме с обновяването
         if start_marker in index_content and end_marker in index_content:
             import re
             pattern = re.escape(start_marker) + r'.*?' + re.escape(end_marker)
@@ -549,7 +549,7 @@ try:
                 f.write(new_index)
             print("✅ Началната страница е обновена успешно.")
         else:
-            print(f"⚠️ ГРЕШКА: Маркерите НЕ са намерени в index.html!")
+            print("⚠️ ГРЕШКА: Все още не мога да намеря маркерите!")
             
     except Exception as e:
         print(f"⚠️ Грешка при обновяване на index.html: {e}")
