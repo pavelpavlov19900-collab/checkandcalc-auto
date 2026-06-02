@@ -176,16 +176,16 @@ try:
     # последвани от 45 и 50 минути с Pro. 
     # Времената са в секунди с добавен "Jitter" (асиметрия) за избягване на сървърни пикове.
     attempts_config = [
-        ('gemini-2.5-flash-8b', 0),       # Опит 1: Веднага
-        ('gemini-2.5-flash-8b', 63),      # Опит 2: ~1 мин 
-        ('gemini-2.5-flash-8b', 127),     # Опит 3: ~2 мин 
-        ('gemini-2.5-flash-8b', 184),     # Опит 4: ~3 мин 
-        ('gemini-2.5-flash-8b', 311),     # Опит 5: ~5 мин 
-        ('gemini-2.5-flash-8b', 913),     # Опит 6: ~15 мин 
-        ('gemini-2.5-flash-8b', 1517),    # Опит 7: ~25 мин 
-        ('gemini-2.5-flash-8b', 1823),    # Опит 8: ~30 мин 
-        ('gemini-2.5-pro', 2731),         # Опит 9 (Спасителен 1): ~45 мин
-        ('gemini-2.5-pro', 3041)          # Опит 10 (Спасителен 2): ~50 мин
+        ('gemini-2.5-flash', 0),       
+        ('gemini-2.5-flash', 63),      
+        ('gemini-2.5-flash', 127),     
+        ('gemini-2.5-flash', 184),     
+        ('gemini-2.5-flash', 311),     
+        ('gemini-2.5-flash', 913),     
+        ('gemini-2.5-flash', 1517),    
+        ('gemini-2.5-flash', 1823),    
+        ('gemini-2.5-pro', 2731),         
+        ('gemini-2.5-pro', 3041)          
     ]
 
     for i, (model_name, wait_time) in enumerate(attempts_config):
