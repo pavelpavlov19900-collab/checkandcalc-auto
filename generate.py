@@ -514,30 +514,42 @@ try:
         else:
             categories["security"].append(link_html)
 
-  # 3. Обновяване на INDEX.HTML (Само топ 15 най-нови)
+ # 3. Обновяване на INDEX.HTML (С диагностика)
+    print("DEBUG: Започвам подготовка на списъка...")
+    
+    # 🛡️ ФИЛТЪР: Тук събираме файловете. Може би филтърът изключва всичко?
+    all_files = [f for f in glob.glob('*.html') if f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html', 'scam-checker.html', '404.html', 'google_verification.html'] and not f.startswith('category-')]
+    all_files.sort(key=os.path.getmtime, reverse=True)
+    
+    print(f"DEBUG: Намерих {len(all_files)} статии. Ето първите 5: {all_files[:5]}")
+    
+    latest_15 = all_files[:15]
+    latest_links_html = ""
+    for file in latest_15:
+        pretty_title = file.replace('.html', '').replace('-', ' ').title()
+        latest_links_html += f'<li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="{file}" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">{pretty_title}</a></li>\n'
+    
+    print(f"DEBUG: Генериран HTML за линковете: \n{latest_links_html}")
+
     try:
         with open("index.html", "r", encoding="utf-8") as f:
             index_content = f.read()
         
-        # 🛡️ БРОНИРАНА ПРОВЕРКА: Търсим специфичните маркери
-        start_marker = ""
-        end_marker = ""
+        start_marker = "<!-- LATEST_START -->"
+        end_marker = "<!-- LATEST_END -->"
         
         if start_marker in index_content and end_marker in index_content:
             import re
-            # Използваме Регулярен израз, който търси САМО между двата маркера
             pattern = re.escape(start_marker) + r'.*?' + re.escape(end_marker)
             replacement = f'{start_marker}\n{latest_links_html}{end_marker}'
             
-            # Използваме flags=re.DOTALL, за да може точката да хване и нови редове
             new_index = re.sub(pattern, replacement, index_content, flags=re.DOTALL)
             
-            # ВИНАГИ 'w' (write mode) - презаписва файла на чисто!
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(new_index)
-            print("✅ Началната страница е обновена безопасно.")
+            print("✅ Началната страница е обновена успешно.")
         else:
-            print("⚠️ Маркерите липсват в index.html! Скриптът не промени нищо.")
+            print(f"⚠️ ГРЕШКА: Маркерите НЕ са намерени в index.html!")
             
     except Exception as e:
         print(f"⚠️ Грешка при обновяване на index.html: {e}")
