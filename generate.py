@@ -487,11 +487,22 @@ try:
     for file in all_files:
         pretty_title = file.replace('.html', '').replace('-', ' ').title()
         
-        # Защита за датата при генериране в GitHub Actions
+        # --- ИСТИНСКА ДАТА (Четене от Git историята) ---
+        import subprocess
         try:
-            date_str = datetime.date.fromtimestamp(os.path.getmtime(file)).strftime("%b %d, %Y")
-        except:
+            # Търсим кога файлът е добавен за първи път (Added) в Git
+            git_date = subprocess.check_output(['git', 'log', '--diff-filter=A', '--format=%cs', '-1', '--', file]).decode('utf-8').strip()
+            if git_date:
+                import datetime
+                # Преобразуваме формата (от 2026-06-02 към Jun 02, 2026)
+                date_str = datetime.datetime.strptime(git_date, '%Y-%m-%d').strftime("%b %d, %Y")
+            else:
+                # Ако файлът е съвсем нов и още не е в Git, слагаме днешна дата
+                date_str = datetime.date.today().strftime("%b %d, %Y")
+        except Exception as e:
+            # Спасителен вариант
             date_str = datetime.date.today().strftime("%b %d, %Y")
+        # -----------------------------------------------
             
         link_html = f'<li style="margin-bottom: 15px;"><span style="color:#64748b; font-size:0.85em; margin-right: 15px;">{date_str}</span><a href="{file}" style="color:#60a5fa; font-weight:bold; text-decoration:none;">{pretty_title}</a></li>\n'
         
