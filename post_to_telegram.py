@@ -10,8 +10,15 @@ GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 
 def get_latest_article():
     search_path = "posts" if os.path.exists("posts") else "."
-    ignored_files = ["index.html", "404.html", "google_verification.html"]
-    posts = [f for f in os.listdir(search_path) if f.endswith(".html") and f not in ignored_files]
+    
+    # 🛡️ ЗАЩИТА: Игнорираме всички системни файлове
+    ignored_files = ["index.html", "404.html", "about.html", "privacy.html", "disclosure.html", "scam-checker.html", "google_verification.html"]
+    
+    # 🕵️‍♂️ УМЕН ФИЛТЪР: Вземаме само файлове, които завършват на .html, не са в игнорираните и НЕ започват с "category-"
+    posts = [f for f in os.listdir(search_path) 
+             if f.endswith(".html") 
+             and f not in ignored_files 
+             and not f.startswith("category-")]
     
     if not posts:
         return None, None
