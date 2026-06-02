@@ -14,17 +14,25 @@ def build_sitemap():
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     
-    # 1. СТАТИЧНИ АКТИВИ (Основни инструменти)
+    # 1. СТАТИЧНИ АКТИВИ И SEO СИЛОЗИ (VIP Страници)
     main_pages = [
         {"path": "/", "freq": "daily", "prio": "1.0"},
-        {"path": "/scam-checker", "freq": "weekly", "prio": "0.9"},
-        {"path": "/ai-detector", "freq": "weekly", "prio": "0.9"},
-        {"path": "/youtube-money-calculator", "freq": "weekly", "prio": "0.9"}
+        # Инструменти
+        {"path": "/scam-checker.html", "freq": "weekly", "prio": "0.9"},
+        {"path": "/ai-detector.html", "freq": "weekly", "prio": "0.9"},
+        {"path": "/youtube-money-calculator.html", "freq": "weekly", "prio": "0.9"},
+        # Новите SEO Hub архиви (Те се обновяват при всяка нова статия)
+        {"path": "/category-ai.html", "freq": "daily", "prio": "0.9"},
+        {"path": "/category-youtube.html", "freq": "daily", "prio": "0.9"},
+        {"path": "/category-security.html", "freq": "daily", "prio": "0.9"}
     ]
     
     for page in main_pages:
+        # Добавяме днешна дата за VIP страниците, защото се променят постоянно
+        today_str = datetime.today().strftime('%Y-%m-%d')
         xml += f'  <url>\n'
         xml += f'    <loc>{WEBSITE_URL}{page["path"]}</loc>\n'
+        xml += f'    <lastmod>{today_str}</lastmod>\n'
         xml += f'    <changefreq>{page["freq"]}</changefreq>\n'
         xml += f'    <priority>{page["prio"]}</priority>\n'
         xml += f'  </url>\n'
@@ -33,9 +41,15 @@ def build_sitemap():
     html_files = glob.glob('*.html')
     file_data = []
 
+    # 🛡️ ЗАЩИТЕН ЩИТ: Игнорираме всичко, което вече сложихме горе или не е за индексиране
+    ignored_files = [
+        'index.html', '404.html', 'google-verification.html', 'about.html', 
+        'disclosure.html', 'privacy.html', 'scam-checker.html', 
+        'ai-detector.html', 'youtube-money-calculator.html'
+    ]
+
     for file in html_files:
-        # Пропускаме системни файлове
-        if file in ['index.html', '404.html', 'google-verification.html', 'about.html', 'disclosure.html', 'privacy.html']:
+        if file in ignored_files or file.startswith('category-'):
             continue
             
         # ИСТИНСКАТА МАГИЯ: Четем датата директно от сърцевината на статията
@@ -75,7 +89,7 @@ def build_sitemap():
     with open(SITEMAP_FILE, 'w', encoding='utf-8') as f:
         f.write(xml)
     
-    print(f"✅ Готово! Sitemap е обновен с ИСТИНСКИТЕ исторически дати. Общо {count + len(main_pages)} адреса.")
+    print(f"✅ Готово! Sitemap е обновен перфектно. Общо {count + len(main_pages)} адреса.")
 
 if __name__ == "__main__":
     build_sitemap()
