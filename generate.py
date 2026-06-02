@@ -109,13 +109,23 @@ def generate_ai_image(client, prompt, project_id, filename):
             image_obj = response
             
 
-        # --- CEO ПРЕСА ЗА СНИМКИ (Сваля размера с 90%) ---
-        # 1. Преоразмеряваме до стандартен HD формат (16:9), перфектен за Facebook/LinkedIn
-        image_obj = image_obj.resize((1200, 675), Image.Resampling.LANCZOS)
+       # --- CEO ПРЕСА ЗА СНИМКИ (100% Съвместимост) ---
+        # 1. Първо запазваме суровия файл с вградения метод на SDK-то
+        image_obj.save(image_name)
         
-        # 2. Запазваме като PNG, но включваме максимална вградена компресия (optimize)
-        image_obj.save(image_name, format="PNG", optimize=True)
+        # 2. Отваряме го с PIL, мачкаме го и го презаписваме (Напълно безопасно)
+        from PIL import Image
+        with Image.open(image_name) as img:
+            img = img.resize((1200, 675), Image.Resampling.LANCZOS)
+            img.save(image_name, format="PNG", optimize=True)
         # ------------------------------------------------
+        
+        print(f"✅ Снимката е готова и компресирана: {image_name}")
+        return image_name
+
+    except Exception as e:
+        print(f"⚠️ Снимката не успя: {e}")
+        return None
         
         print(f"✅ Снимката е готова: {image_name}")
         return image_name
@@ -486,7 +496,7 @@ try:
         else:
             categories["security"].append(link_html)
 
-    # 3. Обновяване на INDEX.HTML (Само топ 15 най-нови)
+  # 3. Обновяване на INDEX.HTML (Само топ 15 най-нови)
     latest_15 = all_files[:15]
     latest_links_html = ""
     for file in latest_15:
@@ -498,9 +508,14 @@ try:
             index_content = f.read()
         
         if "" in index_content and "" in index_content:
-            parts = index_content.split("")
-            rest = parts[1].split("")
-            new_index = parts[0] + "\n" + latest_links_html + "" + rest[1]
+            import re
+            # Използваме Регулярен израз (Regex) - най-безопасният метод за замяна
+            new_index = re.sub(
+                r'.*?', 
+                f'\n{latest_links_html}', 
+                index_content, 
+                flags=re.DOTALL
+            )
             
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(new_index)
