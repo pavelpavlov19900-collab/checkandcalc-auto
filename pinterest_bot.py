@@ -9,17 +9,12 @@ from PIL import Image, ImageDraw, ImageFont
 # ==========================================
 # ⚙️ 1. КОНФИГУРАЦИЯ НА ФАБРИКАТА
 # ==========================================
-ACCESS_TOKEN = os.environ.get("PINTEREST_TOKEN") 
+# Токенът вече се генерира динамично чрез Refresh Token
 BOARD_ID = "1101904302519172134" 
 
 IMAGES_FOLDER = "./" 
 WEBSITE_BASE_URL = "https://checkandcalc.com/"
 HISTORY_FILE = "pinterest_history.txt"
-
-headers = {
-    "Authorization": f"Bearer {ACCESS_TOKEN}",
-    "Content-Type": "application/json"
-}
 
 # ==========================================
 # 🧠 2. ИНТЕЛИГЕНТНИ АСИСТЕНТИ
@@ -63,7 +58,7 @@ def get_next_hydra_asset():
         with open(HISTORY_FILE, 'r') as f:
             published_records = f.read().splitlines()
 
-   # 🛡️ ЗАЩИТА НА ХИДРАТА: Игнорираме системни файлове и архиви
+    # 🛡️ ЗАЩИТА НА ХИДРАТА: Игнорираме системни файлове и архиви
     system_files = ['index.html', '404.html', 'about.html', 'privacy.html', 'disclosure.html', 'scam-checker.html', 'google_verification.html']
     all_html = glob.glob('*.html')
     html_files = [f for f in all_html if f not in system_files and not f.startswith('category-')]
@@ -147,15 +142,64 @@ def create_scroll_stopper_image(img_path, title, version):
     return output_path
 
 # ==========================================
+# 🔄 3.5. АВТОМАТИЧНО ОБНОВЯВАНЕ НА ТОКЕНА
+# ==========================================
+def get_fresh_pinterest_token():
+    """Автоматично генерира нов Access Token при всяко стартиране."""
+    print("🔄 Опит за генериране на свеж Pinterest токен...")
+    
+    app_id = os.getenv("PINTEREST_APP_ID")
+    app_secret = os.getenv("PINTEREST_APP_SECRET")
+    refresh_token = os.getenv("PINTEREST_REFRESH_TOKEN")
+
+    if not all([app_id, app_secret, refresh_token]):
+        raise ValueError("❌ Липсват системни променливи (App ID, Secret, Refresh Token) за Pinterest API!")
+
+    # Подготовка на криптирания ключ
+    auth_string = f"{app_id}:{app_secret}"
+    encoded_auth = base64.b64encode(auth_string.encode()).decode()
+
+    url = "https://api.pinterest.com/v5/oauth/token"
+    auth_headers = {
+        "Authorization": f"Basic {encoded_auth}",
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    payload = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token
+    }
+
+    response = requests.post(url, headers=auth_headers, data=payload)
+    
+    if response.status_code == 200:
+        print("✅ Успешно генериран нов Access Token!")
+        return response.json().get("access_token")
+    else:
+        raise Exception(f"❌ Критична грешка при обновяване на токена: {response.text}")
+
+# ==========================================
 # 🚀 4. ИЗПРАЩАНЕ КЪМ PINTEREST
 # ==========================================
 def upload_to_pinterest(img_path, title, link, seo_desc, history_key):
     """Качва готовия Пин."""
     print("🚀 Изпращане към Pinterest API...")
     
+    # 1. Изтегляме пресен токен и създаваме хедърите
+    try:
+        fresh_access_token = get_fresh_pinterest_token()
+        headers = {
+            "Authorization": f"Bearer {fresh_access_token}",
+            "Content-Type": "application/json"
+        }
+    except Exception as e:
+        print(f"🛑 Грешка при оторизация: {e}")
+        return
+
+    # 2. Подготвяме снимката
     with open(img_path, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
     
+    # 3. Подготвяме данните (payload)
     payload = {
         "board_id": BOARD_ID,
         "title": f"{title[:90]} | Tools", # Pinterest title limit is 100
@@ -168,6 +212,7 @@ def upload_to_pinterest(img_path, title, link, seo_desc, history_key):
         }
     }
     
+    # 4. Изпращаме заявката
     response = requests.post("https://api.pinterest.com/v5/pins", headers=headers, json=payload)
     if response.status_code == 201:
         print(f"✅ УСПЕХ! Пинът е жив: {link}")
