@@ -12,12 +12,20 @@ G_PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT") # Трябва да го до
 def inject_surgical_links(html_content, current_filename):
     print("🕸️ Изграждане на SEO паяжина (Internal Links)...")
     
+    # 🛡️ ЗАЩИТЕН ЩИТ: Никога не пипай системните файлове и архивите!
+    system_files = ['index.html', 'about.html', 'privacy.html', 'disclosure.html', 'scam-checker.html', '404.html']
+    if current_filename in system_files or current_filename.startswith('category-'):
+        return html_content
+    
     all_files = glob.glob('*.html')
-    valid_files = [f for f in all_files if f not in ['index.html', '404.html', current_filename]]
+    # Избираме линкове само от истинските статии
+    valid_files = [f for f in all_files if f not in system_files and not f.startswith('category-') and f != current_filename]
 
     if len(valid_files) < 2:
         return html_content 
 
+    import random
+    import re
     chosen = random.sample(valid_files, 2)
 
     def build_ui_block(filename):
@@ -44,7 +52,6 @@ def inject_surgical_links(html_content, current_filename):
         html_content = html_content[:pos1] + link1 + html_content[pos1:]
 
     return html_content
-
 
 # --- ОБНОВЕНА ФУНКЦИЯ ЗА LINKEDIN (С ПОДДРЪЖКА НА СНИМКА) ---
 def update_linkedin_database(article_title, article_url, article_summary, image_file=None):
