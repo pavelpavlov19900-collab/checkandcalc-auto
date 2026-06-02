@@ -1,5 +1,6 @@
 import re
 import os, datetime, random, json, requests, glob # Добавка
+from PIL import Image # <--- ЕТО Я НОВАТА ДОБАВКА ТУК (Пресата за снимки)
 from google import genai
 from google.genai import types  # НОВО: Нужно ни е за контрол на разходите!
 
@@ -107,7 +108,15 @@ def generate_ai_image(client, prompt, project_id, filename):
         else:
             image_obj = response
             
-        image_obj.save(image_name)
+
+        # --- CEO ПРЕСА ЗА СНИМКИ (Сваля размера с 90%) ---
+        # 1. Преоразмеряваме до стандартен HD формат (16:9), перфектен за Facebook/LinkedIn
+        image_obj = image_obj.resize((1200, 675), Image.Resampling.LANCZOS)
+        
+        # 2. Запазваме като PNG, но включваме максимална вградена компресия (optimize)
+        image_obj.save(image_name, format="PNG", optimize=True)
+        # ------------------------------------------------
+        
         print(f"✅ Снимката е готова: {image_name}")
         return image_name
 
