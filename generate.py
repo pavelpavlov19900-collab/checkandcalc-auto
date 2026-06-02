@@ -451,65 +451,102 @@ try:
     with open(filename, "w", encoding="utf-8") as f:
         f.write(html_template)
 
-   # --- СТЪПКА 3: ИНТЕЛЕКТУАЛНО СОРТИРАНЕ ПО КАТЕГОРИИ ---
-    target_file = "index.html"
+   # --- СТЪПКА 3: "УМНИЯТ" АРХИВАТОР (HUB & SPOKE SEO) ---
+    print("🏗️ Изграждане на SEO Hub & Spoke архитектура...")
     
-    # Използваме този формат, за да виждаш буквите в чата:
-    s_start = "<" + "!-- SCAM_LIST_START --" + ">"
-    s_end   = "<" + "!-- SCAM_LIST_END --" + ">"
-    
-    a_start = "<" + "!-- AI_LIST_START --" + ">"
-    a_end   = "<" + "!-- AI_LIST_END --" + ">"
-    
-    y_start = "<" + "!-- YT_LIST_START --" + ">"
-    y_end   = "<" + "!-- YT_LIST_END --" + ">"
-    
-    # 1. Сканираме всички генерирани статии
-    all_files = [f for f in os.listdir('.') if f.endswith('.html') and f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html']]
+    # 1. Вземаме всички статии и ги сортираме от най-новата към най-старата
+    # (Игнорираме системните файлове и архивите)
+    all_files = [f for f in glob.glob('*.html') if f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html', 'scam-checker.html', '404.html'] and not f.startswith('category-')]
     all_files.sort(key=os.path.getmtime, reverse=True)
-
-    # Кошове за линковете
-    scam_links, ai_links, yt_links = "", "", ""
     
-   # Ключови думи за разпознаване
-    ai_keywords = ['ai', 'detector', 'chatgpt', 'writing', 'human', 'deepfake', 'quillbot', 'claude', 'turnitin', 'gptzero']
-    yt_keywords = ['youtube', 'earnings', 'money', 'views', 'rpm', 'adsense', 'cpm', 'tube', 'shorts', 'monetize']
-
+    # 2. Ключови думи за разпределяне по категории
+    ai_keywords = ['ai', 'detector', 'chatgpt', 'writing', 'human', 'deepfake', 'quillbot', 'claude', 'turnitin', 'gptzero', 'prompt']
+    yt_keywords = ['youtube', 'earnings', 'money', 'views', 'rpm', 'adsense', 'cpm', 'tube', 'shorts', 'monetize', 'vlog', 'faceless']
+    
+    categories = {"ai": [], "youtube": [], "security": []}
+    
     for file in all_files:
         pretty_title = file.replace('.html', '').replace('-', ' ').title()
-        link_tag = f'          <li>🚀 <a href="{file}" style="color:#93c5fd;text-decoration:none;">{pretty_title}</a></li>\n'
+        
+        # Защита за датата при генериране в GitHub Actions
+        try:
+            date_str = datetime.date.fromtimestamp(os.path.getmtime(file)).strftime("%b %d, %Y")
+        except:
+            date_str = datetime.date.today().strftime("%b %d, %Y")
+            
+        link_html = f'<li style="margin-bottom: 15px;"><span style="color:#64748b; font-size:0.85em; margin-right: 15px;">{date_str}</span><a href="{file}" style="color:#60a5fa; font-weight:bold; text-decoration:none;">{pretty_title}</a></li>\n'
         
         file_lower = file.lower()
-        if any(k in file_lower for k in yt_keywords):
-            yt_links += link_tag
-        elif any(k in file_lower for k in ai_keywords):
-            ai_links += link_tag
+        if any(k in file_lower for k in ai_keywords):
+            categories["ai"].append(link_html)
+        elif any(k in file_lower for k in yt_keywords):
+            categories["youtube"].append(link_html)
         else:
-            scam_links += link_tag
+            categories["security"].append(link_html)
 
-    # 2. Четем index.html
-    with open(target_file, "r", encoding="utf-8") as f:
-        html_content = f.read()
-
-    # 3. Функция за замяна
-    def update_block(content, start, end, links):
-        if start in content and end in content:
-            parts = content.split(start)
-            rest = parts[1].split(end)
-            return parts[0] + start + "\n" + links + "          " + end + rest[1]
-        return content
-
-    # Обновяваме трите секции
-    html_content = update_block(html_content, s_start, s_end, scam_links)
-    html_content = update_block(html_content, a_start, a_end, ai_links)
-    html_content = update_block(html_content, y_start, y_end, yt_links)
-
-    # 4. Запазваме финалния резултат
-    with open(target_file, "w", encoding="utf-8") as f:
-        f.write(html_content)
+    # 3. Обновяване на INDEX.HTML (Само топ 15 най-нови)
+    latest_15 = all_files[:15]
+    latest_links_html = ""
+    for file in latest_15:
+        pretty_title = file.replace('.html', '').replace('-', ' ').title()
+        latest_links_html += f'<li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="{file}" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">{pretty_title}</a></li>\n'
     
-    print("🎯 Системата подреди всички статии по категории!")
-
+    try:
+        with open("index.html", "r", encoding="utf-8") as f:
+            index_content = f.read()
+        
+        if "" in index_content and "" in index_content:
+            parts = index_content.split("")
+            rest = parts[1].split("")
+            new_index = parts[0] + "\n" + latest_links_html + "" + rest[1]
+            
+            with open("index.html", "w", encoding="utf-8") as f:
+                f.write(new_index)
+            print("✅ Началната страница е обновена с топ 15 статии.")
+        else:
+            print("⚠️ Маркерите липсват в index.html!")
+    except Exception as e:
+        print(f"⚠️ Грешка при обновяване на index.html: {e}")
+            
+    # 4. Автоматично генериране на СИЛОЗИ (Категорийни страници)
+    for cat_name, cat_links in categories.items():
+        cat_filename = f"category-{cat_name}.html"
+        cat_title = cat_name.upper() + " ARCHIVE"
+        
+        archive_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{cat_title} - Check & Calc</title>
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
+    <style>
+        body {{ font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }}
+        .archive-container {{ max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }}
+        a {{ color: #60a5fa; text-decoration: none; transition: color 0.2s; }}
+        a:hover {{ color: #93c5fd; }}
+        ul {{ list-style-type: none; padding: 0; margin-top: 30px; }}
+        li {{ border-bottom: 1px dashed #1e293b; padding-bottom: 10px; }}
+        h1 {{ color: #93c5fd; border-bottom: 1px solid #1f2937; padding-bottom: 15px; margin-top: 20px; }}
+        .back-btn {{ display: inline-block; padding: 10px 20px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }}
+        .back-btn:hover {{ background-color: #334155; color: #ffffff; cursor: pointer; }}
+    </style>
+</head>
+<body>
+    <div class="archive-container">
+        <a href="index.html" class="back-btn">← Back to Homepage</a>
+        <h1>📂 {cat_title} ({len(cat_links)} Articles)</h1>
+        <ul>
+            {"".join(cat_links)}
+        </ul>
+    </div>
+</body>
+</html>"""
+        with open(cat_filename, "w", encoding="utf-8") as f:
+            f.write(archive_html)
+            
+    print("🎯 Системата изгради интелигентните SEO архиви!")
+    
                 # --- ТУК СЛАГАШ ТОВА ---
     update_linkedin_database(
         article_title=topic_title,
