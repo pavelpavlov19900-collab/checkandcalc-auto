@@ -325,11 +325,11 @@ try:
         html_with_cta = cta_box + '<br><br>' + html_content
  # --- ТУК СЛАГАШ ХИРУРГА (На ред 290) ---
     html_with_cta = inject_surgical_links(html_with_cta, filename)
- # ВАКСИНА: Премахваме двойните кавички от заглавието, за да не чупят HTML-а
-    safe_alt_title = topic_title.replace('"', "'")
+# ВАКСИНА: Премахваме двойните кавички, за да не чупят HTML-а и JSON-LD
+    safe_topic_title = topic_title.replace('"', "'")
     
     # Ако имаме снимка, създаваме HTML таг с БЕЗОПАСНОТО заглавие, ако не - празен текст
-    img_tag = f'<img src="{image_name}" class="article-banner" alt="{safe_alt_title}">' if image_name else ""
+    img_tag = f'<img src="{image_name}" class="article-banner" alt="{safe_topic_title}">' if image_name else ""
 
     # 👇 НОВО: Определяме коя снимка да се показва в LinkedIn/Facebook/Telegram
     og_image_url = f"https://checkandcalc.com/{image_name}" if image_name else "https://checkandcalc.com/favicon.png"
@@ -340,8 +340,8 @@ try:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{topic_title}</title>
-    <meta property="og:title" content="{safe_alt_title}" />
+    <title>{safe_topic_title}</title>
+    <meta property="og:title" content="{safe_topic_title}" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="{og_image_url}" />
     <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
@@ -354,7 +354,7 @@ try:
         "@type": "WebPage",
         "@id": "https://checkandcalc.com/{filename}"
       }},
-      "headline": "{topic_title}",
+      "headline": "{safe_topic_title}",
       "datePublished": "{today_iso}",
       "dateModified": "{today_iso}",
       "author": {{
