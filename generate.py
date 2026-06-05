@@ -74,23 +74,28 @@ def update_linkedin_database(article_title, article_url, article_summary, image_
         json.dump(posts, f, indent=2, ensure_ascii=False)
     print(f"✅ Добавено към LinkedIn опашката!")
 
-# --- НОВА ФУНКЦИЯ ЗА ГЕНЕРИРАНЕ НА СНИМКА (С ГРЕШКОУСТОЙЧИВОСТ И 4 ОПИТА) ---
+# --- НОВА ФУНКЦИЯ ЗА СНИМКИ (С PLAN B - РЕЗЕРВЕН АВТОНОМЕН ДВИГАТЕЛ) ---
 def generate_ai_image(client, prompt, project_id, filename):
     print(f"🎨 Опит за генериране на визия...")
     image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
+    image_name = filename.replace('.html', '.png')
     
     import time
-    # Времена за изчакване между опитите в секунди: Веднага, след 45 сек, след 125 сек, след 315 сек.
-    image_attempts = [0, 45, 125, 315] 
+    import urllib.request
+    import urllib.parse
+    from PIL import Image
+
+    # Опитваме с Google (само 2 бързи опита, за да не губим време)
+    image_attempts = [0, 10] 
+    google_success = False
     
     for i, wait_time in enumerate(image_attempts):
         attempt_num = i + 1
         try:
             if wait_time > 0:
-                print(f"⏳ Сървърът за снимки е претоварен. Изчакване {wait_time} сек (Опит {attempt_num}/{len(image_attempts)})...")
+                print(f"⏳ Изчакване на Google {wait_time} сек (Опит {attempt_num}/2)...")
                 time.sleep(wait_time)
 
-            # АВТОМАТИЧНО РАЗУЗНАВАНЕ:
             method_name = None
             for name in ['generate_images', 'generate_image']:
                 if hasattr(client.models, name):
@@ -98,24 +103,18 @@ def generate_ai_image(client, prompt, project_id, filename):
                     break
             
             if not method_name:
-                print("⚠️ SDK грешка: Не намерих метод за снимки.")
-                return None
+                raise Exception("SDK методът не е намерен.")
 
             method = getattr(client.models, method_name)
 
-            # 🚀 ПОПРАВКАТА: Преминаваме към най-новото поколение - Imagen 4!
+            # Опит през Google Imagen 4
             response = method(
-                model='imagen-4.0-generate-001', # <--- ТУК Е МАГИЯТА
+                model='imagen-4.0-generate-001',
                 prompt=image_prompt,
-                config={
-                    'number_of_images': 1,
-                    'aspect_ratio': '16:9'
-                }
+                config={'number_of_images': 1, 'aspect_ratio': '16:9'}
             )
 
-            image_name = filename.replace('.html', '.png')
-            
-            # Интелигентно извличане
+            # Извличане на Google снимката
             if hasattr(response, 'generated_images') and response.generated_images:
                 image_obj = response.generated_images[0].image
             elif hasattr(response, 'images') and response.images:
@@ -125,26 +124,43 @@ def generate_ai_image(client, prompt, project_id, filename):
             else:
                 image_obj = response
                 
-
-           # --- CEO ПРЕСА ЗА СНИМКИ (100% Съвместимост) ---
-            # 1. Първо запазваме суровия файл с вградения метод на SDK-то
             image_obj.save(image_name)
-            
-            # 2. Отваряме го с PIL, мачкаме го и го презаписваме (Напълно безопасно)
-            from PIL import Image
-            with Image.open(image_name) as img:
-                img = img.resize((1200, 675), Image.Resampling.LANCZOS)
-                img.save(image_name, format="PNG", optimize=True)
-            # ------------------------------------------------
-            
-            print(f"✅ Снимката е готова и компресирана: {image_name}")
-            return image_name
+            google_success = True
+            print(f"✅ Успех чрез Google Cloud!")
+            break
 
         except Exception as e:
-            print(f"⚠️ Снимката не успя при опит {attempt_num}: {e}")
-            if attempt_num == len(image_attempts):
-                print("❌ Критично: Всички опити за снимка се провалиха. Продължаваме без AI визия.")
-                return None
+            print(f"⚠️ Google Imagen отхвърли заявката: {e}")
+
+    # --- PLAN B: Ако Google се провали (Квота или Бюджет) ---
+    if not google_success:
+        print("🔄 Активиране на PLAN B: Безплатен автономен AI генератор (Pollinations)...")
+        try:
+            # Кодираме промпта за URL
+            safe_prompt = urllib.parse.quote(image_prompt)
+            # Извикваме отвореното API (безплатно, без ключ, връща директно снимка)
+            fallback_url = f"https://image.pollinations.ai/prompt/{safe_prompt}?width=1200&height=675&nologo=true"
+            
+            # Изтегляме снимката
+            urllib.request.urlretrieve(fallback_url, image_name)
+            print("✅ Успех чрез PLAN B (Резервен генератор)!")
+        except Exception as e:
+            print(f"❌ Критично: План Б също се провали: {e}")
+            return None
+
+    # --- CEO ПРЕСА ЗА СНИМКИ (Прилага се независимо кой двигател е сработил) ---
+    try:
+        with Image.open(image_name) as img:
+            # Подсигуряваме RGB формат и точни размери
+            if img.mode in ("RGBA", "P"):
+                img = img.convert("RGB")
+            img = img.resize((1200, 675), Image.Resampling.LANCZOS)
+            img.save(image_name, format="PNG", optimize=True)
+        print(f"✅ Снимката е компресирана и готова: {image_name}")
+        return image_name
+    except Exception as e:
+        print(f"⚠️ Грешка при компресията: {e}")
+        return image_name
 try:
     # 1. ИЗБОР НА УНИКАЛНА ТЕМА
     if not os.path.exists('topics.txt'):
