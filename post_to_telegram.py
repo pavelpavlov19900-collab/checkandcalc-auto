@@ -32,9 +32,15 @@ def get_latest_article():
 def generate_telegram_summary(title):
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     
-    # 🧠 OUT-OF-THE-BOX ПРОМПТ: Премахваме "опасните" думи от инструкцията.
-    # Искаме точно структурата, която ти е носела успех: Въпрос -> Решение -> 2 Емоджита.
-    prompt = f"Write a punchy, 2-sentence social media teaser for a tech blog post titled: '{title}'. Start with a relatable, engaging question to the reader. Use exactly 2 relevant emojis. Keep the tone helpful and focused on digital safety. No hashtags."
+    # 🧠 OUT-OF-THE-BOX ПРОМПТ (Ролева игра за маркетинг)
+    prompt = (
+        f"Act as a world-class digital marketer and cyber-security expert. "
+        f"Write a viral, punchy, 2-sentence Telegram hook for this article title: '{title}'. "
+        f"Rule 1: Start with an alarming, curiosity-inducing question or a shocking fact. "
+        f"Rule 2: Offer the solution in the second sentence. "
+        f"Rule 3: Use exactly 3 highly expressive and relevant emojis (like 🤯, 🕵️‍♂️, 🚨, 💸, etc.) placed naturally. "
+        f"Rule 4: Do not use hashtags."
+    )
     
     try:
         response = client.models.generate_content(
@@ -42,13 +48,13 @@ def generate_telegram_summary(title):
             contents=prompt,
             config=types.GenerateContentConfig(
                 max_output_tokens=150,
-                temperature=0.7,
-                # Сваляме предпазителите на макс
+                temperature=0.9, # Повишаваме креативността за по-разнообразни текстове
+                # Правилният синтаксис за сваляне на предпазителите в новото SDK
                 safety_settings=[
-                    types.SafetySetting(category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_NONE"),
-                    types.SafetySetting(category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_NONE"),
-                    types.SafetySetting(category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_NONE"),
-                    types.SafetySetting(category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_NONE")
+                    types.SafetySetting(category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_ONLY_HIGH"),
+                    types.SafetySetting(category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_ONLY_HIGH"),
+                    types.SafetySetting(category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_ONLY_HIGH"),
+                    types.SafetySetting(category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_ONLY_HIGH"),
                 ]
             )
         )
@@ -56,13 +62,12 @@ def generate_telegram_summary(title):
         if response and response.text:
             return response.text.strip()
         else:
-            raise ValueError("Моделът мълчи.")
+            raise ValueError("Моделът мълчи (Празна генерация).")
             
     except Exception as e:
         print(f"Грешка при Телеграм генерирането: {e}")
-        # 🛡️ УЛТРА РЕЗЕРВЕН ПЛАН: Ако AI някога пак блокира много тежка хакерска тема, 
-        # ние сами сглобяваме кука, която изглежда като истински генериран пост!
-        fallback_hook = f"Think your digital assets are safe? ⚠️ Read our latest breakdown: {title}. Lock down your security now before it's too late. 🔒"
+        # 🛡️ РЕЗЕРВЕН ПЛАН (само ако има критичен срив на Google)
+        fallback_hook = f"Are you making this critical tech mistake? ⚠️ Read our latest breakdown: {title}. Lock down your digital life before it's too late. 🛡️"
         return fallback_hook
 
 def send_telegram_msg():
