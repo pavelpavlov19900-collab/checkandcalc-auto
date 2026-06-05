@@ -1,0 +1,20 @@
+name: 🗜️ Bulk Image Compressor
+on: workflow_dispatch
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install Pillow
+      - run: python bulk_compressor.py
+      - name: Commit optimized images
+        run: |
+          git config --global user.name 'Image Compressor Bot'
+          git config --global user.email 'compressor@checkandcalc.com'
+          git add .
+          git commit -m "Auto-compressed heavy images for SEO speed" || echo "No large images found"
+          git push
