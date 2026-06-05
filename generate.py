@@ -74,72 +74,77 @@ def update_linkedin_database(article_title, article_url, article_summary, image_
         json.dump(posts, f, indent=2, ensure_ascii=False)
     print(f"✅ Добавено към LinkedIn опашката!")
 
-# --- НОВА ФУНКЦИЯ ЗА ГЕНЕРИРАНЕ НА СНИМКА (С ГРЕШКОУСТОЙЧИВОСТ) ---
+# --- НОВА ФУНКЦИЯ ЗА ГЕНЕРИРАНЕ НА СНИМКА (С ГРЕШКОУСТОЙЧИВОСТ И 4 ОПИТА) ---
 def generate_ai_image(client, prompt, project_id, filename):
     print(f"🎨 Опит за генериране на визия...")
     image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
     
-    try:
-        # АВТОМАТИЧНО РАЗУЗНАВАНЕ:
-        method_name = None
-        for name in ['generate_images', 'generate_image']:
-            if hasattr(client.models, name):
-                method_name = name
-                break
-        
-        if not method_name:
-            print("⚠️ SDK грешка: Не намерих метод за снимки.")
-            return None
+    import time
+    # Времена за изчакване между опитите в секунди: Веднага, след 45 сек, след 125 сек, след 315 сек.
+    image_attempts = [0, 45, 125, 315] 
+    
+    for i, wait_time in enumerate(image_attempts):
+        attempt_num = i + 1
+        try:
+            if wait_time > 0:
+                print(f"⏳ Сървърът за снимки е претоварен. Изчакване {wait_time} сек (Опит {attempt_num}/{len(image_attempts)})...")
+                time.sleep(wait_time)
 
-        method = getattr(client.models, method_name)
-
-        # 🚀 ПОПРАВКАТА: Преминаваме към най-новото поколение - Imagen 4!
-        response = method(
-            model='imagen-4.0-generate-001', # <--- ТУК Е МАГИЯТА
-            prompt=image_prompt,
-            config={
-                'number_of_images': 1,
-                'aspect_ratio': '16:9'
-            }
-        )
-
-        image_name = filename.replace('.html', '.png')
-        
-        # Интелигентно извличане
-        if hasattr(response, 'generated_images') and response.generated_images:
-            image_obj = response.generated_images[0].image
-        elif hasattr(response, 'images') and response.images:
-            image_obj = response.images[0]
-        elif isinstance(response, list) and len(response) > 0:
-            image_obj = response[0]
-        else:
-            image_obj = response
+            # АВТОМАТИЧНО РАЗУЗНАВАНЕ:
+            method_name = None
+            for name in ['generate_images', 'generate_image']:
+                if hasattr(client.models, name):
+                    method_name = name
+                    break
             
+            if not method_name:
+                print("⚠️ SDK грешка: Не намерих метод за снимки.")
+                return None
 
-       # --- CEO ПРЕСА ЗА СНИМКИ (100% Съвместимост) ---
-        # 1. Първо запазваме суровия файл с вградения метод на SDK-то
-        image_obj.save(image_name)
-        
-        # 2. Отваряме го с PIL, мачкаме го и го презаписваме (Напълно безопасно)
-        from PIL import Image
-        with Image.open(image_name) as img:
-            img = img.resize((1200, 675), Image.Resampling.LANCZOS)
-            img.save(image_name, format="PNG", optimize=True)
-        # ------------------------------------------------
-        
-        print(f"✅ Снимката е готова и компресирана: {image_name}")
-        return image_name
+            method = getattr(client.models, method_name)
 
-    except Exception as e:
-        print(f"⚠️ Снимката не успя: {e}")
-        return None
-        
-        print(f"✅ Снимката е готова: {image_name}")
-        return image_name
+            # 🚀 ПОПРАВКАТА: Преминаваме към най-новото поколение - Imagen 4!
+            response = method(
+                model='imagen-4.0-generate-001', # <--- ТУК Е МАГИЯТА
+                prompt=image_prompt,
+                config={
+                    'number_of_images': 1,
+                    'aspect_ratio': '16:9'
+                }
+            )
 
-    except Exception as e:
-        print(f"⚠️ Снимката не успя: {e}")
-        return None
+            image_name = filename.replace('.html', '.png')
+            
+            # Интелигентно извличане
+            if hasattr(response, 'generated_images') and response.generated_images:
+                image_obj = response.generated_images[0].image
+            elif hasattr(response, 'images') and response.images:
+                image_obj = response.images[0]
+            elif isinstance(response, list) and len(response) > 0:
+                image_obj = response[0]
+            else:
+                image_obj = response
+                
+
+           # --- CEO ПРЕСА ЗА СНИМКИ (100% Съвместимост) ---
+            # 1. Първо запазваме суровия файл с вградения метод на SDK-то
+            image_obj.save(image_name)
+            
+            # 2. Отваряме го с PIL, мачкаме го и го презаписваме (Напълно безопасно)
+            from PIL import Image
+            with Image.open(image_name) as img:
+                img = img.resize((1200, 675), Image.Resampling.LANCZOS)
+                img.save(image_name, format="PNG", optimize=True)
+            # ------------------------------------------------
+            
+            print(f"✅ Снимката е готова и компресирана: {image_name}")
+            return image_name
+
+        except Exception as e:
+            print(f"⚠️ Снимката не успя при опит {attempt_num}: {e}")
+            if attempt_num == len(image_attempts):
+                print("❌ Критично: Всички опити за снимка се провалиха. Продължаваме без AI визия.")
+                return None
 try:
     # 1. ИЗБОР НА УНИКАЛНА ТЕМА
     if not os.path.exists('topics.txt'):
