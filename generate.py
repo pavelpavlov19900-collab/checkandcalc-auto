@@ -649,41 +649,32 @@ try:
         with open("index.html", "r", encoding="utf-8") as f:
             index_content = f.read()
         
-        start_marker = ""
-        end_marker = ""
+        # 1. ДЕФИНИРАНЕ НА ТВЪРДИ МАРКЕРИ (Със защита от чат парсъри)
+        start_marker = "<" + "!-- ARTICLES_START --" + ">"
+        end_marker = "<" + "!-- ARTICLES_END --" + ">"
         
-        # 1. ПРОВЕРКА: Има ли ги маркерите изобщо?
-        if start_marker not in index_content or end_marker not in index_content:
-            print("⚠️ Маркерите липсват! Опитвам да ги инжектирам САМО в секцията Latest Insights...")
-            if "🔥 Latest Insights" in index_content:
-                # Разделяме файла точно след заглавието "Latest Insights"
-                parts = index_content.split("🔥 Latest Insights", 1)
-                # Търсим ПЪРВИЯ </ul> само в долната част, за да не пипаме футъра
-                if "</ul>" in parts[1]:
-                    sub_parts = parts[1].split("</ul>", 1)
-                    # Сглобяваме наново: слагаме маркерите точно преди първия </ul>
-                    parts[1] = sub_parts[0] + f"\n{start_marker}\n{end_marker}\n</ul>" + sub_parts[1]
-                    index_content = "🔥 Latest Insights".join(parts)
-                else:
-                    print("❌ Критично: Не мога да намеря </ul> след Latest Insights!")
-            else:
-                print("❌ Критично: Не мога да намеря заглавието '🔥 Latest Insights'!")
+        import re
 
-        # 2. СТРИКТНА ЗАМЯНА: Ако маркерите вече са там (или току-що ги сложихме)
+        # 2. ПРЕДПАЗЕН ЩИТ: Ако маркерите ги няма, системата ги инжектира автоматично
+        if start_marker not in index_content or end_marker not in index_content:
+            print("⚠️ Маркерите липсват! Инжектирам ги интелигентно в секцията Latest Insights...")
+            # Търси точно <ul> тага след заглавието
+            pattern = r'(<h3[^>]*>🔥 Latest Insights</h3>\s*<ul[^>]*>)'
+            replacement = f'\\1\n{start_marker}\n{end_marker}\n'
+            index_content = re.sub(pattern, replacement, index_content, count=1)
+
+        # 3. ХИРУРГИЧЕСКА ПОДМЯНА (100% успеваемост)
         if start_marker in index_content and end_marker in index_content:
-            # Използваме split, за да отрежем точно парчето между двата маркера
-            parts = index_content.split(start_marker)
-            # Взимаме само първия end_marker, за да избегнем дублажи, ако има такива
-            sub_parts = parts[1].split(end_marker, 1)
-            
-            # Сглобяваме чистото съдържание: Горна част + Маркер + Нови 15 линка + Маркер + Долна част
-            new_index = parts[0] + start_marker + "\n" + latest_links_html + end_marker + sub_parts[1]
+            # Използваме Regex (re.DOTALL хваща и новите редове), за да подменим ВСИЧКО между двата маркера
+            pattern_replace = f'({start_marker}).*?({end_marker})'
+            new_content = f'\\1\n{latest_links_html}\\2'
+            new_index = re.sub(pattern_replace, new_content, index_content, flags=re.DOTALL)
             
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(new_index)
-            print("✅ Началната страница е обновена успешно (Точно 15 статии, футърът е 100% защитен).")
+            print("✅ Началната страница е обновена успешно (Бронирана архитектура).")
         else:
-            print("❌ ГРЕШКА: Маркерите все още липсват. Index.html не е обновен, за да се предпази от счупване.")
+            print("❌ КРИТИЧНО: Не успяхме да намерим къде да поставим маркерите. SEO модулът е пропуснат, за да не се счупи сайта.")
             
     except Exception as e:
         print(f"⚠️ Системна грешка при обновяване на index.html: {e}")
