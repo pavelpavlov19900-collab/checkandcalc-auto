@@ -32,15 +32,19 @@ def get_latest_article():
 def generate_telegram_summary(title):
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     
-    # 🧠 ПОДОБРЕН ПРОМПТ: Даваме му "скелет" на съобщението
+    # 🎯 НОВ, ПОДОБРЕН ПРОМПТ (Базиран на успешните постове от март)
     prompt = (
-        f"Generate a viral, high-energy Telegram hook for an article titled: '{title}'.\n"
+        f"You are a professional tech writer. Write a Telegram post for an article titled: '{title}'.\n"
+        f"Format the post exactly like this:\n"
+        f"🚀 NEW ARTICLE:\n\n"
+        f"[Engaging hook: A relatable question or alarming fact about the topic in 1-2 sentences that creates curiosity.]\n\n"
+        f"[Value: A brief sentence explaining why the reader should care or how it protects them.]\n\n"
+        f"🔗 Read full article here:\n"
+        f"{title}\n\n" # Тук ще сложим линка в самия Python скрипт
         f"Requirements:\n"
-        f"- Hook: 1 punchy opening sentence that grabs attention (NO starting with 'Forget').\n"
-        f"- Value: 2 sentences explaining why this is a MUST-READ (the hidden secret or risk).\n"
-        f"- Style: Use 4-5 dynamic emojis (e.g., 🚀, 🛡️, ⚠️, 🤖, 💥).\n"
-        f"- Tone: Controversial, urgent, and professional.\n"
-        f"- Output: Do not use hashtags. Write a full, engaging text, not clipped sentences."
+        f"- Do NOT use 'Insider Update' or 'Forget'.\n"
+        f"- Use 2-3 relevant emojis maximum.\n"
+        f"- Tone: Alert, helpful, professional, and punchy."
     )
     
     import time
@@ -82,18 +86,21 @@ def generate_telegram_summary(title):
 def send_telegram_msg():
     filename, full_path = get_latest_article()
     if not filename:
-        print("No new articles to post.")
         return
 
     title = filename.replace("-", " ").replace(".html", "").title()
-    # Винаги сочи към главната директория, за да няма 404 грешки
     url = f"https://checkandcalc.com/{filename}"
     
-    # Генерираме интелигентно описание с AI
+    # Генерираме тялото с AI
     summary = generate_telegram_summary(title)
     
-    # 💎 ПРЕМИУМ ФОРМАТИРАНЕ НА СЪОБЩЕНИЕТО (Новият дизайн)
-    message = f"⚡ *INSIDER UPDATE:*\n\n{summary}\n\n👉 *Unlock the full guide here:*\n{url}"
+    # 💎 ЖЕЛЯЗНА СТРУКТУРА (Точно както искаш)
+    # Премахваме hardcoded "Unlock..." и използваме изцяло форматирането от AI
+    # Или по-добре: форматираме го тук, за да е консистентно
+    
+    # Преди: message = f"⚡ *INSIDER UPDATE:*\n\n{summary}..."
+    # СЕГА (твоят предпочитан дизайн):
+    message = f"{summary.replace(title, '')}\n🔗 Read full article here:\n{url}"
 
     telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
