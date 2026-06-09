@@ -244,20 +244,26 @@ try:
     filename = re.sub(r'-+', '-', clean_name).strip('-') + ".html"
 
    # 2. ГЕНЕРИРАНЕ (С УЛТРА-ЕВТИН FLASH + FALLBACK ЗАЩИТА + ГЕО + 400 ДУМИ)
+    # 2. ГЕНЕРИРАНЕ НА СТАТИЯТА (THE GURU PROMPT)
     prompt_text = (
-        f"Write a massive, highly detailed SEO article in English about: {topic_title}. "
-        f"CRITICAL RULES: 1. Use a unique writing style adapted to the topic. NEVER start two articles with the same phrasing. "
-        f"2. START with the main title in <h1> tags. "
-        f"3. IMMEDIATELY AFTER the <h1>, generate a <div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul>...</ul></div> with 3-5 ultra-concise, highly factual bullet points summarizing the core answer using <strong> tags for key tools/entities. "
-        f"4. Follow with an engaging Introduction, EXACTLY 5 to 7 main sections using <h2> tags, and a Conclusion. "
-        f"5. You MUST write AT LEAST 400 WORDS under EACH <h2> section. "
-        f"6. FORMAT STRICTLY IN HTML with <p>, <ul>, <li>, <strong> tags. "
-        f"7. ABSOLUTELY NO MARKDOWN. "
-        f"8. Include a dedicated <h2> section about tools or solutions. "
-        f"9. MANDATORY: You must finish the article with a formal Conclusion and ensure all HTML tags are perfectly closed. Do not stop mid-sentence. "
-        f"Return ONLY the raw HTML body content starting with <h1>."
-        f"IMPORTANT: After the final HTML tag, add exactly this separator '---LINKEDIN-HOOK---' "
-        f"followed by a one-sentence provocative summary for a LinkedIn post." # <--- ТОВА Е НОВОТО
+        f"You are a highly respected, 15-year veteran Cybersecurity Expert and IT System Administrator. "
+        f"Write a massive, definitive, and highly practical guide in English about: {topic_title}. "
+        f"\n\n--- CRITICAL PERSONA & TONE RULES --- "
+        f"\n1. TONE: Speak directly to the reader like a mentor explaining a complex tech issue to a smart friend. Be conversational, punchy, and brutally honest. "
+        f"\n2. BANNED AI-ISMS: You are FORBIDDEN from using robotic AI phrases like: 'In today's digital landscape', 'Delve into', 'It is important to note', 'Navigating the complexities', 'A tapestry of'. "
+        f"\n3. READABILITY: Use simple, plain English. Explain technical terms with real-world analogies (e.g., 'A firewall is like a bouncer at a club'). Keep paragraphs under 4 sentences. "
+        f"\n4. NO FLUFF: Zero empty talk. Every single sentence must provide undeniable value, a fact, or actionable advice. "
+        f"\n\n--- STRICT STRUCTURAL RULES --- "
+        f"\n1. START with the main title in <h1> tags. "
+        f"\n2. IMMEDIATELY AFTER the <h1>, generate a <div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul>...</ul></div> with 3 ultra-concise, factual bullet points summarizing the solution using <strong> tags. "
+        f"\n3. Generate an engaging Introduction, EXACTLY 5 to 7 main sections using <h2> tags, and a Conclusion. "
+        f"\n4. ADDED VALUE: Under at least two <h2> sections, include a '💡 Expert IT Tip:' formatted nicely, giving a secret industry workaround or specific tool recommendation. "
+        f"\n5. DEPTH & LENGTH: You MUST write AT LEAST 350-450 WORDS under EACH <h2> section. Dive deep into the 'Why' and the 'How-to'. "
+        f"\n6. NO REPETITION: Never repeat a concept or a paragraph. Once an idea is explained, move to the next logical step. "
+        f"\n7. FORMAT STRICTLY IN HTML with <p>, <ul>, <li>, <strong> tags. NO MARKDOWN. "
+        f"\n8. Do not stop mid-sentence. Ensure all HTML tags are perfectly closed. "
+        f"\n\nIMPORTANT: After the final HTML tag, add exactly this separator '---LINKEDIN-HOOK---' "
+        f"followed by a one-sentence provocative summary for a LinkedIn post."
     )
     # --- СТЪПКА 2: БРОНИРАНА СТРАТЕГИЯ С 10 ОПИТА ---
     import time
