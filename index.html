@@ -127,7 +127,7 @@
       font-size: 0.9rem;
     }
 
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       margin-top: 4px;
       padding: 8px 10px;
@@ -138,7 +138,7 @@
       font-size: 0.95rem;
     }
 
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       outline: 1px solid #22c55e;
       border-color: #22c55e;
     }
@@ -164,7 +164,7 @@
       background: #16a34a;
     }
 
-    #scoreTitle, #scamDetails, #aiResult, #ytResult {
+    #scoreTitle, #scamDetails, #aiResult, #ytResult, #subResult, #bcResult {
       margin-top: 14px;
       font-size: 0.95rem;
       line-height: 1.5;
@@ -274,6 +274,14 @@
           <span class="icon">📺</span>
           TubeEarnings
         </button>
+        <button data-section="subdrain">
+          <span class="icon">💳</span>
+          SubDrain
+        </button>
+        <button data-section="breachcost">
+          <span class="icon">⚠️</span>
+          BreachCost
+        </button>
       </nav>
     </div>
   </header>
@@ -363,6 +371,61 @@
         </p>
       </section>
 
+      <section id="tool-subdrain" class="tool">
+        <h2>SubDrain – The Hidden Subscription Calculator</h2>
+        <p class="subtitle">
+<p class="note">
+  Want to stop the financial bleeding? 
+  <a href="how-hidden-subscriptions-are-draining-your-wealth.html">Read the full guide on stopping subscription traps →</a>
+</p>
+          Calculate exactly how much wealth your "small" monthly subscriptions are secretly draining over 10 years, factoring in compound interest (opportunity cost).
+        </p>
+
+        <label for="subMonthly">Total Monthly Subscriptions ($)</label>
+        <input id="subMonthly" type="number" placeholder="e.g., 45" min="0" step="1">
+
+        <label for="subInterest">Expected Annual Market Return (%)</label>
+        <input id="subInterest" type="number" value="8" min="0" step="0.1">
+
+        <button class="primary" onclick="calcSubDrain()">Calculate Drain</button>
+
+        <div id="subResult"></div>
+
+        <p class="note">
+          Calculation assumes you invested this money monthly into an index fund (like the S&P 500) instead of paying for unused services.
+        </p>
+      </section>
+
+      <section id="tool-breachcost" class="tool">
+        <h2>BreachCost – Cyber Attack Calculator</h2>
+        <p class="subtitle">
+<p class="note">
+  Don't be a victim. 
+  <a href="the-true-cost-of-a-cyber-attack-on-your-personal-finances.html">Read the full guide on personal cyber defense →</a>
+</p>
+          Calculate the hidden financial and time cost of recovering from common cyber attacks based on your personal hourly value.
+        </p>
+
+        <label for="bcRate">Your Hourly Value / Wage ($/hour)</label>
+        <input id="bcRate" type="number" value="35" min="1">
+
+        <label for="bcType">Type of Cyber Incident</label>
+        <select id="bcType">
+          <option value="card">Stolen Credit Card (Est. 5 hours to resolve)</option>
+          <option value="social">Hacked Social/Email (Est. 15 hours to resolve)</option>
+          <option value="ransomware">Personal Ransomware/Malware (Est. 20 hours to resolve)</option>
+          <option value="identity">Full Identity Theft (Est. 40 hours to resolve)</option>
+        </select>
+
+        <button class="primary" onclick="calcBreachCost()">Calculate Damage</button>
+
+        <div id="bcResult"></div>
+
+        <p class="note">
+          Time is money. Resolving a hack includes waiting on phone loops with banks, resetting passwords, and recovering data.
+        </p>
+      </section>
+
     </div>
     
 <section aria-labelledby="guides-heading" style="margin-top:40px;padding:24px 18px;border-radius:18px;border:1px solid #1f2937;background:radial-gradient(circle at top,#020617,#020617 55%,#030712);">
@@ -377,7 +440,8 @@
         <div style="padding: 24px; background: #0f172a; border-radius: 14px; border: 1px solid #1f2937; margin-bottom: 24px;">
             <h3 style="color: #93c5fd; border-bottom: 1px solid #1f2937; padding-bottom: 12px; margin-top: 0;">🔥 Latest Insights</h3>
             <ul style="list-style-type: none; padding-left: 0; margin-bottom: 0;">
-                <!-- LATEST_START -->
+                <li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="how-hidden-subscriptions-are-draining-your-wealth.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">How Hidden Subscriptions Are Draining Your Wealth (And How To Stop It)</a></li>
+<li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="the-true-cost-of-a-cyber-attack-on-your-personal-finances.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">The True Cost Of A Cyber Attack On Your Personal Finances</a></li>
 <li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="why-is-my-completely-human-written-text-flagged-as-ai-generated.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">Why Is My Completely Human Written Text Flagged As Ai Generated</a></li>
 <li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="youtube-seo-2026-why-keywords-in-descriptions-dont-matter-anymore.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">Youtube Seo 2026 Why Keywords In Descriptions Dont Matter Anymore</a></li>
 <li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="youtube-cpm-vs-rpm-whats-the-difference.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">Youtube Cpm Vs Rpm Whats The Difference</a></li>
@@ -393,7 +457,6 @@
 <li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="what-to-do-if-your-credit-card-info-was-stolen-on-a-fake-shopify-store.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">What To Do If Your Credit Card Info Was Stolen On A Fake Shopify Store</a></li>
 <li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="what-is-the-pig-butchering-romance-scam-and-how-to-avoid-it-online.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">What Is The Pig Butchering Romance Scam And How To Avoid It Online</a></li>
 <li style="margin-bottom: 12px; font-size: 1.05rem;">🚀 <a href="what-is-the-average-youtube-cpm-for-finance-and-real-estate-videos.html" style="color:#93c5fd; text-decoration:none; transition: color 0.2s;">What Is The Average Youtube Cpm For Finance And Real Estate Videos</a></li>
-<!-- LATEST_END -->
 </ul>
         </div>
 
@@ -447,7 +510,9 @@
     const sections = {
       scam: document.getElementById('tool-scam'),
       ai: document.getElementById('tool-ai'),
-      yt: document.getElementById('tool-yt')
+      yt: document.getElementById('tool-yt'),
+      subdrain: document.getElementById('tool-subdrain'),   // НОВО
+      breachcost: document.getElementById('tool-breachcost') // НОВО
     };
 
     nav.addEventListener('click', (e) => {
@@ -640,6 +705,65 @@
           <span class="note">
             Real RPM depends on niche, audience country, season, and extra income sources (sponsorships, affiliates).
           </span>`;
+    }
+
+    // 4) SubDrain logic
+    function calcSubDrain() {
+      const monthlyPmt = parseFloat(document.getElementById("subMonthly").value) || 0;
+      const annualRate = parseFloat(document.getElementById("subInterest").value) || 8;
+      
+      const monthlyRate = annualRate / 100 / 12;
+      const months = 10 * 12; // 10 years
+
+      const cost1Year = monthlyPmt * 12;
+      const cost5Years = monthlyPmt * 60;
+      
+      let opportunityCost10Years = 0;
+      if (monthlyRate > 0) {
+          opportunityCost10Years = monthlyPmt * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+      } else {
+          opportunityCost10Years = monthlyPmt * months;
+      }
+
+      const fmt = n => n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+      const out = document.getElementById("subResult");
+      out.innerHTML =
+        `<strong>Your true subscription cost:</strong><br><br>
+         💸 <strong>1 Year Direct Cost:</strong> $${fmt(cost1Year)}<br>
+         💸 <strong>5 Year Direct Cost:</strong> $${fmt(cost5Years)}<br>
+         📉 <strong>10 Year Wealth Lost (Opportunity Cost):</strong> <span style="color:#ef4444; font-weight:bold;">$${fmt(opportunityCost10Years)}</span><br><br>
+         <span class="note">
+           That <span style="color:#ef4444;">$${fmt(opportunityCost10Years)}</span> is money you are stealing from your future self over a decade. Check your bank statements today!
+         </span>`;
+    }
+
+    // 5) BreachCost logic
+    function calcBreachCost() {
+      const rate = parseFloat(document.getElementById("bcRate").value) || 0;
+      const type = document.getElementById("bcType").value;
+      
+      let hours = 0;
+      let flatFees = 0;
+      
+      if (type === "card") { hours = 5; flatFees = 50; }
+      else if (type === "social") { hours = 15; flatFees = 0; }
+      else if (type === "ransomware") { hours = 20; flatFees = 200; }
+      else if (type === "identity") { hours = 40; flatFees = 500; }
+      
+      const timeCost = rate * hours;
+      const totalCost = timeCost + flatFees;
+      
+      const fmt = n => n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+      const out = document.getElementById("bcResult");
+      out.innerHTML =
+        `<strong>Estimated Damage:</strong><br><br>
+         ⏳ <strong>Time Lost:</strong> ${hours} hours<br>
+         💸 <strong>Value of Time Lost:</strong> $${fmt(timeCost)}<br>
+         🧾 <strong>Estimated Direct Fees/Losses:</strong> $${fmt(flatFees)}<br>
+         🚨 <strong>Total True Cost:</strong> <span style="color:#ef4444; font-weight:bold;">$${fmt(totalCost)}</span><br><br>
+         <span class="note">Prevention is infinitely cheaper than recovery. Secure your accounts today.</span>`;
     }
   </script>
 </body>
