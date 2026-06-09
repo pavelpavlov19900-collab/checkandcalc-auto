@@ -1,6 +1,6 @@
 name: Cleanup Topics List
 on:
-  workflow_dispatch: # Това ти позволява да натиснеш бутона "Run workflow" ръчно
+  workflow_dispatch: 
 
 jobs:
   cleanup:
@@ -22,5 +22,4 @@ jobs:
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add topics.txt
-          # Проверяваме дали има промяна, преди да commit-нем
           git diff --quiet && git diff --staged --quiet || (git commit -m "Automated cleanup: Removed written topics" && git push)
