@@ -32,43 +32,44 @@ def get_latest_article():
 def generate_telegram_summary(title):
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     
-    # 🧠 OUT-OF-THE-BOX ПРОМПТ (Брутална копирайтинг психология)
+    # 🧠 ПОДОБРЕН ПРОМПТ: Даваме му "скелет" на съобщението
     prompt = (
-        f"Act as a controversial tech-insider who leaks highly guarded secrets. "
-        f"Write an ultra-engaging, viral, 3-sentence Telegram teaser for an article titled: '{title}'. "
-        f"RULE 1: First sentence triggers massive curiosity (e.g., 'Forget what they told you...'). "
-        f"RULE 2: Second sentence highlights the hidden risk or massive benefit. "
-        f"RULE 3: Final sentence forces them to click. "
-        f"RULE 4: Use exactly 3 emojis. NO hashtags."
+        f"Generate a viral, high-energy Telegram hook for an article titled: '{title}'.\n"
+        f"Requirements:\n"
+        f"- Hook: 1 punchy opening sentence that grabs attention (NO starting with 'Forget').\n"
+        f"- Value: 2 sentences explaining why this is a MUST-READ (the hidden secret or risk).\n"
+        f"- Style: Use 4-5 dynamic emojis (e.g., 🚀, 🛡️, ⚠️, 🤖, 💥).\n"
+        f"- Tone: Controversial, urgent, and professional.\n"
+        f"- Output: Do not use hashtags. Write a full, engaging text, not clipped sentences."
     )
     
-    # 🛡️ БРОНИРАН ЛУП (3 ОПИТА) + FLASH МОДЕЛ + ТОКЕН ЛИМИТ
     import time
     import random
-    attempts_config = [0, 3, 7] # Първо пробва веднага, после чака 3 сек, после 7 сек.
     
-    for attempt, wait_time in enumerate(attempts_config):
+    # 3 опита за перфектен хук
+    for attempt in range(3):
         try:
-            if wait_time > 0:
-                print(f"⏳ Опит {attempt + 1}/3: Изчакване на API-то {wait_time} секунди...")
-                time.sleep(wait_time)
-                
-            # Използваме най-бързия, евтин и надежден модел за кратки текстове
             response = client.models.generate_content(
                 model="gemini-2.5-flash", 
                 contents=prompt,
                 config=types.GenerateContentConfig(
-                    max_output_tokens=100, # 💰 РЕЖЕМ РАЗХОДИТЕ: Строг лимит до 100 токена!
-                    temperature=0.9
+                    max_output_tokens=200, # Увеличихме лимита
+                    temperature=0.85
                 )
             )
             
-            if response and response.text:
-                return response.text.strip()
+            hook = response.text.strip()
+            
+            # 🛡️ ВАЛИДАЦИЯ: Ако AI-то върне боклук или твърде кратък текст, опитай пак
+            if len(hook) > 50: 
+                return hook
+            else:
+                print(f"⚠️ Опит {attempt+1}: AI върна твърде кратък хук. Рестартирам...")
                 
         except Exception as e:
-            print(f"⚠️ Опит {attempt + 1} се провали: {e}")
-            
+            print(f"⚠️ Опит {attempt+1} се провали: {e}")
+            time.sleep(2)
+      
     # 🛡️ ФИНАЛЕН РЕЗЕРВЕН ПЛАН (Ако Google е тотално паднал)
     print("❌ Всички 3 опита до Gemini се провалиха. Активиране на офлайн кукички.")
     fallbacks = [
