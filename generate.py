@@ -597,7 +597,7 @@ try:
         else:
             categories["security"].append(link_html)
 
-# 3. Обновяване на INDEX.HTML (С автоматична поправка на липсващи маркери)
+# 3. Обновяване на INDEX.HTML (С изолирана и бронирана логика)
     latest_15 = all_files[:15]
     latest_links_html = ""
     for file in latest_15:
@@ -608,34 +608,44 @@ try:
         with open("index.html", "r", encoding="utf-8") as f:
             index_content = f.read()
         
-        start_marker = "<!-- LATEST_START -->"
-        end_marker = "<!-- LATEST_END -->"
+        start_marker = ""
+        end_marker = ""
         
-        # АВТОМАТИЧНА ПОПРАВКА: Ако маркерите ги няма, сложи ги в списъка
-        if start_marker not in index_content:
-            print("⚠️ Маркерите липсват! Инжектирам ги автоматично...")
-            # Търсим къде свършва списъка (</ul>) и ги слагаме там
-            if '</ul>' in index_content:
-                index_content = index_content.replace('</ul>', f'{start_marker}\n{end_marker}\n</ul>')
+        # 1. ПРОВЕРКА: Има ли ги маркерите изобщо?
+        if start_marker not in index_content or end_marker not in index_content:
+            print("⚠️ Маркерите липсват! Опитвам да ги инжектирам САМО в секцията Latest Insights...")
+            if "🔥 Latest Insights" in index_content:
+                # Разделяме файла точно след заглавието "Latest Insights"
+                parts = index_content.split("🔥 Latest Insights", 1)
+                # Търсим ПЪРВИЯ </ul> само в долната част, за да не пипаме футъра
+                if "</ul>" in parts[1]:
+                    sub_parts = parts[1].split("</ul>", 1)
+                    # Сглобяваме наново: слагаме маркерите точно преди първия </ul>
+                    parts[1] = sub_parts[0] + f"\n{start_marker}\n{end_marker}\n</ul>" + sub_parts[1]
+                    index_content = "🔥 Latest Insights".join(parts)
+                else:
+                    print("❌ Критично: Не мога да намеря </ul> след Latest Insights!")
             else:
-                print("❌ Критично: Не можах да намеря </ul> в index.html!")
-        
-        # Сега вече със сигурност ги имаме, продължаваме с обновяването
+                print("❌ Критично: Не мога да намеря заглавието '🔥 Latest Insights'!")
+
+        # 2. СТРИКТНА ЗАМЯНА: Ако маркерите вече са там (или току-що ги сложихме)
         if start_marker in index_content and end_marker in index_content:
-            import re
-            pattern = re.escape(start_marker) + r'.*?' + re.escape(end_marker)
-            replacement = f'{start_marker}\n{latest_links_html}{end_marker}'
+            # Използваме split, за да отрежем точно парчето между двата маркера
+            parts = index_content.split(start_marker)
+            # Взимаме само първия end_marker, за да избегнем дублажи, ако има такива
+            sub_parts = parts[1].split(end_marker, 1)
             
-            new_index = re.sub(pattern, replacement, index_content, flags=re.DOTALL)
+            # Сглобяваме чистото съдържание: Горна част + Маркер + Нови 15 линка + Маркер + Долна част
+            new_index = parts[0] + start_marker + "\n" + latest_links_html + end_marker + sub_parts[1]
             
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(new_index)
-            print("✅ Началната страница е обновена успешно.")
+            print("✅ Началната страница е обновена успешно (Точно 15 статии, футърът е 100% защитен).")
         else:
-            print("⚠️ ГРЕШКА: Все още не мога да намеря маркерите!")
+            print("❌ ГРЕШКА: Маркерите все още липсват. Index.html не е обновен, за да се предпази от счупване.")
             
     except Exception as e:
-        print(f"⚠️ Грешка при обновяване на index.html: {e}")
+        print(f"⚠️ Системна грешка при обновяване на index.html: {e}")
             
     # 4. Автоматично генериране на СИЛОЗИ (Категорийни страници)
     for cat_name, cat_links in categories.items():
