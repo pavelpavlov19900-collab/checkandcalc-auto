@@ -74,60 +74,48 @@ def update_linkedin_database(article_title, article_url, article_summary, image_
         json.dump(posts, f, indent=2, ensure_ascii=False)
     print(f"✅ Добавено към LinkedIn опашката!")
 
-# --- TRIPLE REDUNDANCY FUNCTION: GOOGLE + FALLBACK 1 + FALLBACK 2 (99.99% Reliability) ---
+# --- TRIPLE REDUNDANCY FUNCTION: GOOGLE + POLLINATIONS + HUGGING FACE (Titanium Edition) ---
 def generate_ai_image(client, prompt, project_id, filename):
-    print(f"🎨 Задействане на Трислойния протокол за визия...")
+    print(f"🎨 Задействане на Трислойния протокол за визия (Titanium Edition)...")
     
-    # Промптът - винаги същият
     image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
     image_name = filename.replace('.html', '.png')
     
-    # Системни библиотеки
     import time
     import urllib.parse
     import requests
+    import random
+    import os
     from PIL import Image
 
-    # Ваксина за маскиране пред безплатните сървъри
     spoof_headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
     }
     
-    success_source = None # Маркер откъде сме взели снимката
+    success_source = None
 
     # ==========================================================
     # СЛОЙ 1: GOOGLE IMAGEN (План А - Опит за качество)
     # ==========================================================
     print("🎯 СЛОЙ 1: Опит през Google Cloud Imagen...")
-    # Само 2 бързи опита, за да не губим време, ако квотата е изчерпана
     google_attempts = [0, 5] 
     
     for i, wait_time in enumerate(google_attempts):
-        attempt_num = i + 1
         try:
             if wait_time > 0:
-                print(f"⏳ Кратко изчакване на Google {wait_time} сек (Опит {attempt_num}/2)...")
+                print(f"⏳ Изчакване {wait_time} сек (Опит {i+1}/2)...")
                 time.sleep(wait_time)
 
-            method_name = None
-            for name in ['generate_images', 'generate_image']:
-                if hasattr(client.models, name):
-                    method_name = name
-                    break
-            
-            if not method_name: raise Exception("SDK не е намерен.")
+            method_name = next((name for name in ['generate_images', 'generate_image'] if hasattr(client.models, name)), None)
+            if not method_name: raise Exception("SDK метод не е намерен.")
 
             method = getattr(client.models, method_name)
-
-            # Опит през Google Imagen 4
             response = method(
                 model='imagen-4.0-generate-001',
                 prompt=image_prompt,
                 config={'number_of_images': 1, 'aspect_ratio': '16:9'}
             )
 
-            # Извличане на снимката
             if hasattr(response, 'generated_images') and response.generated_images:
                 image_obj = response.generated_images[0].image
             elif hasattr(response, 'images') and response.images:
@@ -140,21 +128,19 @@ def generate_ai_image(client, prompt, project_id, filename):
             image_obj.save(image_name)
             success_source = "Google Imagen"
             print(f"✅ Успех чрез Слой 1 (Google Imagen)!")
-            break # Успех, излизаме от цикъла за Google
-
+            break 
         except Exception as e:
             print(f"⚠️ Слой 1 (Google) се провали: {e}")
 
     # ==========================================================
-    # СЛОЙ 2: POLLINATIONS AI (План Б - Дублиран двигател)
+    # СЛОЙ 2: POLLINATIONS AI (План Б - Поправен от 402 Грешка)
     # ==========================================================
     if not success_source:
         print("🔄 СЛОЙ 2: Активиране на Резервния двигател (Pollinations)...")
         try:
             safe_prompt = urllib.parse.quote(image_prompt)
-            fallback_url = f"https://image.pollinations.ai/prompt/{safe_prompt}?width=1200&height=675&nologo=true&seed={filename}"
+            fallback_url = f"https://image.pollinations.ai/prompt/{safe_prompt}?width=1200&height=675&seed={random.randint(1,100000)}"
             
-            # ХАКЪТ: Представяме се за браузър Chrome с ваксината spoof_headers
             img_response = requests.get(fallback_url, headers=spoof_headers, stream=True, timeout=30)
             
             if img_response.status_code == 200:
@@ -164,42 +150,52 @@ def generate_ai_image(client, prompt, project_id, filename):
                 success_source = "Pollinations AI"
                 print("✅ Успех чрез Слой 2 (Pollinations AI)!")
             else:
-                raise Exception(f"Сървърът за Слой 2 върна статус: {img_response.status_code}")
-                
+                raise Exception(f"Сървърът върна статус: {img_response.status_code}")
         except Exception as e:
             print(f"⚠️ Слой 2 (Pollinations) също се провали: {e}")
 
     # ==========================================================
-    # СЛОЙ 3: OPENVERSE/CRAIYON (План В - Авариен щит)
+    # СЛОЙ 3: HUGGING FACE STABLE DIFFUSION (Новият Авариен щит)
     # ==========================================================
     if not success_source:
-        print("🚨 СЛОЙ 3: Активиране на Аварийния щит (Отворен AI Двигател)...")
+        print("🚨 СЛОЙ 3: Активиране на Индустриалния щит (Hugging Face SDXL)...")
         try:
-            # Craiyon се нуждае от малко по-различен промпт, за да е сигурен успехът
-            emergency_prompt = f"Futuristic digital art: {prompt}, cyberpunk style, vibrant colors"
-            # Използваме отворения Craiyon/Stable Diffusion генератор през безплатно API
-            emergency_url = f"https://image.craiyon.com/ai/get/{urllib.parse.quote(emergency_prompt)}.png"
+            hf_token = os.environ.get("HF_TOKEN", "") 
             
-            # Изтегляме снимката директно
-            img_response = requests.get(emergency_url, headers=spoof_headers, stream=True, timeout=30)
+            hf_url = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+            hf_headers = {"Authorization": f"Bearer {hf_token}"} if hf_token else {}
+            hf_payload = {"inputs": image_prompt}
             
-            if img_response.status_code == 200:
+            hf_response = requests.post(hf_url, headers=hf_headers, json=hf_payload, timeout=45)
+            
+            if hf_response.status_code == 200:
                 with open(image_name, 'wb') as f:
-                    for chunk in img_response.iter_content(1024):
-                        f.write(chunk)
-                success_source = " Craiyon"
-                print("✅ Успех чрез Слой 3 (Craiyon/Авариен щит)!")
+                    f.write(hf_response.content)
+                success_source = "Hugging Face SDXL"
+                print("✅ Успех чрез Слой 3 (Hugging Face)!")
             else:
-                raise Exception(f"Сървърът за Слой 3 върна статус: {img_response.status_code}")
+                raise Exception(f"Hugging Face върна статус: {hf_response.status_code}. (Може би липсва HF_TOKEN)")
         except Exception as e:
-            print(f"⚠️ Слой 3 (Авариен щит) се провали: {e}")
+            print(f"⚠️ Слой 3 (Hugging Face) се провали: {e}")
 
     # ==========================================================
-    # ФИНАЛ: Обработка (Ако поне един Слой е сработил)
+    # СЛОЙ 4: АБСОЛЮТЕН ФАЛБЕК (Защита от счупен сайт)
     # ==========================================================
-    if success_source:
+    if not success_source:
+        print("🛡️ СЛОЙ 4: Всичко се провали. Генериране на резервен градиент, за да не се счупи HTML-ът.")
         try:
-            # Преса за компресия ( PIL)
+            img = Image.new('RGB', (1200, 675), color = (15, 23, 42)) 
+            img.save(image_name)
+            success_source = "Local Fallback Placeholder"
+            return image_name
+        except:
+            return None
+
+    # ==========================================================
+    # ФИНАЛ: Обработка 
+    # ==========================================================
+    if success_source and success_source != "Local Fallback Placeholder":
+        try:
             with Image.open(image_name) as img:
                 if img.mode in ("RGBA", "P"):
                     img = img.convert("RGB")
@@ -209,11 +205,9 @@ def generate_ai_image(client, prompt, project_id, filename):
             return image_name
         except Exception as e:
             print(f"⚠️ Грешка при компресията: {e}")
-            return image_name # Връщаме каквото има, по-добре без компресия отколкото нищо
-    else:
-        # Абсолютен, невероятен срив
-        print("❌ КРИТИЧЕН СРИВ: Всички Слоеве и Аварийни щитове се провалиха.")
-        return None
+            return image_name 
+            
+    return image_name
 try:
     # 1. ИЗБОР НА УНИКАЛНА ТЕМА
     if not os.path.exists('topics.txt'):
