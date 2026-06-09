@@ -35,7 +35,6 @@
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }
         .article-container { max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
-        /* ДОБАВИ ТОВА ТУК 👇 */
         .article-banner { 
             width: 100%; 
             height: auto; 
@@ -44,7 +43,6 @@
             border: 1px solid #1f2937; 
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
         }
-        /* ------------------ */
         h1 { color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }
         h2 { color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }
         h3 { color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }
@@ -97,6 +95,15 @@
         
         .back-btn { display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }
         .back-btn:hover { background-color: #334155; color: #ffffff; cursor: pointer; }
+
+        /* SubDrain Calculator Styles */
+        .subdrain-tool { border: 1px solid #334155; padding: 25px; border-radius: 12px; background-color: #1e293b; max-width: 500px; margin: 30px auto; box-shadow: 0 4px 6px rgba(0,0,0,0.3); color: #e2e8f0; }
+        .subdrain-tool h3 { color: #bfdbfe; text-align: center; margin-top: 0; }
+        .subdrain-tool label { display: block; margin-top: 15px; font-size: 0.9rem; color: #94a3b8; }
+        .subdrain-tool input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #475569; border-radius: 5px; background: #0f172a; color: white; box-sizing: border-box; }
+        .subdrain-tool button { width: 100%; padding: 14px; background-color: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        .subdrain-tool button:hover { background-color: #2563eb; }
+        .subdrain-result { margin-top: 20px; text-align: center; font-size: 1.3rem; font-weight: bold; color: #f8fafc; }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
     <script>
@@ -116,6 +123,28 @@
 <h2>The Anatomy of the Maze: Why Hidden Subscriptions Thrive</h2>
 <p>Understanding how you got lost in the Subscription Maze is the first step to finding your way out. This isn't just a matter of forgetfulness; it's a carefully engineered environment designed to capture and retain your money, often through sophisticated psychological and design tactics. The most common entrance to the maze is the alluring "Free Trial." Companies offer you a risk-free taste of their service, requiring a credit card upfront for "your convenience" when the trial ends. They are betting on a powerful psychological principle: inertia. Once you're signed up and have integrated the service into your life (or, more commonly, simply forgotten about it), the effort required to cancel is often greater than the perceived pain of the small monthly charge. This is compounded by the "endowment effect," where we place a higher value on things we possess, making us more reluctant to give up a service even if we don't use it. The transition from free to paid is intentionally seamless and quiet. You won't receive a loud, clear warning; you'll get a discreet email that's easily lost in a crowded inbox, and then the charges begin.</p>
 <p>Another architectural feature of this maze is the rise of the "Subscription Economy" itself. Everything from razors and coffee to software and entertainment is now available as a recurring service. This business model is incredibly lucrative for companies because it provides a predictable, stable revenue stream. For consumers, it offers convenience, but it also creates a fog of small, repeating payments that are hard to track. A single $50 purchase is noticeable; ten separate $5 charges are not. This "death by a thousand cuts" approach makes it difficult to grasp the true cumulative cost of all your subscriptions. Merchant billing names on bank statements can be intentionally cryptic—"GHI Services, LLC" or "MBI*Digital"—making it a chore to identify what you're even paying for. This lack of transparency is a feature, not a bug. It increases the friction of discovery and discourages you from investigating further.</p>
+
+<div class="subdrain-tool">
+    <h3>🛑 SubDrain: The Hidden Cost Calculator</h3>
+    <label>Total Monthly Subscriptions ($)</label>
+    <input type="number" id="monthlyAmount" value="50">
+    <label>Annual Market Return (e.g., 8%)</label>
+    <input type="number" id="annualReturn" value="8">
+    <button onclick="calculateDrain()">Calculate Wealth Drain</button>
+    <div id="result" class="subdrain-result"></div>
+</div>
+
+<script>
+function calculateDrain() {
+    const monthly = parseFloat(document.getElementById('monthlyAmount').value);
+    const annualRate = parseFloat(document.getElementById('annualReturn').value) / 100;
+    const monthlyRate = annualRate / 12;
+    const months = 10 * 12;
+    const futureValue = monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+    document.getElementById('result').innerHTML = "10-Year Loss: $" + Math.round(futureValue).toLocaleString();
+}
+</script>
+
 <p>Finally, we must talk about the deliberate design choices known as "dark patterns." These are user interface (UI) tricks designed to make you do things you didn't mean to, like signing up for a subscription or making it incredibly difficult to cancel one. Examples are everywhere:</p>
 <ul>
     <li><strong>The Roach Motel:</strong> This is the classic maze trap. It's incredibly easy to get into a subscription (one big, bright "Sign Up Free!" button) but frustratingly difficult to get out. The cancellation option might be buried five menus deep in your account settings, require you to fill out a long survey, or even force you to make a phone call during specific business hours.</li>
