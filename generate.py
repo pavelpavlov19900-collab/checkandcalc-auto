@@ -550,7 +550,16 @@ try:
     # 1. Вземаме всички статии и ги сортираме от най-новата към най-старата
     # (Игнорираме системните файлове и архивите)
     all_files = [f for f in glob.glob('*.html') if f not in ['index.html', 'about.html', 'disclosure.html', 'privacy.html', 'scam-checker.html', '404.html'] and not f.startswith('category-')]
-    all_files.sort(key=os.path.getmtime, reverse=True)
+    
+    import subprocess
+    def get_git_date(filepath):
+        try:
+            d = subprocess.check_output(['git', 'log', '--diff-filter=A', '--format=%cs', '-1', '--', filepath]).decode('utf-8').strip()
+            return d if d else "9999-99-99" # Новите файлове получават бъдеща дата, за да са най-отгоре
+        except:
+            return "9999-99-99"
+
+    all_files.sort(key=get_git_date, reverse=True)
     
     # 2. Ключови думи за разпределяне по категории
     ai_keywords = ['ai', 'detector', 'chatgpt', 'writing', 'human', 'deepfake', 'quillbot', 'claude', 'turnitin', 'gptzero', 'prompt']
