@@ -684,6 +684,7 @@ try:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{cat_title} - Check & Calc</title>
+    <link rel="canonical" href="https://checkandcalc.com/{cat_filename}" />
     <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
     <style>
         body {{ font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }}
