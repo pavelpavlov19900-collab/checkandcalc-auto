@@ -55,7 +55,7 @@ def generate_telegram_summary(title):
                 
             # Използваме най-бързия, евтин и надежден модел за кратки текстове
             response = client.models.generate_content(
-                model="gemini-1.5-flash", 
+                model="gemini-2.5-flash", 
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     max_output_tokens=100, # 💰 РЕЖЕМ РАЗХОДИТЕ: Строг лимит до 100 токена!
