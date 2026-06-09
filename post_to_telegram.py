@@ -32,43 +32,51 @@ def get_latest_article():
 def generate_telegram_summary(title):
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     
-    # 🧠 OUT-OF-THE-BOX ПРОМПТ (Ролева игра за маркетинг)
+    # 🧠 OUT-OF-THE-BOX ПРОМПТ (Брутална копирайтинг психология)
     prompt = (
-        f"Act as a world-class digital marketer and cyber-security expert. "
-        f"Write a viral, punchy, 2-sentence Telegram hook for this article title: '{title}'. "
-        f"Rule 1: Start with an alarming, curiosity-inducing question or a shocking fact. "
-        f"Rule 2: Offer the solution in the second sentence. "
-        f"Rule 3: Use exactly 3 highly expressive and relevant emojis (like 🤯, 🕵️‍♂️, 🚨, 💸, etc.) placed naturally. "
-        f"Rule 4: Do not use hashtags."
+        f"Act as a controversial tech-insider who leaks highly guarded secrets. "
+        f"Write an ultra-engaging, viral, 3-sentence Telegram teaser for an article titled: '{title}'. "
+        f"RULE 1: First sentence triggers massive curiosity (e.g., 'Forget what they told you...'). "
+        f"RULE 2: Second sentence highlights the hidden risk or massive benefit. "
+        f"RULE 3: Final sentence forces them to click. "
+        f"RULE 4: Use exactly 3 emojis. NO hashtags."
     )
     
-    try:
-        response = client.models.generate_content(
-            model="gemini-2.5-pro", 
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                max_output_tokens=150,
-                temperature=0.9, # Повишаваме креативността за по-разнообразни текстове
-                # Правилният синтаксис за сваляне на предпазителите в новото SDK
-                safety_settings=[
-                    types.SafetySetting(category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_ONLY_HIGH"),
-                    types.SafetySetting(category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_ONLY_HIGH"),
-                    types.SafetySetting(category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_ONLY_HIGH"),
-                    types.SafetySetting(category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_ONLY_HIGH"),
-                ]
+    # 🛡️ БРОНИРАН ЛУП (3 ОПИТА) + FLASH МОДЕЛ + ТОКЕН ЛИМИТ
+    import time
+    import random
+    attempts_config = [0, 3, 7] # Първо пробва веднага, после чака 3 сек, после 7 сек.
+    
+    for attempt, wait_time in enumerate(attempts_config):
+        try:
+            if wait_time > 0:
+                print(f"⏳ Опит {attempt + 1}/3: Изчакване на API-то {wait_time} секунди...")
+                time.sleep(wait_time)
+                
+            # Използваме най-бързия, евтин и надежден модел за кратки текстове
+            response = client.models.generate_content(
+                model="gemini-1.5-flash", 
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    max_output_tokens=100, # 💰 РЕЖЕМ РАЗХОДИТЕ: Строг лимит до 100 токена!
+                    temperature=0.9
+                )
             )
-        )
-        
-        if response and response.text:
-            return response.text.strip()
-        else:
-            raise ValueError("Моделът мълчи (Празна генерация).")
             
-    except Exception as e:
-        print(f"Грешка при Телеграм генерирането: {e}")
-        # 🛡️ РЕЗЕРВЕН ПЛАН (само ако има критичен срив на Google)
-        fallback_hook = f"Are you making this critical tech mistake? ⚠️ Read our latest breakdown: {title}. Lock down your digital life before it's too late. 🛡️"
-        return fallback_hook
+            if response and response.text:
+                return response.text.strip()
+                
+        except Exception as e:
+            print(f"⚠️ Опит {attempt + 1} се провали: {e}")
+            
+    # 🛡️ ФИНАЛЕН РЕЗЕРВЕН ПЛАН (Ако Google е тотално паднал)
+    print("❌ Всички 3 опита до Gemini се провалиха. Активиране на офлайн кукички.")
+    fallbacks = [
+        f"🚨 The tech industry doesn't want you thinking about this... Read the truth about: {title} 👇",
+        f"🤯 Most people get this entirely wrong. Discover the real story behind: {title} 👇",
+        f"⚠️ Critical update. If you use the internet, you need to read this breakdown: {title} 👇"
+    ]
+    return random.choice(fallbacks)
 
 def send_telegram_msg():
     filename, full_path = get_latest_article()
@@ -76,13 +84,15 @@ def send_telegram_msg():
         print("No new articles to post.")
         return
 
-    title = filename.replace("-", " ").replace(".html", "").capitalize()
+    title = filename.replace("-", " ").replace(".html", "").title()
     # Винаги сочи към главната директория, за да няма 404 грешки
     url = f"https://checkandcalc.com/{filename}"
     
     # Генерираме интелигентно описание с AI
     summary = generate_telegram_summary(title)
-    message = f"🚀 **NEW ARTICLE:**\n\n{summary}\n\n🔗 **Read full article here:**\n{url}"
+    
+    # 💎 ПРЕМИУМ ФОРМАТИРАНЕ НА СЪОБЩЕНИЕТО (Новият дизайн)
+    message = f"⚡ *INSIDER UPDATE:*\n\n{summary}\n\n👉 *Unlock the full guide here:*\n{url}"
 
     telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
@@ -93,7 +103,7 @@ def send_telegram_msg():
     
     response = requests.post(telegram_url, data=payload)
     if response.status_code == 200:
-        print(f"Successfully posted to Telegram: {title}")
+        print(f"✅ Successfully posted HIGH-ENGAGEMENT hook to Telegram: {title}")
     else:
         print(f"Error posting to Telegram: {response.text}")
 
