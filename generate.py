@@ -348,10 +348,32 @@ try:
     # Извикваме новата функция, която сложихме по-горе
     image_name = generate_ai_image(client, visual_description, G_PROJECT, filename)
     
-    # 3. 🛡️ ПРЕДПАЗИТЕЛ ЗА ЗАВЪРШЕНОСТ (Важно: Подравнен вляво, за да важи за всичко!)
-    if not (html_content.endswith('</p>') or html_content.endswith('</ul>') or html_content.endswith('</li>')):
-        html_content += "... and implement these strategies to ensure long-term success.</p><h2>Conclusion</h2><p>In summary, staying ahead of these trends is the key to business longevity and security. By following this guide, you maximize your growth and ensure a stable digital future.</p>"
+   # 3. 🛡️ ПРЕДПАЗИТЕЛ ЗА ЗАВЪРШЕНОСТ (Умен филтър срещу празни секции и двойни заключения)
+    html_content = html_content.strip()
+    
+    # ХАК 1: Ако AI-то е прекъснало веднага след заглавие (няма текст под него), изрязваме заглавието, за да няма празни пространства
+    last_h2_match = list(re.finditer(r'<h2>.*?</h2>', html_content, re.IGNORECASE))
+    if last_h2_match:
+        last_match = last_h2_match[-1]
+        after_last_h2 = html_content[last_match.end():].strip()
+        if len(after_last_h2) < 15: # Ако след заглавието има под 15 символа, значи е празно и увиснало
+            html_content = html_content[:last_match.start()].strip()
 
+    # ХАК 2: Проверяваме дали моделът вече сам си е генерирал секция за заключение
+    has_conclusion = "conclusion" in html_content.lower()[-600:]
+
+    # ХАК 3: Проверка и интелигентно затваряне на HTML структурата
+    if not (html_content.endswith('</p>') or html_content.endswith('</ul>') or html_content.endswith('</li>') or html_content.endswith('</div>')):
+        if has_conclusion:
+            # Ако има заключение, но просто тагът е леко отрязан, го затваряме чисто
+            if not html_content.endswith('>'):
+                html_content += "</p>"
+        else:
+            # Ако статията наистина е прекъсната по средата и няма заключение, инжектираме неутрално, високопрофесионално такова
+            html_content += "... and implement these analytical steps to ensure long-term optimization.</p><h2>Conclusion</h2><p>In conclusion, evaluating these technical data points and staying proactive is essential for achieving digital growth, minimizing hidden strategic overhead, and building a highly scalable structure.</p>"
+    elif not has_conclusion:
+        # Ако статията е затворена правилно, но моделът е забравил да напише Conclusion секция, я добавяме луксозно
+        html_content += "\n<h2>Conclusion</h2><p>In summary, leveraging these actionable metrics and utilizing transparent structures allows you to mitigate operational risks, protect your digital assets, and drive data-centric efficiency forward.</p>"
     # 4. 🚀 Вземаме точната дата за SEO Schema Markup
     today_iso = datetime.date.today().isoformat()
 
