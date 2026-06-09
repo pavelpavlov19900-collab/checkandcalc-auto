@@ -32,47 +32,50 @@ def get_latest_article():
 def generate_telegram_summary(title):
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     
-    # 🎯 НОВ, ПОДОБРЕН ПРОМПТ (Базиран на успешните постове от март)
+    # 🎯 По-директен и "нагъл" промпт
     prompt = (
-        f"You are a professional tech writer. Write a Telegram post for an article titled: '{title}'.\n"
-        f"Format the post exactly like this:\n"
+        f"You are a tech journalist. Write a Telegram post for: '{title}'.\n"
+        f"Format EXACTLY like this (NO intro text, NO explanations):\n\n"
         f"🚀 NEW ARTICLE:\n\n"
-        f"[Engaging hook: A relatable question or alarming fact about the topic in 1-2 sentences that creates curiosity.]\n\n"
-        f"[Value: A brief sentence explaining why the reader should care or how it protects them.]\n\n"
+        f"[Engaging hook: 1-2 sentences about the problem/danger.]\n\n"
+        f"[Value: 1 sentence on why the reader must check this.]\n\n"
         f"🔗 Read full article here:\n"
-        f"{title}\n\n" # Тук ще сложим линка в самия Python скрипт
-        f"Requirements:\n"
-        f"- Do NOT use 'Insider Update' or 'Forget'.\n"
-        f"- Use 2-3 relevant emojis maximum.\n"
-        f"- Tone: Alert, helpful, professional, and punchy."
+        f"{title}\n\n"
+        f"- Do NOT use 'Forget'.\n"
+        f"- Use 2-3 emojis."
     )
     
     import time
-    import random
     
-    # 3 опита за перфектен хук
-    for attempt in range(3):
+    # 8 Опита за успех
+    max_attempts = 8
+    
+    for attempt in range(max_attempts):
         try:
             response = client.models.generate_content(
                 model="gemini-2.5-flash", 
                 contents=prompt,
                 config=types.GenerateContentConfig(
-                    max_output_tokens=200, # Увеличихме лимита
-                    temperature=0.85
+                    max_output_tokens=150, 
+                    temperature=0.9
                 )
             )
             
             hook = response.text.strip()
             
-            # 🛡️ ВАЛИДАЦИЯ: Ако AI-то върне боклук или твърде кратък текст, опитай пак
-            if len(hook) > 50: 
+            # 🔍 ДЕБЪГ: Принтираме какво ни връща AI-то, за да знаем защо се проваля
+            print(f"DEBUG [Опит {attempt+1}]: AI върна: '{hook}'")
+            
+            # Валидация: Ако AI е върнал нещо смислено над 50 символа
+            if len(hook) > 50 and "🚀 NEW ARTICLE:" in hook:
                 return hook
             else:
-                print(f"⚠️ Опит {attempt+1}: AI върна твърде кратък хук. Рестартирам...")
+                print(f"⚠️ Опит {attempt+1}: Филтърът отхвърли хука (твърде кратък или липсва структура).")
+                time.sleep(2)
                 
         except Exception as e:
-            print(f"⚠️ Опит {attempt+1} се провали: {e}")
-            time.sleep(2)
+            print(f"⚠️ Опит {attempt+1} се провали с грешка: {e}")
+            time.sleep(3)
       
     # 🛡️ ФИНАЛЕН РЕЗЕРВЕН ПЛАН (Ако Google е тотално паднал)
     print("❌ Всички 3 опита до Gemini се провалиха. Активиране на офлайн кукички.")
