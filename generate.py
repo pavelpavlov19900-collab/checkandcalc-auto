@@ -362,18 +362,16 @@ try:
     # ХАК 2: Проверяваме дали моделът вече сам си е генерирал секция за заключение
     has_conclusion = "conclusion" in html_content.lower()[-600:]
 
-    # ХАК 3: Проверка и интелигентно затваряне на HTML структурата
-    if not (html_content.endswith('</p>') or html_content.endswith('</ul>') or html_content.endswith('</li>') or html_content.endswith('</div>')):
-        if has_conclusion:
-            # Ако има заключение, но просто тагът е леко отрязан, го затваряме чисто
-            if not html_content.endswith('>'):
-                html_content += "</p>"
-        else:
-            # Ако статията наистина е прекъсната по средата и няма заключение, инжектираме неутрално, високопрофесионално такова
-            html_content += "... and implement these analytical steps to ensure long-term optimization.</p><h2>Conclusion</h2><p>In conclusion, evaluating these technical data points and staying proactive is essential for achieving digital growth, minimizing hidden strategic overhead, and building a highly scalable structure.</p>"
-    elif not has_conclusion:
-        # Ако статията е затворена правилно, но моделът е забравил да напише Conclusion секция, я добавяме луксозно
+    # 🛡️ УМЕН ФИЛТЪР: Задължително заключение
+    # Скриптът проверява дали има заглавие "Conclusion"
+    if not re.search(r'<(h[23])>.*?Conclusion.*?</\1>', html_content, re.IGNORECASE):
+        # ТОВА Е Fail-safe механизмът: Ако няма, добавя го!
+        print("💡 AI-то е пропуснало заключението. Добавям го автоматично...")
         html_content += "\n<h2>Conclusion</h2><p>In summary, leveraging these actionable metrics and utilizing transparent structures allows you to mitigate operational risks, protect your digital assets, and drive data-centric efficiency forward.</p>"
+    else:
+        # Тук не добавяме нищо, за да не дублираме
+        print("✅ Заключението е намерено. Скриптът не се намесва.")
+   
     # 4. 🚀 Вземаме точната дата за SEO Schema Markup
     today_iso = datetime.date.today().isoformat()
 
