@@ -2,11 +2,16 @@ name: Facebook Auto-Publisher Factory
 
 on:
   schedule:
-    # Работи всеки ден в 10:00 UTC (което е перфектно за сутрешен трафик в САЩ/Европа)
     - cron: '0 19 * * *'
-  workflow_dispatch: # Това създава бутон "Run workflow" за ръчно тестване
-# 🚦 ТУК СЛАГАМЕ СВЕТОФАРА (ЕДНАКЪВ ЗА ВСИЧКИ 5 ФАЙЛА)
+  workflow_dispatch:
+
+# 🔐 ДОБАВИ ТОВА: Това позволява на Action-а да записва файлове в хранилището
+permissions:
+  contents: write
+
+# 🚦 Светофарът (за да не се застъпват няколко старта)
 concurrency: factory_queue
+
 jobs:
   publish_to_facebook:
     runs-on: ubuntu-latest
@@ -36,5 +41,10 @@ jobs:
           git config --global user.name 'Factory Bot'
           git config --global user.email 'bot@checkandcalc.com'
           git add posted_articles.txt
-          git commit -m "Update history: Marked article as posted" || echo "No changes to commit"
-          git push
+          # Проверяваме дали има промени, преди да commit-нем
+          if ! git diff --cached --quiet; then
+            git commit -m "Update history: Marked article as posted"
+            git push
+          else
+            echo "No changes to commit, skipping push."
+          fi
