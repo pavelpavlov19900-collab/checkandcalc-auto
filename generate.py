@@ -8,14 +8,18 @@ from google.genai import types  # НОВО: Нужно ни е за контро
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 G_PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT") # Трябва да го добавиш в GitHub Secrets
 
-# --- ХИРУРГ ЗА ВЪТРЕШНИ ЛИНКОВЕ (SEO ПАЯЖИНА) ---
+# --- ХИРУРГ ЗА ВЪТРЕШНИ ЛИНКОВЕ (УМНА SEO ПАЯЖИНА) ---
 def inject_surgical_links(html_content, current_filename):
-    print("🕸️ Изграждане на SEO паяжина (Internal Links)...")
+    print("🕸️ Изграждане на УМНА SEO паяжина (Thematic Internal Links)...")
     
     # 🛡️ ЗАЩИТЕН ЩИТ: Никога не пипай системните файлове и архивите!
     system_files = ['index.html', 'about.html', 'privacy.html', 'disclosure.html', 'scam-checker.html', '404.html']
     if current_filename in system_files or current_filename.startswith('category-'):
         return html_content
+    
+    import glob
+    import random
+    import re
     
     all_files = glob.glob('*.html')
     # Избираме линкове само от истинските статии
@@ -24,9 +28,37 @@ def inject_surgical_links(html_content, current_filename):
     if len(valid_files) < 2:
         return html_content 
 
-    import random
-    import re
-    chosen = random.sample(valid_files, 2)
+    # 🧠 НОВАТА ЛОГИКА: Три изрични речника за трите ти архива
+    ai_keywords = ['ai', 'detector', 'chatgpt', 'writing', 'human', 'deepfake', 'quillbot', 'claude', 'turnitin', 'gptzero', 'prompt', 'tech']
+    yt_keywords = ['youtube', 'earnings', 'money', 'views', 'rpm', 'adsense', 'cpm', 'tube', 'shorts', 'monetize', 'vlog', 'faceless', 'business']
+    sec_keywords = ['vpn', 'hacker', 'privacy', 'wifi', 'tracking', 'security', 'online', 'safe', 'scam', 'protection', 'identity', 'phishing', 'fake', 'ransomware', 'password', 'router', 'breach', 'cyber']
+    
+    def get_category(filename):
+        name_lower = filename.lower()
+        if any(k in name_lower for k in ai_keywords): return "ai"
+        elif any(k in name_lower for k in yt_keywords): return "youtube"
+        elif any(k in name_lower for k in sec_keywords): return "security"
+        else: return "general" # Фалбек, ако статията е на съвсем друга тема
+
+    # Разбираме от коя категория е статията, която генерираме в момента
+    current_category = get_category(current_filename)
+    
+    # Филтрираме базата, за да вземем САМО статии от същата категория
+    same_category_files = [f for f in valid_files if get_category(f) == current_category]
+
+    # 🛡️ ЗАЩИТА ОТ КРАШ: Какво правим, ако няма достатъчно статии в същата категория?
+    if len(same_category_files) >= 2:
+        # Идеалният сценарий: имаме поне 2 сродни статии
+        chosen = random.sample(same_category_files, 2)
+    elif len(same_category_files) == 1:
+        # Имаме само 1 сродна статия. Взимаме нея + 1 случайна от другите
+        chosen = [same_category_files[0]]
+        remaining = [f for f in valid_files if f != same_category_files[0]]
+        if remaining: 
+            chosen.append(random.choice(remaining))
+    else:
+        # Сайтът е съвсем нов в тази категория – взимаме 2 случайни
+        chosen = random.sample(valid_files, 2)
 
     def build_ui_block(filename):
         title = filename.replace('.html', '').replace('-', ' ').title()
@@ -38,11 +70,11 @@ def inject_surgical_links(html_content, current_filename):
         """
 
     link1 = build_ui_block(chosen[0])
-    link2 = build_ui_block(chosen[1])
+    link2 = build_ui_block(chosen[1]) if len(chosen) > 1 else ""
 
     p_tags = [m.start() for m in re.finditer(r'</p>', html_content, re.IGNORECASE)]
 
-    if len(p_tags) >= 6:
+    if len(p_tags) >= 6 and link2:
         pos2 = p_tags[4] + 4
         html_content = html_content[:pos2] + link2 + html_content[pos2:]
         pos1 = p_tags[1] + 4
