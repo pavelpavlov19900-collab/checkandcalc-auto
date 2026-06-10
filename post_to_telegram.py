@@ -54,11 +54,11 @@ def generate_telegram_summary(title):
     for attempt in range(max_attempts):
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash", 
+                model="gemini-2.5-pro", 
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     max_output_tokens=150, 
-                    temperature=0.85
+                    temperature=0.7 # Леко сваляме температурата (от 0.85), за да е по-прецизен и да не "кривва" от структурата
                 )
             )
             
