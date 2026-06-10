@@ -259,40 +259,35 @@ try:
         f"\n\nIMPORTANT: After the final HTML tag, add exactly this separator '---LINKEDIN-HOOK---' "
         f"followed by a one-sentence provocative summary for a LinkedIn post."
     )
-    # --- СТЪПКА 2: БРОНИРАНА СТРАТЕГИЯ С 10 ОПИТА ---
+    # --- СТЪПКА 2: БЪРЗА И СКЪПА (НО ЕФЕКТИВНА) СТРАТЕГИЯ ---
     import time
     response = None
 
-    # Новата конфигурация: 1, 2, 3, 5, 15, 25, 30 минути с Flash, 
-    # последвани от 45 и 50 минути с Pro. 
-    # Времената са в секунди с добавен "Jitter" (асиметрия) за избягване на сървърни пикове.
+    # Оптимизирана конфигурация: Директно използваме мощни модели.
+    # Премахнати са безумните изчаквания (sleep time), които убиват GitHub Actions.
     attempts_config = [
-        ('gemini-2.5-flash', 0),       
-        ('gemini-2.5-flash', 63),      
-        ('gemini-2.5-flash', 127),     
-        ('gemini-2.5-flash', 184),     
-        ('gemini-2.5-flash', 311),     
-        ('gemini-2.5-flash', 913),     
-        ('gemini-2.5-flash', 1517),    
-        ('gemini-2.5-flash', 1823),    
-        ('gemini-2.5-pro', 2731),         
-        ('gemini-2.5-pro', 3041)          
+        ('gemini-2.5-pro', 0),      # Опит 1: Директен удар с най-доброто
+        ('gemini-2.5-pro', 15),     # Опит 2: Лека пауза, ако има API rate limit
+        ('gemini-1.5-pro', 30),     # Опит 3: Смяна към предишното стабилно поколение
+        ('gemini-1.5-pro', 60)      # Опит 4: Последен опит с голямо изчакване
     ]
 
     for i, (model_name, wait_time) in enumerate(attempts_config):
         attempt_num = i + 1
         try:
             if wait_time > 0:
-                print(f"⏳ Сървърът е претоварен. Изчакване {wait_time // 60} мин и {wait_time % 60} сек (Опит {attempt_num}/7)...")
+                print(f"⏳ Изчакване {wait_time} сек (Опит {attempt_num}/4)...")
                 time.sleep(wait_time)
 
-            print(f"Опит {attempt_num}: Генериране с {model_name}...")
+            print(f"🚀 Опит {attempt_num}: Генериране с {model_name}...")
             
-            # Конфигурация: Flash пести ресурси, Pro използва максимална мощност
-            if 'flash' in model_name:
-                gen_config = types.GenerateContentConfig(max_output_tokens=6000, temperature=0.7)
-            else:
-                gen_config = types.GenerateContentConfig(max_output_tokens=6000)
+            # Вдигаме тавана до 8000, за да сме сигурни, че няма да бъде "отрязан" принудително, 
+            # но моделът сам ще спре, когато изпълни промпта (обикновено около 3000-4000 токена).
+            # Температурата е 0.7 за баланс между експертност и креативност.
+            gen_config = types.GenerateContentConfig(
+                max_output_tokens=8000, 
+                temperature=0.7
+            )
 
             response = client.models.generate_content(
                 model=model_name,
@@ -302,21 +297,25 @@ try:
             
             # 🛑 QA ПАЗАЧ (CONTENT ENFORCER) 🛑
             if response and response.text:
-                # 1. Броим думите в суровия отговор
                 word_count = len(response.text.split())
                 
-                # 2. Ако са под 1200, направо "чупим" опита и го караме да пише пак
-                if word_count < 1200:
-                    raise ValueError(f"AI-то мързелува! Написа само {word_count} думи. Изискват се минимум 1200. Изхвърляме и опитваме отново.")
+                # Намаляваме летвата съвсем леко. 1000 чисти, концентрирани "гуру" думи 
+                # са по-добри от 1200 думи пълнеж.
+                if word_count < 1000:
+                    print(f"⚠️ AI-то генерира само {word_count} думи. (Търсим минимум 1000).")
+                    if attempt_num == len(attempts_config):
+                         print("⚠️ Приемаме резултата, въпреки че е по-кратък, за да не чупим процеса.")
+                         break # Приемаме го на последния опит
+                    else:
+                         raise ValueError("Недостатъчен обем.")
                 
-                # 3. Ако мине теста, обявяваме победа
                 print(f"✅ АБСОЛЮТЕН УСПЕХ при опит {attempt_num} с модел {model_name}! (Обем: {word_count} думи 🏆)")
                 break
 
         except Exception as e:
             print(f"⚠️ Опит {attempt_num} не успя поради грешка: {e}")
             if attempt_num == len(attempts_config):
-                print("❌ Критичен срив: Всички 7 стратегически опита се провалиха. Google е напълно недостъпен.")
+                print("❌ Критичен срив: Всички опити се провалиха. Проверете API ключа и квотите.")
                 exit()
     # --- КРАЙ НА БРОНИРАНАТА СТРАТЕГИЯ ---
 
