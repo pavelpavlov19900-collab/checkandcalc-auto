@@ -1,7 +1,9 @@
 import os
 import requests
+import random  # ФИКСИРАНО: Вече няма да има NameError
+import time    # ФИКСИРАНО: Изнесено на правилното място
 from google import genai
-from google.genai import types # НОВО: Добавено за контрол на разходите
+from google.genai import types
 
 # Конфигурация от GitHub Secrets
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -14,7 +16,7 @@ def get_latest_article():
     # 🛡️ ЗАЩИТА: Игнорираме всички системни файлове
     ignored_files = ["index.html", "404.html", "about.html", "privacy.html", "disclosure.html", "scam-checker.html", "google_verification.html"]
     
-    # 🕵️‍♂️ УМЕН ФИЛТЪР: Вземаме само файлове, които завършват на .html, не са в игнорираните и НЕ започват с "category-"
+    # 🕵️‍♂️ УМЕН ФИЛТЪР: Вземаме само файлове, които завършват на .html
     posts = [f for f in os.listdir(search_path) 
              if f.endswith(".html") 
              and f not in ignored_files 
@@ -28,27 +30,26 @@ def get_latest_article():
     full_path = os.path.join(search_path, latest_file)
     return latest_file, full_path
 
-# --- НОВАТА, ОПТИМИЗИРАНА И БРОНИРАНА ФУНКЦИЯ ---
 def generate_telegram_summary(title):
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    """
+    Генерира ЕДИНСТВЕНО ангажиращия текст (кукичката).
+    Конструкцията на поста се поема изцяло от Python за максимална стабилност.
+    """
+    client = genai.Client(api_key=GEMINI_KEY)
     
-    # 🎯 По-директен и "нагъл" промпт
+    # Изчистен и директен промпт без объркващи символи и структури
     prompt = (
-        f"You are a tech journalist. Write a Telegram post for: '{title}'.\n"
-        f"Format EXACTLY like this (NO intro text, NO explanations):\n\n"
-        f"🚀 NEW ARTICLE:\n\n"
-        f"[Engaging hook: 1-2 sentences about the problem/danger.]\n\n"
-        f"[Value: 1 sentence on why the reader must check this.]\n\n"
-        f"🔗 Read full article here:\n"
-        f"{title}\n\n"
-        f"- Do NOT use 'Forget'.\n"
-        f"- Use 2-3 emojis."
+        f"You are an expert copywriter and tech journalist. Write a compelling, high-engagement hook for a Telegram post based on this article title: '{title}'.\n\n"
+        f"Requirements:\n"
+        f"1. Write 1-2 sentences highlighting a hidden problem, danger, or mind-blowing fact related to the topic to grab instant attention.\n"
+        f"2. Follow immediately with 1 sentence explaining the direct value the reader gets by checking this out.\n"
+        f"3. Do NOT include any intro greetings, headers (like '🚀 NEW ARTICLE'), or meta-explanations.\n"
+        f"4. Do NOT use the word 'Forget'.\n"
+        f"5. Include 2-3 highly relevant emojis.\n\n"
+        f"Output only the hook text:"
     )
     
-    import time
-    
-    # 8 Опита за успех
-    max_attempts = 8
+    max_attempts = 5  # 5 опита са напълно достатъчни за новия промпт
     
     for attempt in range(max_attempts):
         try:
@@ -57,53 +58,52 @@ def generate_telegram_summary(title):
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     max_output_tokens=150, 
-                    temperature=0.9
+                    temperature=0.85
                 )
             )
             
             hook = response.text.strip()
-            
-            # 🔍 ДЕБЪГ: Принтираме какво ни връща AI-то, за да знаем защо се проваля
             print(f"DEBUG [Опит {attempt+1}]: AI върна: '{hook}'")
             
-            # Валидация: Ако AI е върнал нещо смислено над 50 символа
-            if len(hook) > 50 and "🚀 NEW ARTICLE:" in hook:
+            # Валидация: Тъй като искаме само чист текст, проверяваме за минимална дължина
+            if len(hook) > 30 and "🚀" not in hook[0:15]: 
                 return hook
             else:
-                print(f"⚠️ Опит {attempt+1}: Филтърът отхвърли хука (твърде кратък или липсва структура).")
+                print(f"⚠️ Опит {attempt+1}: Филтърът отхвърли резултата (невалидна структура или твърде кратък).")
                 time.sleep(2)
                 
         except Exception as e:
             print(f"⚠️ Опит {attempt+1} се провали с грешка: {e}")
             time.sleep(3)
       
-    # 🛡️ ФИНАЛЕН РЕЗЕРВЕН ПЛАН (Ако Google е тотално паднал)
-    print("❌ Всички 3 опита до Gemini се провалиха. Активиране на офлайн кукички.")
+    # 🛡️ СТАБИЛЕН ОФЛАЙН РЕЗЕРВЕН ПЛАН
+    print("❌ Всички опити до Gemini се провалиха или върнаха грешен формат. Активиране на офлайн кукички.")
     fallbacks = [
-        f"🚨 The tech industry doesn't want you thinking about this... Read the truth about: {title} 👇",
-        f"🤯 Most people get this entirely wrong. Discover the real story behind: {title} 👇",
-        f"⚠️ Critical update. If you use the internet, you need to read this breakdown: {title} 👇"
+        "🚨 The tech industry doesn't want you thinking about this... Here is the realistic breakdown you need to see.",
+        "🤯 Most people get this entirely wrong. Discover the real data and analysis behind this topic right now.",
+        "⚠️ Critical update. If you want to optimize your results and avoid common traps, you cannot ignore this."
     ]
     return random.choice(fallbacks)
 
 def send_telegram_msg():
     filename, full_path = get_latest_article()
     if not filename:
+        print("Няма открити нови статии за публикуване.")
         return
 
     title = filename.replace("-", " ").replace(".html", "").title()
     url = f"https://checkandcalc.com/{filename}"
     
-    # Генерираме тялото с AI
-    summary = generate_telegram_summary(title)
+    # Генерираме само психологическата кукичка чрез AI или fallback
+    hook_text = generate_telegram_summary(title)
     
-    # 💎 ЖЕЛЯЗНА СТРУКТУРА (Точно както искаш)
-    # Премахваме hardcoded "Unlock..." и използваме изцяло форматирането от AI
-    # Или по-добре: форматираме го тук, за да е консистентно
-    
-    # Преди: message = f"⚡ *INSIDER UPDATE:*\n\n{summary}..."
-    # СЕГА (твоят предпочитан дизайн):
-    message = f"{summary.replace(title, '')}\n🔗 Read full article here:\n{url}"
+    # 💎 ЖЕЛЯЗНА И КРАСИВА СТРУКТУРА (Сглобена безопасно в Python)
+    message = (
+        f"🚀 *NEW ARTICLE: {title}*\n\n"
+        f"{hook_text}\n\n"
+        f"🔗 *Read full article here:*\n"
+        f"{url}"
+    )
 
     telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
