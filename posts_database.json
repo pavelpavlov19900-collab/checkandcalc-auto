@@ -708,5 +708,13 @@
     "link": "https://checkandcalc.com/the-smart-home-ransomware-threat-is-your-fridge-leaking-data.html",
     "image_path": "the-smart-home-ransomware-threat-is-your-fridge-leaking-data.png",
     "published": false
+  },
+  {
+    "id": 90,
+    "title": "AI Hallucination Risks: Why You Still Need Human Fact-Checkers",
+    "text": "🚨 Your new AI assistant is a brilliant, confident, and compulsive liar, and your team is probably copying its work directly into your core products as we speak.\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
+    "link": "https://checkandcalc.com/ai-hallucination-risks-why-you-still-need-human-fact-checkers.html",
+    "image_path": "ai-hallucination-risks-why-you-still-need-human-fact-checkers.png",
+    "published": false
   }
 ]
