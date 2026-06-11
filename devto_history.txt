@@ -39,3 +39,4 @@ public-charging-stations-the-dangers-of-juice-jacking-explained
 why-is-my-completely-human-written-text-flagged-as-ai-generated
 youtube-shorts-rpm-2026-can-you-finally-make-a-living-from-short-form
 the-true-cost-of-a-cyber-attack-on-your-personal-finances
+the-smart-home-ransomware-threat-is-your-fridge-leaking-data
