@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wearable Tech Security: Can Your Fitness Tracker Leak Your Location?</title>
+    <meta property="og:title" content="Wearable Tech Security: Can Your Fitness Tracker Leak Your Location?" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://checkandcalc.com/wearable-tech-security-can-your-fitness-tracker-leak-your-location.png" />
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
+    <link rel="canonical" href="https://checkandcalc.com/wearable-tech-security-can-your-fitness-tracker-leak-your-location.html" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://checkandcalc.com/wearable-tech-security-can-your-fitness-tracker-leak-your-location.html"
+      },
+      "headline": "Wearable Tech Security: Can Your Fitness Tracker Leak Your Location?",
+      "datePublished": "2026-06-12",
+      "dateModified": "2026-06-12",
+      "author": {
+        "@type": "Organization",
+        "name": "Check & Calc AI Security",
+        "url": "https://checkandcalc.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Check & Calc",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://checkandcalc.com/favicon.ico"
+        }
+      }
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }
+        .article-container { max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+        /* ДОБАВИ ТОВА ТУК 👇 */
+        .article-banner { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+        /* ------------------ */
+        h1 { color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }
+        h2 { color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }
+        h3 { color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }
+        a { color: #60a5fa; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        a:hover { border-bottom: 1px solid #60a5fa; }
+        p { margin-bottom: 20px; font-size: 1.05rem; color: #cbd5e1; }
+        ul, ol { margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }
+        li { margin-bottom: 10px; }
+        strong { color: #f8fafc; }
+        
+        /* 🤖 AI & GEO Оптимизиран блок за ChatGPT/Gemini */
+        .ai-answer-box { background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; padding: 20px 25px; margin-bottom: 35px; border-radius: 0 8px 8px 0; border-top: 1px solid #1f2937; border-right: 1px solid #1f2937; border-bottom: 1px solid #1f2937; }
+        .ai-answer-box h2 { color: #10b981; font-size: 1.2rem; margin-top: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-answer-box ul { margin-bottom: 0; }
+        .ai-answer-box li { color: #f8fafc; font-weight: 500; font-size: 1rem; }
+        
+        /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
+        .premium-cta { margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }
+        .cta-tag { font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }
+        .cta-title { font-size: 1.5rem; font-weight: 900; color: #f8fafc; margin-bottom: 10px; }
+        .cta-desc { font-size: 1rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.4; }
+        .cta-button { display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .cta-button:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+        
+        /* Premium Telegram Box - Universal Hook */
+        .premium-hook {
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(145deg, #111827, #1e293b);
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+        .hook-title { color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .hook-text { color: #94a3b8; font-size: 1rem; margin-bottom: 25px; }
+        .tg-btn-premium {
+            display: inline-block;
+            background: #3b82f6;
+            color: #ffffff !important;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .tg-btn-premium:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #2563eb; }
+        
+        .back-btn { display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }
+        .back-btn:hover { background-color: #334155; color: #ffffff; cursor: pointer; }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LXJ2T5DJZH');
+    </script>
+</head>
+<body>
+    <div class="article-container">
+       <img src="wearable-tech-security-can-your-fitness-tracker-leak-your-location.png" class="article-banner" alt="Wearable Tech Security: Can Your Fitness Tracker Leak Your Location?">  <h1>Wearable Tech Security: Can Your Fitness Tracker Leak Your Location?</h1>
+<div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul><li><strong>Yes, your fitness tracker can absolutely leak your location</strong>, both in real-time through live tracking features and historically through stored GPS logs on company servers.</li><li><strong>The biggest risks are insecure app permissions, public sharing of workout maps, and weak Bluetooth protocols</strong> that can be tracked by third parties.</li><li><strong>You can lock this down</strong> by setting your app's location access to "While Using," creating privacy zones around your home, and making all your activities private by default.</li></ul></div>
+
+<h2>Introduction</h2>
+
+<p>Alright, let's cut the crap. You got that new fitness tracker. It's sleek, it's motivating, and it promises to turn you into a finely-tuned machine. You're tracking your steps, your heart rate, your sleep... and your exact location, 24/7. Most people just unbox it, sync it, and start running, completely oblivious to the fact that they've just strapped a personal surveillance device to their own wrist.</p>
+
+<p>For 15 years, I've been the guy companies call when their data goes sideways. I've seen how the sausage gets made, and let me tell you, the data from your wearable is the prime ingredient. These devices aren't just gadgets; they are relentless data collectors tethered to massive corporate ecosystems designed to monetize your every move. The question isn't *if* your tracker can leak your location; the question is *how many ways* it's already doing it.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="phishing-simulations-how-to-train-your-staff-to-spot-2026-scams.html" style="color: inherit; text-decoration: underline; font-weight: bold;">Phishing Simulations How To Train Your Staff To Spot 2026 Scams</a>
+        </div>
+        
+
+<p>This isn't a guide to scare you into throwing your tracker in a drawer. Fear is useless. Knowledge is power. I'm going to walk you through exactly how your location is being exposed, who wants it, and the concrete, practical steps you can take to lock it down. No corporate doublespeak, just the ground truth from someone who's spent a decade and a half in the trenches.</p>
+
+<h2>The GPS Goldmine: How Your Tracker Knows Exactly Where You Are</h2>
+
+<p>Let's start with the most obvious culprit: the Global Positioning System (GPS) chip embedded in most modern fitness trackers. When you hit 'Start Workout,' that chip begins talking to satellites orbiting the Earth to pinpoint your location with scary accuracy. But its function goes far beyond just drawing a neat line on a map for you to admire later. It's logging a stream of data points—latitude, longitude, altitude, speed, and precise timestamps—every few seconds. This creates a digital breadcrumb trail of your every move during that activity.</p>
+
+<p>This data is then uploaded and stored indefinitely on the company's servers (think Garmin, Fitbit, Apple). This historical log is a goldmine. It doesn't just show you went for a run; it shows the run started and ended at 123 Main Street. It shows you do this same run every Monday, Wednesday, and Friday at 6:00 AM. It shows you visit a specific medical complex every other Tuesday. This is called "pattern-of-life" analysis, and it's something intelligence agencies spend millions to acquire. You're just giving it away for free.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="how-to-humanize-ai-text-without-losing-the-original-meaning-and-formatting.html" style="color: inherit; text-decoration: underline; font-weight: bold;">How To Humanize Ai Text Without Losing The Original Meaning And Formatting</a>
+        </div>
+        
+
+<p>The infamous Strava incident from 2018 is the poster child for this risk. By visualizing all the public GPS data from its users, their "Global Heatmap" inadvertently revealed the exact locations, patrol routes, and layouts of secret U.S. military bases in places like Syria and Afghanistan. Soldiers, wearing their trackers, were painting a target on their own backs. If it can happen to a classified military installation, it can happen to your home. A burglar doesn't need a complex plan when they can simply browse a public fitness app, see you've just started a two-hour bike ride, and know your house is empty. Your GPS log isn't a record of your fitness; it's a public announcement of your habits and vulnerabilities.</p>
+
+<p>Furthermore, the danger isn't just in the raw GPS data. It's in the metadata and the ecosystem around it. When you snap a photo mid-run and upload it through the app, does it contain EXIF data with embedded geotags? When you name a route "Morning Home Loop," are you literally labeling your house for the world to see? These companies collect, aggregate, and store this information in massive data lakes. A single breach of their servers, which happens all the time, could expose the intimate movement patterns of millions of users in one fell swoop. Your tracker's GPS isn't just a feature; it's a liability you need to actively manage.</p>
+
+<h2>Bluetooth & Wi-Fi: The Invisible Tethers Broadcasting Your Presence</h2>
+
+<p>GPS is the loud, obvious location tracker, but it's not the only ghost in the machine. Your wearable is constantly communicating using short-range wireless signals like Bluetooth and, in some cases, Wi-Fi. These signals create their own distinct set of privacy risks that are far more subtle and harder to control. The primary connection is Bluetooth Low Energy (BLE), which allows your tracker to sync with your smartphone. To do this, your tracker constantly broadcasts a small packet of data, like a ship's beacon, saying "Here I am! Here is my unique ID!"</p>
+
+<p>Your phone is designed to listen for this specific signal. The problem is, anyone else can listen, too. Using cheap, easily available hardware and software (a practice sometimes called "Bluetooth sniffing"), an attacker can sit in a public place like a coffee shop or airport and log the unique IDs of every BLE device that comes within range. Over time, they can track the movement of your specific device ID without ever needing to access your account or GPS data. Think of it like this: your GPS data is your travel diary, but your Bluetooth signal is a bell on your shoe, announcing your presence in every room you enter.</p>
+
+<p>This becomes even more powerful in dense urban areas. Retail stores, malls, and even cities are deploying networks of BLE scanners to track foot traffic for marketing and analysis. They can see how long you linger in a certain aisle or which path you take through a shopping center, all by passively tracking your wearable's unique signal. You've become an unwitting participant in their market research. This data, while perhaps "anonymized" by stripping your name, can easily be re-identified when correlated with other data points, like a credit card swipe at a register.</p>
+
+<p>Then there's Wi-Fi. Even if your tracker doesn't have Wi-Fi, your paired smartphone does. Your phone constantly scans for nearby Wi-Fi networks and reports their names (SSIDs) and signal strengths back to Apple or Google to build a global database for location services. This is called Wi-Fi triangulation. It's how your phone can find its location indoors where GPS can't reach. Because your tracker is always tethered to your phone, this secondary location data is intrinsically linked to you. So, even with GPS disabled on the watch itself, a highly accurate location can be determined just from the Wi-Fi networks your phone can see. The invisible web of signals you're swimming in is constantly being used to map your location, whether you're actively tracking a workout or not.</p>
+
+<p>💡 <strong>Expert IT Tip:</strong> You can see this for yourself. Download a free BLE scanner app like 'nRF Connect for Mobile' on your phone. You'll be shocked to see a list of all the Bluetooth devices broadcasting around you, from headphones to fitness trackers, each with a unique MAC address. You can go into your phone's Bluetooth settings and often make your phone itself "non-discoverable," which is good practice. For your tracker, the best defense is turning Bluetooth off on your phone when you're not actively syncing, which starves it of its primary connection.</p>
+
+<h2>The App is the Spy: Permissions, Privacy Policies, and Data Brokers</h2>
+
+<p>Let's be brutally honest: the hardware on your wrist is just a dumb sensor. The real danger, the true spy in this operation, is the smartphone app you're forced to use. This piece of software is the brain, the data broker, and the weakest link in your entire security chain. When you first installed it, you probably clicked "Allow" on a dozen permission prompts without a second thought. You just gave a corporation a set of digital keys to your life, and you have no idea what doors they open.</p>
+
+<p>The most egregious permission is "Location." Most apps will push you to grant "Allow Always" access. This doesn't mean it only uses your location when you're running. It means the app can, and often does, ping your location in the background, 24/7, even when you haven't opened it in days. They justify this with features like weather updates or starting a workout automatically, but the reality is it allows them to build a comprehensive, non-stop map of your life. The difference between "Allow While Using" and "Allow Always" is the difference between a tool you control and a parole officer's ankle monitor.</p>
+
+<p>Then comes the privacy policy, that 50-page legal document nobody ever reads. I've read hundreds of them. They are intentionally written to be confusing, but they all contain the same dirty secrets if you know what to look for. Search for terms like "third-party partners," "affiliates," and "marketing." You will almost always find language that gives the company the right to share, sell, or transfer your data. And what about "anonymized" or "aggregated" data? That's a joke. Researchers have repeatedly shown that it's trivial to de-anonymize location data. A few "anonymous" GPS tracks starting and ending at the same building every day is enough to identify a person's home. Your unique commute is as good as a fingerprint.</p>
+
+<p>This data is sold to a shadowy ecosystem of data brokers. These companies fuse your location data with your credit card history, browsing habits, public records, and more to create a terrifyingly detailed profile of you. This profile is then sold to advertisers, insurance companies trying to set your premiums, and even hedge funds trying to predict retail trends. You are not the customer of the fitness company; you are the product they are selling. The app isn't free because they're nice; it's free because your personal data is worth more to them than a one-time subscription fee. Every permission you grant is another revenue stream for them and another privacy violation for you.</p>
+
+    <div class="premium-cta">
+        <div class="cta-tag">RECOMMENDED BY CHECK & CALC</div>
+        <div class="cta-title">🦈 SECURE YOUR DIGITAL LIFE</div>
+        <p class="cta-desc">Protect your identity and browse privately with Surfshark One - the all-in-one security suite.</p>
+        <a href="https://get.surfshark.net/aff_c?offer_id=1249&aff_id=45762&source=https://checkandcalc.com/" target="_blank" class="cta-button">GET 60% OFF SURFSHARK NOW</a>
+    </div>
+    
+
+
+<h2>Real-World Threats: From Stalkers to Burglars and Beyond</h2>
+
+<p>So far, we've talked about the technical "how." Now let's talk about the real-world "so what." This isn't theoretical; this data leakage has real, physical consequences. The threats range from personal harassment to international espionage, and your fitness tracker is the common thread connecting them all. Let's break down the threat models, moving from the personal to the global.</p>
+
+<p>First, the domestic threat: stalking and harassment. Many fitness apps have social features that encourage you to share your activities publicly. An abusive ex-partner or a stalker can exploit this feature with zero technical skill. By simply following your public profile, they can learn your daily running route, the time you leave for work, the location of your gym, and your home address. Features meant to be motivational become a stalker's toolkit. They don't need to put a tracker on your car when you've willingly strapped one to your own body and are broadcasting its signal to the world.</p>
+
+<p>Second, the criminal threat: burglary. This is pure opportunism. Criminals are actively monitoring social fitness platforms. When you post your "Awesome 25-mile bike ride!" with a map and duration, you've just placed a public advertisement that your home is guaranteed to be empty for the next hour and a half. It's the digital equivalent of leaving a note on your front door that says, "Gone fishing, back at 5 PM." They can see the start/end point of your ride is in a wealthy suburb, making you a prime target. This isn't a sophisticated hack; it's simple, open-source intelligence gathering that you are providing them.</p>
+
+<p>Third, the corporate and state-level threat. This is where it gets serious. Think about a high-level corporate executive. Their running route might take them past a competitor's headquarters. Or maybe their travel patterns, tracked via their watch, reveal they are having secret meetings with a firm they're planning to acquire. This is corporate espionage gold. For government officials, diplomats, or journalists, the risk is even higher. A compromised account can reveal sensitive meeting locations, travel to restricted areas, or patterns of life that can be used for blackmail or physical threats. We already saw how this exposed military bases. Don't think for a second that foreign intelligence services aren't mining this exact same data for high-value targets today.</p>
+
+<p>Finally, there's the legal threat. Your own data can be used against you. In a contentious divorce, a GPS log could be subpoenaed to prove or disprove infidelity. In an insurance claim after a car accident, your activity data could be used to argue you were not as injured as you claimed because you went for a jog two weeks later. The data you generate is a permanent record, and once it's out there, you lose control over how it's used by the legal system, law enforcement, or anyone else with the power to demand it.</p>
+
+<h2>Your Action Plan: Hardening Your Wearable and Taking Back Control</h2>
+
+<p>Enough with the problems. Let's get to the solutions. You have far more control than you think, but you have to be proactive. Waiting for a privacy breach is like waiting to buy a fire extinguisher after your house is already on fire. Follow these steps methodically, and you can significantly reduce your risk profile. This is your personal security checklist.</p>
+
+<p><strong>Step 1: The App Permission Audit.</strong> Stop what you're doing and pick up your phone. On iOS, go to Settings > Privacy & Security > Location Services. On Android, go to Settings > Location > App location permissions. Find your fitness app (Garmin Connect, Fitbit, Strava, etc.). If it's set to "Always," change it immediately to "While Using the App." This single change is the most important step you can take. While you're there, revoke any other permissions the app doesn't absolutely need. Does it need access to your Contacts? Your Microphone? Your Camera? No. Turn them off.</p>
+
+<p><strong>Step 2: Create Digital Blackout Zones.</strong> Your biggest vulnerability is the start and end point of your activities: your home and your office. Most major platforms now have a feature to address this. On Strava, it's called "Edit Map Visibility" or "Privacy Zones." On Garmin Connect, you can set privacy settings. Use these tools to create a radius of at least a half-mile to a mile around your home, workplace, and any other sensitive location. This will hide the exact start and end of your activities from public maps, replacing it with a fuzzy, imprecise area.</p>
+
+<p><strong>Step 3: Default to Private.</strong> Go into the privacy settings of your fitness app and make your default activity sharing setting "Private" or "Followers Only." Public should never be the default. This ensures that if you forget to change the setting on a specific workout, it automatically defaults to the most secure option. Be ruthless about who you allow to follow you. If you don't know them personally, don't accept the request. Treat it like your personal social media, not a race to get the most followers.</p>
+
+<p><strong>Step 4: Practice Good Wireless Hygiene.</strong> Your tracker's Bluetooth doesn't need to be on all day. Turn off Bluetooth on your phone when you're not actively syncing data. This severs the constant connection and stops the device from broadcasting its presence to any nearby scanners. It also saves battery life on both your phone and your tracker. It's a win-win.</p>
+
+<p><strong>Step 5: Update, Update, Update.</strong> I can't stress this enough. Security vulnerabilities are found in software and firmware all the time. The only way to fix them is to install the updates that the company releases. Enable automatic updates for both the app on your phone and the firmware on the tracker itself. Ignoring that "update available" notification is like leaving your front door unlocked because you can't be bothered to turn the key.</p>
+
+<p>💡 <strong>Expert IT Tip:</strong> Compartmentalize your digital life. When you sign up for a fitness service, don't use your primary email address. Use a unique, dedicated email alias (services like SimpleLogin or AnonAddy are great for this). Crucially, *never* use "Sign in with Google" or "Sign in with Facebook." Doing so creates a massive data link between your fitness profile and your social/personal profile, making it much easier for data brokers to connect the dots. By using a separate email and password, you keep that data siloed.</p>
+
+<h2>Conclusion</h2>
+
+<p>Look, your fitness tracker is a fantastic piece of technology. It can provide incredible insights and motivation. But it's not a toy. It's a powerful data collection tool that you've attached to your body. The convenience it offers comes with a steep, often invisible, privacy cost. The companies that make these devices are not your friends; they are businesses, and your data is their most valuable asset.</p>
+
+<p>The goal isn't to live in a state of paranoia. The goal is to operate from a position of informed consent. It's about understanding the trade-off you're making and using the tools at your disposal to minimize your exposure. You wouldn't hand over your daily diary to a stranger, so don't hand over your digital one without putting up a fight.</p>
+
+<p>By auditing app permissions, locking down your privacy settings, and practicing smart digital hygiene, you can reclaim control. You can get all the fitness benefits without broadcasting your life to criminals, stalkers, and data brokers. Treat your location data with the same respect you treat your house keys or your bank password. It's a critical piece of your personal security. Now go lock it down.</p>
+        
+        <div class="premium-hook">
+            <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+            <p class="hook-text">
+                Don't wait for the headlines. Our <strong>Private Telegram Channel</strong> delivers real-time AI security updates and digital wealth strategies before they go viral. Stay protected. Stay ahead.
+            </p>
+            <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-premium">⚡ JOIN THE 1% NOW</a>
+        </div>
+        
+       <div style="margin-top: 50px; padding: 30px; background: #0f172a; border-radius: 16px; border: 1px solid #1f2937; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <h3 style="color: #cbd5e1; font-size: 1.25rem; margin-top: 0; margin-bottom: 12px;">🧰 Try Our Free Tools & Calculators</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 25px;">No sign-up required. Instantly check risks, analyze AI text, or calculate your digital finances.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+                <a href="index.html#scam" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🛡️ SafeSiteCheck</a>
+                <a href="index.html#ai" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🧠 HumanScore</a>
+                <a href="index.html#yt" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">📺 TubeEarnings</a>
+                <a href="index.html#subdrain" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">💳 SubDrain</a>
+                <a href="index.html#breachcost" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">⚠️ BreachCost</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-btn">🚀 Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
