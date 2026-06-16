@@ -44,3 +44,4 @@ wearable-tech-security-can-your-fitness-tracker-leak-your-location
 the-freemium-psychology-how-apps-manipulate-you-into-upgrading
 the-no-code-movement-limitations-when-you-actually-need-to-hire-a-dev
 the-hidden-costs-of-video-editing-time-vs-outsourcing-math
+using-ai-to-translate-articles-without-losing-the-local-feel
