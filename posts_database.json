@@ -748,5 +748,13 @@
     "link": "https://checkandcalc.com/the-burstiness-factor-how-variation-in-sentence-length-beats-ai-detectors.html",
     "image_path": "the-burstiness-factor-how-variation-in-sentence-length-beats-ai-detectors.png",
     "published": false
+  },
+  {
+    "id": 95,
+    "title": "Using AI to Translate Articles Without Losing the \"Local\" Feel",
+    "text": "🚨 Your AI translator is making you sound stupid to a global audience—here's the command-line fix.\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
+    "link": "https://checkandcalc.com/using-ai-to-translate-articles-without-losing-the-local-feel.html",
+    "image_path": "using-ai-to-translate-articles-without-losing-the-local-feel.png",
+    "published": false
   }
 ]
