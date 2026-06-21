@@ -788,5 +788,13 @@
     "link": "https://checkandcalc.com/why-your-company-needs-a-zero-trust-policy-right-now.html",
     "image_path": "why-your-company-needs-a-zero-trust-policy-right-now.png",
     "published": false
+  },
+  {
+    "id": 100,
+    "title": "The \"Accept Cookies\" Maze: What You Are Actually Agreeing To",
+    "text": "🚨 That \"Accept All\" button isn't a formality; it's a one-click surrender of your digital privacy to hundreds of companies you've never heard of.\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
+    "link": "https://checkandcalc.com/the-accept-cookies-maze-what-you-are-actually-agreeing-to.html",
+    "image_path": "the-accept-cookies-maze-what-you-are-actually-agreeing-to.png",
+    "published": false
   }
 ]
