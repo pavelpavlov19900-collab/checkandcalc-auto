@@ -37,3 +37,4 @@ best-hardware-wallets-2026-ledger-vs-trezor-vs-bitbox-compared.html
 how-to-report-a-scam-website-to-google-and-get-it-taken-down-fast.html
 two-factor-authentication-flaws-why-sms-2fa-is-no-longer-safe.html
 the-ultimate-browser-security-moving-beyond-chrome-for-maximum-privacy.html
+what-to-do-if-you-paid-on-a-scam-website.html
