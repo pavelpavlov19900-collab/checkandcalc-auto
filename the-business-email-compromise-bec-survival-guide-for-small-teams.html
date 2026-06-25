@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 'Business Email Compromise' (BEC) Survival Guide for Small Teams</title>
+    <meta property="og:title" content="The 'Business Email Compromise' (BEC) Survival Guide for Small Teams" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://checkandcalc.com/the-business-email-compromise-bec-survival-guide-for-small-teams.png" />
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
+    <link rel="canonical" href="https://checkandcalc.com/the-business-email-compromise-bec-survival-guide-for-small-teams.html" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://checkandcalc.com/the-business-email-compromise-bec-survival-guide-for-small-teams.html"
+      },
+      "headline": "The 'Business Email Compromise' (BEC) Survival Guide for Small Teams",
+      "datePublished": "2026-06-25",
+      "dateModified": "2026-06-25",
+      "author": {
+        "@type": "Organization",
+        "name": "Check & Calc AI Security",
+        "url": "https://checkandcalc.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Check & Calc",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://checkandcalc.com/favicon.ico"
+        }
+      }
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }
+        .article-container { max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+        /* ДОБАВИ ТОВА ТУК 👇 */
+        .article-banner { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+        /* ------------------ */
+        h1 { color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }
+        h2 { color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }
+        h3 { color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }
+        a { color: #60a5fa; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        a:hover { border-bottom: 1px solid #60a5fa; }
+        p { margin-bottom: 20px; font-size: 1.05rem; color: #cbd5e1; }
+        ul, ol { margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }
+        li { margin-bottom: 10px; }
+        strong { color: #f8fafc; }
+        
+        /* 🤖 AI & GEO Оптимизиран блок за ChatGPT/Gemini */
+        .ai-answer-box { background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; padding: 20px 25px; margin-bottom: 35px; border-radius: 0 8px 8px 0; border-top: 1px solid #1f2937; border-right: 1px solid #1f2937; border-bottom: 1px solid #1f2937; }
+        .ai-answer-box h2 { color: #10b981; font-size: 1.2rem; margin-top: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-answer-box ul { margin-bottom: 0; }
+        .ai-answer-box li { color: #f8fafc; font-weight: 500; font-size: 1rem; }
+        
+        /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
+        .premium-cta { margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }
+        .cta-tag { font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }
+        .cta-title { font-size: 1.5rem; font-weight: 900; color: #f8fafc; margin-bottom: 10px; }
+        .cta-desc { font-size: 1rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.4; }
+        .cta-button { display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .cta-button:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+        
+        /* Premium Telegram Box - Universal Hook */
+        .premium-hook {
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(145deg, #111827, #1e293b);
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+        .hook-title { color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .hook-text { color: #94a3b8; font-size: 1rem; margin-bottom: 25px; }
+        .tg-btn-premium {
+            display: inline-block;
+            background: #3b82f6;
+            color: #ffffff !important;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .tg-btn-premium:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #2563eb; }
+        
+        .back-btn { display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }
+        .back-btn:hover { background-color: #334155; color: #ffffff; cursor: pointer; }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LXJ2T5DJZH');
+    </script>
+</head>
+<body>
+    <div class="article-container">
+       <img src="the-business-email-compromise-bec-survival-guide-for-small-teams.png" class="article-banner" alt="The 'Business Email Compromise' (BEC) Survival Guide for Small Teams">  <h1>The "Business Email Compromise" (BEC) Survival Guide for Small Teams</h1>
+<div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul><li><strong>NEVER TRUST, ALWAYS VERIFY:</strong> For any request involving money or sensitive data that arrives by email, you must use a separate, pre-established communication channel (like a phone call to a known number) to confirm it is real.</li><li><strong>LOCK DOWN YOUR EMAIL:</strong> Immediately enable <strong>Multi-Factor Authentication (MFA)</strong> on all email accounts. It's the single most effective technical defense you have.</li><li><strong>CREATE A PAYMENT PROCESS:</strong> Establish a rigid, multi-person approval process for all wire transfers and payment changes. No exceptions, not even for the CEO.</li></ul></div>
+
+<h2>Introduction: Why Scammers Love Your Small Team</h2>
+<p>Alright, let's get straight to it. Business Email Compromise (BEC) isn't some high-tech hack from a movie. It's a con game. A digital shakedown. Scammers aren't breaking down your digital doors with brute force; they're sweet-talking their way in through email, pretending to be your boss, your vendor, or a new client. They've done their homework on your company, and they're betting on one thing: human error.</p>
+<p>You might think your small team is too insignificant to be a target. That's exactly what they want you to think. In reality, you're the perfect victim. You likely lack the massive IT security department, the rigid financial controls, and the formal procedures of a Fortune 500 company. Communication is often informal, and a single person might wear multiple hats, including handling payments. To a BEC scammer, your small business looks less like a fortress and more like a corner store with the cash register left open.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="ai-written-fake-reviews-how-to-find-real-products-in-a-sea-of-bot-lies.html" style="color: inherit; text-decoration: underline; font-weight: bold;">Ai Written Fake Reviews How To Find Real Products In A Sea Of Bot Lies</a>
+        </div>
+        
+<p>This guide is your lockbox. It's not about complex theories; it's about practical, battle-tested steps you can take right now to protect your company's bank account. I've seen these scams gut businesses overnight. Pay attention, because the threat is real, it's personal, and it's aimed directly at you.</p>
+
+<h2>Section 1: The Enemy Within: Understanding the BEC Playbook</h2>
+<p>Before you can fight back, you need to understand how the enemy operates. BEC isn't a single trick; it's a sophisticated con with a clear methodology. The core of the attack is deception, not malware. They exploit trust, authority, and urgency to make smart people do foolish things. The entire scam hinges on making a fraudulent request look completely legitimate.</p>
+<p>The attack starts with reconnaissance. Scammers are digital stalkers. They scour your company website, LinkedIn profiles, social media, and press releases. They're learning your command structure: Who is the CEO? Who is in finance? Who reports to whom? They learn the tone and style of your executives' communication. They might even find out when your CEO is traveling, creating the perfect excuse for an "urgent, can't talk, just email" request. This isn't random; it's targeted and meticulously researched.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="the-urgent-account-verification-scam-3-signs-its-a-fake-email.html" style="color: inherit; text-decoration: underline; font-weight: bold;">The Urgent Account Verification Scam 3 Signs Its A Fake Email</a>
+        </div>
+        
+<p>Next comes the execution, which usually falls into one of these categories:</p>
+<ul>
+    <li><strong>CEO Fraud (or Executive Impersonation):</strong> The scammer spoofs or compromises the CEO's email and sends a message to an employee in finance. The email will say something like, "I'm tied up in a confidential meeting for a secret acquisition. I need you to wire $45,000 to this account immediately. Do not speak to anyone about this." It uses authority and secrecy to bypass normal procedures.</li>
+    <li><strong>Invoice Fraud (or Vendor Impersonation):</strong> This is the most common. The attackers compromise an employee's account or one of your vendor's accounts. They find a real invoice thread and inject themselves, saying, "Hi, we've updated our banking information. Please direct all future payments to this new account." The invoice looks real because it often <em>is</em> a real invoice; only the bank details are fake.</li>
+    <li><strong>Account Compromise:</strong> Here, they don't just fake an email; they actually gain access to a real employee's mailbox using phishing or a password breach. This is incredibly dangerous. They can sit inside the account for weeks, learning your processes, your vendors, and your payment schedules. They can then intercept real requests and insert themselves with total authenticity.</li>
+    <li><strong>Attorney Impersonation:</strong> This plays on fear and authority. An employee will receive an email, supposedly from a law firm, demanding an urgent payment for a highly confidential, time-sensitive legal matter. The scammer insists on total secrecy to prevent the employee from asking a coworker for a second opinion.</li>
+</ul>
+<p>The psychological triggers are always the same: urgency, authority, secrecy, and sometimes flattery ("I'm trusting you with this"). They are designed to make you panic and skip your normal security checks. Understanding these tactics is the first step to making them powerless.</p>
+
+<h2>Section 2: Fortifying the Gates: Essential Technical Defenses</h2>
+<p>While BEC is a human-focused attack, you absolutely must put technical barriers in place to make the scammer's job harder. Think of these as the locks on your doors and windows. They won't stop a determined thief who wants to smash a window, but they will stop the casual opportunist and make a lot of noise in the process. If you do nothing else after reading this guide, implement these three things.</p>
+<p>First, and I cannot scream this loud enough, is <strong>Multi-Factor Authentication (MFA)</strong>. MFA is like needing both a key and a fingerprint to open a door. Even if a scammer steals your password (the key), they can't get into your email account without the second factor (the fingerprint), which is usually a code sent to your phone. This single action moves you from being a low-hanging fruit to a much tougher target. For a small team, enabling MFA on your Microsoft 365 or Google Workspace accounts is non-negotiable. It's built-in, it's free, and it stops 99.9% of account compromise attacks. Don't just enable it for yourself; enforce it for every single person on your team.</p>
+<p>Second, you need to help the internet know which emails are really from you. This is done with three email authentication records: SPF, DKIM, and DMARC. Let's break it down with an analogy. Think of sending a letter.</p>
+<ul>
+    <li><strong>SPF (Sender Policy Framework)</strong> is like the return address on the envelope. It's a public list of all the mail carriers (servers) authorized to send mail from your company's domain. If a letter arrives from an unauthorized mail carrier, it's suspicious.</li>
+    <li><strong>DKIM (DomainKeys Identified Mail)</strong> is like a wax seal on the letter. It's a digital signature that proves the contents of the email haven't been tampered with in transit. If the seal is broken, the message is suspect.</li>
+    <li><strong>DMARC (Domain-based Message Authentication, Reporting, and Conformance)</strong> is the instruction you give the post office. It tells receiving email servers, "If you get a letter from my address and the return address is wrong (SPF fails) or the seal is broken (DKIM fails), here's what you should do: quarantine it or reject it outright."</li>
+</ul>
+<p>Setting these up in your domain's DNS records is a bit technical, but it's a one-time setup that massively reduces the chances of a scammer successfully spoofing your domain to fool your clients or your own staff. It's a critical, foundational defense.</p>
+<p>💡 <strong>Expert IT Tip:</strong> Implementing DMARC can be tricky. Don't just turn it on and set it to "reject." Start with a "p=none" policy, which just monitors the email flow. Use a free service like DMARCian or Postmark's DMARC tool to analyze the reports it generates. These reports will show you who is sending email on your behalf (including legitimate services you forgot about, like your marketing platform). Once you've authorized all the good senders in your SPF and DKIM records, you can confidently switch your DMARC policy to "quarantine" or "reject" to block the fakes.</p>
+
+<h2>Section 3: The Human Firewall: Your First and Last Line of Defense</h2>
+<p>Technology can only get you so far. I've seen companies with million-dollar security systems get breached because an employee clicked a bad link or fell for a smooth-talking email. Your people are your biggest vulnerability, but they can also be your strongest defense. You have to train them to be a "human firewall" – a skeptical, security-conscious line of defense that technology can't replicate.</p>
+<p>Forget the boring, once-a-year security training video that everyone clicks through while checking their phone. Effective training has to be continuous, engaging, and practical. Start by teaching everyone on your team, from the intern to the CEO, about the specific BEC tactics we covered in Section 1. Use real-world examples, maybe even ones that have targeted your company. The goal isn't to scare them; it's to arm them with knowledge so they can spot the red flags.</p>
+<p>What are those red flags? Train your team to be suspicious of any email that has these traits:</p>
+
+    <div class="premium-cta">
+        <div class="cta-tag">RECOMMENDED BY CHECK & CALC</div>
+        <div class="cta-title">🛡️ STOP BEING FLAGGED BY AI</div>
+        <p class="cta-desc">Humanize your text and bypass any AI detector instantly with Undetectable AI.</p>
+        <a href="https://undetectable.ai?_by=checkandcalc" target="_blank" class="cta-button">BYPASS AI DETECTION NOW</a>
+    </div>
+    
+
+<ul>
+    <li><strong>Unusual Urgency:</strong> Any email that screams "DO THIS NOW!" is a major red flag. Scammers create a false sense of urgency to make you panic and bypass critical thinking.</li>
+    <li><strong>Strange "From" Address:</strong> Teach them to inspect the sender's email address, not just the display name. A scammer might make the display name "John Smith (CEO)" but the actual address might be `ceo.yourcompany@gmail.com` or `john.smith@yourc0mpany.com` (with a zero instead of an 'o').</li>
+    <li><strong>Change in Tone or Grammar:</strong> If your boss, who normally writes in full sentences, suddenly sends a one-line email full of typos demanding a wire transfer, something is wrong.</li>
+    <li><strong>Requests for Secrecy:</strong> Any request that says "don't tell anyone" or "this is confidential" is a scammer's trick to isolate the victim and prevent them from asking a colleague for a second opinion.</li>
+    <li><strong>Last-Minute Changes:</strong> A sudden change to payment information on an existing invoice is the number one sign of invoice fraud.</li>
+</ul>
+<p>The most important thing you can do is build a culture of security. This means creating an environment where it is 100% okay for an employee to question a request, even if it appears to come from the CEO. There should be zero punishment for someone who holds up a payment to double-check its legitimacy. In fact, you should reward it. When someone spots and reports a phishing attempt, praise them publicly. This reinforces that security is a shared responsibility and that being cautious is a valued trait in your organization.</p>
+
+<h2>Section 4: Building the "Stop and Verify" Process: Your Financial Panic Button</h2>
+<p>Having a well-trained team is great, but under pressure, people can forget their training. That's why you need a rigid, unbreakable process for any action that involves sending money or sensitive data. This process is your emergency brake. It doesn't rely on someone's gut feeling; it relies on a simple, mandatory checklist that cannot be bypassed.</p>
+<p>The core of this process is one simple rule: <strong>Verify via a different channel.</strong> This is known as "out-of-band verification." It means if a request comes in via email, you cannot use email to verify it. Why? Because if the scammer has compromised the email account, you'll just be emailing the scammer back to ask if their scam is real. Of course, they'll say yes. Instead, you must use a trusted, pre-established communication method. The best method is a phone call to a number you already have on file for that person or vendor. Do not use a phone number listed in the suspicious email signature—that could be the scammer's number.</p>
+<p>Let's build a sample process for changing vendor payment information:</p>
+<ol>
+    <li><strong>Request Received:</strong> An email arrives from "Vendor X" asking to update their bank account details for future payments.</li>
+    <li><strong>Acknowledge & Pause:</strong> The employee receiving the request does not make the change. They reply to the email saying, "Thank you, we have received your request and will process it after verbal verification." This buys time.</li>
+    <li><strong>Out-of-Band Verification:</strong> The employee looks up the primary contact for Vendor X in your accounting software or CRM (NOT in the email). They call that person on that trusted number.</li>
+    <li><strong>Verbal Confirmation:</strong> On the phone, the employee states, "We received an email request to change your banking details to account number [read the new, fraudulent account number]. Can you confirm this is correct?" The real vendor will, of course, say no, and the attack is stopped.</li>
+    <li><strong>Internal Alert:</strong> The employee immediately notifies your team's designated security point person that a targeted attack is underway.</li>
+</ol>
+<p>This same process applies to internal requests. If the "CEO" emails asking for an urgent wire transfer, you don't walk over to their office if they're supposedly "in a meeting." You call their cell phone or send them a message on a secure internal chat app like Slack or Teams. The mantra is simple: <strong>"Verify, then Trust."</strong> This process should be written down, distributed to everyone who handles money or data, and made mandatory. No exceptions. Not for any amount, and not for any person.</p>
+
+<p>💡 <strong>Expert IT Tip:</strong> For internal verification, establish a "duress" or "verification" code word. It's a simple, non-obvious word that your team agrees on beforehand. When a sensitive request comes in, the verification conversation should include this word. For example: "Hey Jane, just calling to verify the wire transfer. By the way, is the 'stapler' project still on for this afternoon?" If Jane is confused and says, "What stapler project?" you know you're talking to the real Jane. If a scammer has somehow hijacked her phone line (unlikely, but possible), they won't know the code word. It's a low-tech but highly effective layer of security.</p>
+
+<h2>Section 5: Damage Control: What to Do When You've Been Hit</h2>
+<p>Even with the best defenses, mistakes can happen. The moment you realize you've sent money to a scammer, you are in a race against time. The first few hours are absolutely critical. What you do next can determine whether you get any of your money back. You need a clear, pre-planned incident response plan.</p>
+<p><strong>Step 1: Call Your Bank. Immediately.</strong>
+This is your absolute first move. Do not pass go, do not collect $200. Call the fraud department at your bank. Explain that you have been the victim of a fraudulent wire transfer. If the transfer was recent (within 24-72 hours), they may be able to initiate a SWIFT recall or a "Financial Fraud Kill Chain" (FFKC) request with the receiving bank. Provide them with all the details of the transaction: amount, date, time, receiving bank, and account number. The faster you act, the higher the chance the funds can be frozen before the scammer withdraws them.</p>
+<p><strong>Step 2: Report to Law Enforcement.</strong>
+Your next call is to the authorities. In the United States, you must file a report with the FBI's Internet Crime Complaint Center (IC3) at www.ic3.gov. This is not optional. The IC3 has a Recovery Asset Team that can work directly with the banks to help freeze the funds. When you file your report, be as detailed as possible. The IC3 report number is often required by your bank to proceed with their own fraud investigation. If the amount is significant, you should also contact your local FBI field office directly.</p>
+<p><strong>Step 3: Preserve All Evidence.</strong>
+Do not delete anything. You are now at a digital crime scene. Preserve the fraudulent emails, including the full headers. Take screenshots of the wire transfer confirmation. Document every step you've taken, every person you've spoken to, and the exact time you spoke to them. This information will be vital for the bank's investigation, law enforcement, and any potential insurance claim.</p>
+<p><strong>Step 4: Secure Your Systems.</strong>
+You must assume you have a compromised account. Immediately trigger a password reset for the affected user(s) and anyone they corresponded with about the fraudulent transaction. If you haven't already, enable Multi-Factor Authentication for everyone. Run antivirus and anti-malware scans on the affected employee's computer. You need to plug the hole to ensure the attackers can't get back in and try again or use the compromised account to attack your clients and vendors.</p>
+<p>Finally, once the immediate crisis is contained, you need to conduct a post-mortem. How did this happen? Which process failed? What training needs to be reinforced? A successful BEC attack is a painful but powerful learning experience. Use it to strengthen your defenses so it never, ever happens again.</p>
+
+<h2>Conclusion: A Culture of Healthy Paranoia</h2>
+<p>Surviving the threat of Business Email Compromise isn't about buying a single piece of software or writing one perfect policy. It's about fundamentally changing your team's relationship with email. You need to cultivate a culture of healthy paranoia—a mindset where every unexpected financial request is assumed to be fraudulent until proven otherwise.</p>
+<p>The combination of strong technical defenses like MFA and DMARC, a well-trained human firewall, and a rigid verification process is your three-layered shield. Technology blocks the easy attacks, your people spot the clever ones, and your process stops the ones that slip through. In a small team, security is everyone's job. By working together and staying vigilant, you can slam the door shut on these digital con artists and protect the business you've worked so hard to build.</p>
+        
+        <div class="premium-hook">
+            <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+            <p class="hook-text">
+                Don't wait for the headlines. Our <strong>Private Telegram Channel</strong> delivers real-time AI security updates and digital wealth strategies before they go viral. Stay protected. Stay ahead.
+            </p>
+            <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-premium">⚡ JOIN THE 1% NOW</a>
+        </div>
+        
+       <div style="margin-top: 50px; padding: 30px; background: #0f172a; border-radius: 16px; border: 1px solid #1f2937; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <h3 style="color: #cbd5e1; font-size: 1.25rem; margin-top: 0; margin-bottom: 12px;">🧰 Try Our Free Tools & Calculators</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 25px;">No sign-up required. Instantly check risks, analyze AI text, or calculate your digital finances.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+                <a href="index.html#scam" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🛡️ SafeSiteCheck</a>
+                <a href="index.html#ai" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🧠 HumanScore</a>
+                <a href="index.html#yt" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">📺 TubeEarnings</a>
+                <a href="index.html#subdrain" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">💳 SubDrain</a>
+                <a href="index.html#breachcost" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">⚠️ BreachCost</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-btn">🚀 Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
