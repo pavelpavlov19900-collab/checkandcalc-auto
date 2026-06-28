@@ -40,3 +40,4 @@ the-ultimate-browser-security-moving-beyond-chrome-for-maximum-privacy.html
 what-to-do-if-you-paid-on-a-scam-website.html
 has-your-email-been-leaked-how-to-check-the-2026-data-breaches.html
 can-ai-detectors-really-detect-chatgpt.html
+the-burstiness-factor-how-variation-in-sentence-length-beats-ai-detectors.html
