@@ -56,3 +56,4 @@ the-psychology-of-the-perfect-thumbnail-in-2026-why-faces-are-dying-out
 the-business-email-compromise-bec-survival-guide-for-small-teams
 the-ai-investment-guru-trap-dont-let-algorithms-steal-your-life-savings
 public-wi-fi-survival-guide-dont-connect-until-you-read-this
+the-api-pricing-trap-scaling-your-app-without-breaking-the-bank
