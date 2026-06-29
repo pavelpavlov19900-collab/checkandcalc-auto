@@ -106,3 +106,4 @@ why-is-my-completely-human-written-text-flagged-as-ai-generated_v2
 how-to-build-an-ai-human-hybrid-content-factory-for-passive-income_v1
 why-ai-is-making-your-passwords-obsolete-and-what-to-do_v2
 the-api-pricing-trap-scaling-your-app-without-breaking-the-bank_v1
+what-to-do-if-you-clicked-a-suspicious-link-in-a-delivery-text-message_v2
