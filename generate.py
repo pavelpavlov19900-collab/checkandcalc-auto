@@ -143,7 +143,7 @@ def generate_ai_image(client, prompt, project_id, filename):
 
             method = getattr(client.models, method_name)
             response = method(
-                model='gemini-3.1-flash-image',
+                model='imagen-3.0-generate-001',
                 prompt=image_prompt,
                 config={'number_of_images': 1, 'aspect_ratio': '16:9'}
             )
