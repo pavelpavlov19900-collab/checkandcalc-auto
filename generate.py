@@ -110,7 +110,7 @@ def update_linkedin_database(article_title, article_url, article_summary, image_
 def generate_ai_image(client, prompt, project_id, filename):
     print(f"🎨 Задействане на Трислойния протокол за визия (Titanium Edition)...")
     
-    image_prompt = f"Professional futuristic digital art, cyberpunk style, high contrast, representing: {prompt}"
+    image_prompt = f"Cinematic, ultra-detailed, photorealistic masterpiece. {prompt}"
     image_name = filename.replace('.html', '.png')
     
     import time
@@ -289,7 +289,11 @@ try:
         f"\n7. FORMAT STRICTLY IN HTML with <p>, <ul>, <li>, <strong> tags. NO MARKDOWN. "
         f"\n8. Do not stop mid-sentence. Ensure all HTML tags are perfectly closed. "
         f"\n\nIMPORTANT: After the final HTML tag, add exactly this separator '---LINKEDIN-HOOK---' "
-        f"followed by a one-sentence provocative summary for a LinkedIn post."
+        f"followed by a one-sentence provocative summary for a LinkedIn post. "
+        f"\nTHEN, add exactly this separator '---VISUAL-PROMPT---' "
+        f"followed by an ultra-detailed, psychologically triggering prompt for an AI image generator. "
+        f"The image must NOT be generic code, floating locks, or boring tech logos. It must evoke CURIOSITY, URGENCY, or AWE. "
+        f"Describe a striking visual metaphor, highly contrasting colors (e.g., neon orange against deep shadow), dramatic camera angles, and if applicable, a human element showing extreme focus or shock. The goal is viral CTR (Click-Through Rate)."
     )
     # --- СТЪПКА 2: БЪРЗА И СКЪПА (НО ЕФЕКТИВНА) СТРАТЕГИЯ ---
     import time
