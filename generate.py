@@ -138,25 +138,29 @@ def generate_ai_image(client, prompt, project_id, filename):
                 print(f"⏳ Изчакване {wait_time} сек (Опит {i+1}/2)...")
                 time.sleep(wait_time)
 
-            method_name = next((name for name in ['generate_images', 'generate_image'] if hasattr(client.models, name)), None)
-            if not method_name: raise Exception("SDK метод не е намерен.")
+            from google.genai import types
 
-            method = getattr(client.models, method_name)
-            response = method(
-                model='imagen-3.0-generate-001',
-                prompt=image_prompt,
-                config={'number_of_images': 1, 'aspect_ratio': '16:9'}
+            # 1. Използваме новия унифициран метод generate_content
+            response = client.models.generate_content(
+                model='gemini-3.1-flash-image',
+                contents=image_prompt,
+                config=types.GenerateContentConfig(
+                    response_modalities=["IMAGE"],
+                    image_config=types.ImageConfig(aspect_ratio="16:9")
+                )
             )
 
-            if hasattr(response, 'generated_images') and response.generated_images:
-                image_obj = response.generated_images[0].image
-            elif hasattr(response, 'images') and response.images:
-                image_obj = response.images[0]
-            elif isinstance(response, list) and len(response) > 0:
-                image_obj = response[0]
-            else:
-                image_obj = response
-                
+            # 2. Извличане на снимката по новия стандарт на Google
+            image_obj = None
+            if response.parts:
+                for part in response.parts:
+                    if part.inline_data:
+                        image_obj = part.as_image()
+                        break
+            
+            if not image_obj:
+                raise Exception("Сървърът върна отговор, но снимката липсва в пакета данни.")
+
             image_obj.save(image_name)
             success_source = "Google Imagen"
             print(f"✅ Успех чрез Слой 1 (Google Imagen)!")
