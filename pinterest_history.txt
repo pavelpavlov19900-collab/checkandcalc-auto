@@ -142,3 +142,4 @@ vpn-myths-debunked-when-you-actually-need-one-and-when-you-dont_v2
 how-a-dedicated-ip-address-can-save-your-business-from-being-blacklisted_v1
 the-true-cost-of-a-cyber-attack-on-your-personal-finances_v2
 prompt-engineering-is-dead-the-future-of-autonomous-ai-agents_v1
+the-travel-scammers-playbook-how-to-protect-your-data-abroad_v2
