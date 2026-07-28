@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why SMS Two-Factor Authentication (2FA) is Now a Massive Risk</title>
+    <meta property="og:title" content="Why SMS Two-Factor Authentication (2FA) is Now a Massive Risk" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://checkandcalc.com/why-sms-two-factor-authentication-2fa-is-now-a-massive-risk.png" />
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
+    <link rel="canonical" href="https://checkandcalc.com/why-sms-two-factor-authentication-2fa-is-now-a-massive-risk.html" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://checkandcalc.com/why-sms-two-factor-authentication-2fa-is-now-a-massive-risk.html"
+      },
+      "headline": "Why SMS Two-Factor Authentication (2FA) is Now a Massive Risk",
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "author": {
+        "@type": "Organization",
+        "name": "Check & Calc AI Security",
+        "url": "https://checkandcalc.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Check & Calc",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://checkandcalc.com/favicon.ico"
+        }
+      }
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }
+        .article-container { max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+        /* ДОБАВИ ТОВА ТУК 👇 */
+        .article-banner { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+        /* ------------------ */
+        h1 { color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }
+        h2 { color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }
+        h3 { color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }
+        a { color: #60a5fa; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        a:hover { border-bottom: 1px solid #60a5fa; }
+        p { margin-bottom: 20px; font-size: 1.05rem; color: #cbd5e1; }
+        ul, ol { margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }
+        li { margin-bottom: 10px; }
+        strong { color: #f8fafc; }
+        
+        /* 🤖 AI & GEO Оптимизиран блок за ChatGPT/Gemini */
+        .ai-answer-box { background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; padding: 20px 25px; margin-bottom: 35px; border-radius: 0 8px 8px 0; border-top: 1px solid #1f2937; border-right: 1px solid #1f2937; border-bottom: 1px solid #1f2937; }
+        .ai-answer-box h2 { color: #10b981; font-size: 1.2rem; margin-top: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-answer-box ul { margin-bottom: 0; }
+        .ai-answer-box li { color: #f8fafc; font-weight: 500; font-size: 1rem; }
+        
+        /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
+        .premium-cta { margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }
+        .cta-tag { font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }
+        .cta-title { font-size: 1.5rem; font-weight: 900; color: #f8fafc; margin-bottom: 10px; }
+        .cta-desc { font-size: 1rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.4; }
+        .cta-button { display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .cta-button:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+        
+        /* Premium Telegram Box - Universal Hook */
+        .premium-hook {
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(145deg, #111827, #1e293b);
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+        .hook-title { color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .hook-text { color: #94a3b8; font-size: 1rem; margin-bottom: 25px; }
+        .tg-btn-premium {
+            display: inline-block;
+            background: #3b82f6;
+            color: #ffffff !important;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .tg-btn-premium:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #2563eb; }
+        
+        .back-btn { display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }
+        .back-btn:hover { background-color: #334155; color: #ffffff; cursor: pointer; }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LXJ2T5DJZH');
+    </script>
+</head>
+<body>
+    <div class="article-container">
+       <img src="why-sms-two-factor-authentication-2fa-is-now-a-massive-risk.png" class="article-banner" alt="Why SMS Two-Factor Authentication (2FA) is Now a Massive Risk">  <h1>Why SMS 2FA is a Dumpster Fire for Your Security</h1>
+<div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul><li><strong>SIM Swapping:</strong> Criminals can trick your mobile carrier into transferring your phone number to their SIM card, giving them complete access to your SMS codes.</li><li><strong>Network Flaws:</strong> The global telecom network (SS7) that routes your texts is fundamentally insecure and can be exploited to intercept messages without ever touching your phone.</li><li><strong>Better Alternatives Exist:</strong> Modern methods like authenticator apps (TOTP) and physical security keys (FIDO2/U2F) are vastly more secure and immune to the flaws of SMS.</li></ul></div>
+
+<p>Alright, let's have a real talk. For years, we in the IT world preached the gospel of two-factor authentication (2FA). We told everyone—our clients, our parents, our friends—to turn it on. And the easiest, most common way to do that was through a simple text message to your phone. It was a huge step up from just a password, and for a while, it was good enough. That time is over. The game has changed, the bad guys have leveled up, and continuing to rely on SMS for 2FA is like using a screen door as a bank vault.</p>
+
+<p>I've spent 15 years on the front lines, cleaning up the digital wreckage of compromised accounts. I've seen firsthand how clever attackers bypass lazy security. So listen up. I'm not here to scare you with vague hypotheticals. I'm here to show you the specific, very real ways that SMS 2FA is being crushed by attackers every single day, and what you absolutely must do to protect yourself. This isn't just theory; this is the reality of cybersecurity in the 2020s.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="passport-fraud-20-how-digital-travel-documents-are-being-cloned.html" style="color: inherit; text-decoration: underline; font-weight: bold;">Passport Fraud 20 How Digital Travel Documents Are Being Cloned</a>
+        </div>
+        
+
+<h2>The Original Sin: Building on a Foundation of Sand</h2>
+<p>Before we dive into the nasty attacks, you need to understand *why* SMS is so vulnerable. The problem isn't your phone, it's the ancient, rickety network that your text messages travel on. This network is called Signaling System No. 7, or SS7 for short. Think of SS7 as the global postal system for phone companies. It’s the behind-the-scenes network that lets a Verizon customer call an AT&T customer, or lets you get a text message when you're roaming in another country. It directs the traffic, telling the network where to send your calls and texts.</p>
+
+<p>Here's the fatal flaw: SS7 was designed in the 1970s. It was built on a principle of absolute trust. The assumption was that the only people with access to the SS7 network would be a handful of massive, state-owned telephone companies. There was no concept of cybercriminals, hackers, or malicious actors on the network. Security wasn't just an afterthought; it was completely non-existent. There's no robust authentication to verify that a request on the SS7 network is legitimate. It's like a postal worker who will redirect your mail to a new address just because someone fills out a form, without ever checking your ID to see if it's really you.</p>
+
+<p>This "trust-based" model is a catastrophe waiting to happen in our zero-trust world. Criminals and intelligence agencies have gained access to the SS7 network. With that access, they can simply issue a command to a telecom switch, telling it, "Hey, all text messages for this phone number? Send them to me instead." You wouldn't know a thing. Your phone would sit there silently, no new messages, while the attacker drains your bank account, resets your email password, and takes over your entire digital life. You're building your security fortress on a foundation of quicksand, and it's starting to sink.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="public-wi-fi-survival-guide-dont-connect-until-you-read-this.html" style="color: inherit; text-decoration: underline; font-weight: bold;">Public Wi Fi Survival Guide Dont Connect Until You Read This</a>
+        </div>
+        
+
+<p>So when a service sends you a 2FA code via SMS, it's not a secure, direct line to your device. It's a digital postcard sent through this creaky, untrustworthy global postal system where malicious actors can read, intercept, or reroute your mail at will. This fundamental weakness is the root of the problem and the reason why any security built on top of it is ultimately doomed to fail against a determined adversary. We're trying to secure 21st-century data with 20th-century telephone technology, and it's a losing battle.</p>
+
+<h2>SIM Swapping: The Attacker's Social Engineering Masterpiece</h2>
+<p>If hacking the global phone network sounds too complex, don't worry—criminals have a much easier, and far more common, method: they just steal your phone number. This is called a SIM swap or "port-out scam," and it is devastatingly effective. It doesn't require sophisticated code or network exploits. It relies on tricking the single weakest link in the entire security chain: the low-paid, undertrained customer service representative at your mobile phone carrier.</p>
+
+<p>Here's how the attack plays out, step-by-step. First, the attacker does their homework on you. They gather personal information from data breaches, your social media profiles, or phishing attacks—things like your full name, address, date of birth, maybe the last four digits of your social security number. Then, armed with this data, they call your mobile provider's support line or walk into a retail store. They pretend to be you. They say they "lost their phone" or "upgraded to a new device" and need to activate a new SIM card for their existing number.</p>
+
+<p>The customer service rep asks a few security questions. But what are those questions? Usually, it's the same data the attacker just found online. The attacker confidently answers, the rep says "No problem," and deactivates your current SIM card. Simultaneously, they activate a new SIM card that the attacker has in their possession. In that instant, your phone goes dead. You lose all service—no calls, no texts, no data. But the attacker's phone lights up. They now *are* you in the eyes of the mobile network. Every call, every text message, and most importantly, every single 2FA code is now being sent directly to their device.</p>
+
+<p>From there, it's a race against time. The attacker immediately goes to your most valuable accounts—your primary email, your bank, your cryptocurrency exchange. They hit the "Forgot Password" link. The service, trying to be helpful, says, "We'll send a verification code to your phone on file to confirm it's you." That code goes straight to the attacker. They enter it, set a new password, and lock you out. Then they repeat the process, using access to your email to pivot and compromise everything else you own. By the time you realize your phone has no service and figure out what happened, your accounts have been emptied and your digital identity is in ruins.</p>
+
+<p>💡 <strong>Expert IT Tip:</strong> Call your mobile carrier *today*. Do not use the web portal. Speak to a human and specifically ask to add a "Port-Out Protection" and a "Security PIN" or "Passcode" to your account. This PIN should be a complex number that you have never used anywhere else. Explicitly tell them, "I want this PIN to be required for any account changes, including SIM card activations or number transfers, whether in-store or over the phone." This adds a crucial layer of friction that can stop a social engineering attempt in its tracks. Most carriers have this feature, but they don't enable it by default.</p>
+
+<h2>Real-Time Phishing Proxies: The Man-in-the-Middle Nightmare</h2>
+<p>Okay, so you've locked down your mobile account with a PIN. You think you're safe from SIM swapping. Think again. A different class of attacker isn't interested in stealing your phone number; they're interested in tricking you into handing over your credentials and your SMS 2FA code in real-time. This is accomplished using a sophisticated Man-in-the-Middle (MitM) attack, often powered by a reverse proxy phishing toolkit. It sounds complicated, but the concept is brutally simple.</p>
+
+<p>You receive a very convincing phishing email or text message. It looks like it's from your bank, or Microsoft, or Google. It says something urgent like "Suspicious Login Detected" or "Your Account Will Be Suspended." It includes a link that looks legitimate. You click it. The webpage you land on looks *identical* to the real login page. The URL in the address bar might even look right at a quick glance. You enter your username and password. But you're not on the real site. You're on the attacker's server, which is acting as an invisible bridge between you and the real service.</p>
+
+<p>Here's the magic. The attacker's server, the "reverse proxy," takes the username and password you just typed and immediately passes it to the *real* login page. The real service, seeing a valid password, then proceeds to the next step: 2FA. It sends a six-digit code to your phone via SMS. On your screen, the fake phishing page now displays a box asking for your "Security Code." You see the text message arrive on your phone, you type the code into the box on the fake site, and you hit "Submit."</p>
+
+    <div class="premium-cta">
+        <div class="cta-tag">RECOMMENDED BY CHECK & CALC</div>
+        <div class="cta-title">🔐 PROTECT YOUR ASSETS</div>
+        <p class="cta-desc">Secure your digital wealth with the world's most trusted hardware wallets.</p>
+        <a href="https://shop.ledger.com/?r=4afdb272c797" target="_blank" class="cta-button">GET YOUR WALLET NOW</a>
+    </div>
+    
+
+
+<p>Game over. The attacker's server captures that 2FA code in the same instant you enter it and passes it to the real website, completing the login process. The proxy then authenticates, steals the session cookie (which is like a temporary key that keeps you logged in), and redirects you to the real website's dashboard. To you, it just looks like a successful login. But in the background, the attacker now has your password *and* the session cookie, giving them full, authenticated access to your account. They can change your password, steal your data, and kick you out, all while you think everything is fine. This entire process is automated and happens in seconds. Your SMS code provided zero protection because you delivered it directly to the thief.</p>
+
+<p>💡 <strong>Expert IT Tip:</strong> The best defense against this is a combination of user vigilance and hardware. First, *always* be paranoid about links in emails. Manually type the address of your bank or service into the browser. Second, this is where a FIDO2/U2F hardware key like a YubiKey is a game-changer. A hardware key binds your login to the specific, legitimate website domain. If you were on a phishing site, the key would recognize the URL is wrong and simply refuse to provide the cryptographic authentication code. It makes you immune to this entire class of phishing attacks, something an SMS code can never do.</p>
+
+<h2>The Superior Alternatives: What You MUST Use Instead</h2>
+<p>I've spent enough time explaining why your house is on fire. Now let's talk about the fire extinguishers and how to build a house that's fireproof in the first place. Ditching SMS 2FA is not optional, and thankfully, the alternatives are widely available, often free, and vastly more secure. We can categorize them into two main tiers: the great and the gold standard.</p>
+
+<p><strong>Tier 1 (Great): Authenticator Apps (TOTP)</strong><br/>
+This is your new minimum standard for security. Authenticator apps use a standard called Time-Based One-Time Password (TOTP). When you set it up, the service (like Google or your bank) gives your app a secret "seed" key, usually by having you scan a QR code. From that moment on, your app and the service's server use that secret key and the current time to independently generate the exact same 6-digit code, which changes every 30 seconds. The code is generated entirely on your device. It never travels over the insecure phone network. An attacker would need to steal your phone *and* unlock it to get the code. This completely neutralizes SIM swapping and SS7 interception attacks.</p>
+
+<p>Popular and trusted apps include <strong>Google Authenticator</strong>, <strong>Microsoft Authenticator</strong>, and <strong>Authy</strong>. I personally lean towards Authy because it offers encrypted cloud backups. This means if you lose or break your phone, you can securely recover your 2FA codes on a new device. With Google Authenticator (in its classic form), losing your phone could mean losing access to your accounts forever if you didn't save the backup codes. Your immediate action item is to go into the security settings of every important online account you have, find the 2FA/MFA options, and switch your method from "Text Message/SMS" to "Authenticator App."</p>
+
+<p><strong>Tier 2 (Gold Standard): Hardware Security Keys (FIDO2/U2F)</strong><br/>
+This is the pinnacle of personal account security, used by journalists, activists, and cybersecurity professionals. A hardware key, like a YubiKey or Google Titan Key, is a small device that plugs into your computer's USB port or connects via NFC to your phone. Instead of a code you type, you simply touch a button on the key to approve a login. It uses powerful public-key cryptography to prove to the service that you are you and you have your physical key. It's like a physical car key for your digital life; without it, no one is getting in.</p>
+
+<p>Hardware keys are superior for two key reasons. First, they are un-phishable. As mentioned before, the key is cryptographically bound to the legitimate website's domain. If you are on a phishing site, the key knows and will not work. It's a technical solution to a human problem. Second, there is no shared secret to steal. Unlike a TOTP code which is generated from a seed key that could theoretically be compromised on a server, a hardware key's private key never leaves the device itself. It's the closest thing to a perfect, unbreakable 2FA method that exists today. Use them for your most critical accounts: your primary email, password manager, and financial institutions.</p>
+
+<h2>Why Is This Still a Thing? The Inertia of Insecurity</h2>
+<p>So if SMS 2FA is so fundamentally broken, why is it still the default, or sometimes the *only*, option offered by so many companies, including major banks and financial institutions? The answer is a frustrating mix of user friction, cost, and plain old corporate inertia. It's a classic case of "good enough" security winning out over what's actually secure, and it puts the burden of risk squarely on your shoulders, not theirs.</p>
+
+<p>First, there's the issue of ubiquity and user friction. Every single mobile phone user has a phone number and the ability to receive a text message. There is no app to download, no hardware to buy, no concept to learn. For a company trying to onboard millions of diverse, non-technical users, SMS is the path of least resistance. Asking a grandmother to download an authenticator app and scan a QR code is a significantly bigger support hurdle than just asking for her phone number. Companies are terrified of adding any step that might cause a user to give up and walk away, so they stick with the lowest common denominator.</p>
+
+<p>Second, it's cheap. Sending an SMS message costs the company a fraction of a cent. Integrating it is simple. Supporting more advanced methods like hardware keys requires more sophisticated development and customer support infrastructure. While the costs are not prohibitive for large companies, many simply don't see the return on investment. They are making a cold, calculated business decision. They've determined that the cost of dealing with a certain percentage of fraud from compromised accounts is lower than the cost of implementing and supporting a more robust security system for everyone. It's a numbers game, and your personal security is just a variable in their equation.</p>
+
+<p>Finally, there's legacy infrastructure. Many large, older companies (especially in banking) are built on ancient, complex technology stacks. Bolting on new authentication standards like FIDO2 can be a massive, expensive, and time-consuming project. It's often easier for them to just keep using the SMS gateway they've had for a decade than to overhaul their entire authentication system. This technical debt creates a dangerous inertia that prioritizes stability (or the appearance of it) over modern security needs. The result is that you, the end user, are left with a security option that the industry has known for years is critically flawed. It's a massive failure of corporate responsibility, and one that forces you to be your own advocate for your digital safety.</p>
+
+<h2>Conclusion: Your Security is Your Responsibility</h2>
+<p>Look, the bottom line is this: the threat landscape has evolved, but the security practices of many services—and many users—have not. Relying on SMS for two-factor authentication in this day and age is an act of negligence. The system is built on a foundation of trust that was shattered decades ago, and criminals are exploiting it with ruthless efficiency through both technical network hacks and simple, low-tech social engineering.</p>
+
+<p>You cannot afford to be passive. You cannot wait for companies to force you to be more secure. Your digital life—your email, your money, your identity—is on the line. The time for excuses is over. The path forward is clear and actionable. You need to conduct a full audit of your important online accounts *this week*. For every single one, you must disable SMS as a 2FA method.</p>
+
+<p>Your new baseline, the absolute minimum for any important service, is an authenticator app. For your most critical accounts—your password manager, your primary email, your crypto exchanges—you need to invest the small amount of money and time to get and set up a hardware security key. It's the single best investment you can make in your personal cybersecurity. The tools to protect yourself are here. It's time to stop using the broken ones and start taking your security seriously.</p>
+        
+        <div class="premium-hook">
+            <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+            <p class="hook-text">
+                Don't wait for the headlines. Our <strong>Private Telegram Channel</strong> delivers real-time AI security updates and digital wealth strategies before they go viral. Stay protected. Stay ahead.
+            </p>
+            <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-premium">⚡ JOIN THE 1% NOW</a>
+        </div>
+        
+       <div style="margin-top: 50px; padding: 30px; background: #0f172a; border-radius: 16px; border: 1px solid #1f2937; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <h3 style="color: #cbd5e1; font-size: 1.25rem; margin-top: 0; margin-bottom: 12px;">🧰 Try Our Free Tools & Calculators</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 25px;">No sign-up required. Instantly check risks, analyze AI text, or calculate your digital finances.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+                <a href="index.html#scam" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🛡️ SafeSiteCheck</a>
+                <a href="index.html#ai" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🧠 HumanScore</a>
+                <a href="index.html#yt" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">📺 TubeEarnings</a>
+                <a href="index.html#subdrain" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">💳 SubDrain</a>
+                <a href="index.html#breachcost" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">⚠️ BreachCost</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-btn">🚀 Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
