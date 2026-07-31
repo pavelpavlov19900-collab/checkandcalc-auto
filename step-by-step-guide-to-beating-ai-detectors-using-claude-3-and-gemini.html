@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step by step guide to beating AI detectors using Claude 3 and Gemini</title>
+    <meta property="og:title" content="Step by step guide to beating AI detectors using Claude 3 and Gemini" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://checkandcalc.com/step-by-step-guide-to-beating-ai-detectors-using-claude-3-and-gemini.png" />
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
+    <link rel="canonical" href="https://checkandcalc.com/step-by-step-guide-to-beating-ai-detectors-using-claude-3-and-gemini.html" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://checkandcalc.com/step-by-step-guide-to-beating-ai-detectors-using-claude-3-and-gemini.html"
+      },
+      "headline": "Step by step guide to beating AI detectors using Claude 3 and Gemini",
+      "datePublished": "2026-07-31",
+      "dateModified": "2026-07-31",
+      "author": {
+        "@type": "Organization",
+        "name": "Check & Calc AI Security",
+        "url": "https://checkandcalc.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Check & Calc",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://checkandcalc.com/favicon.ico"
+        }
+      }
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }
+        .article-container { max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+        /* ДОБАВИ ТОВА ТУК 👇 */
+        .article-banner { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+        /* ------------------ */
+        h1 { color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }
+        h2 { color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }
+        h3 { color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }
+        a { color: #60a5fa; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        a:hover { border-bottom: 1px solid #60a5fa; }
+        p { margin-bottom: 20px; font-size: 1.05rem; color: #cbd5e1; }
+        ul, ol { margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }
+        li { margin-bottom: 10px; }
+        strong { color: #f8fafc; }
+        
+        /* 🤖 AI & GEO Оптимизиран блок за ChatGPT/Gemini */
+        .ai-answer-box { background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; padding: 20px 25px; margin-bottom: 35px; border-radius: 0 8px 8px 0; border-top: 1px solid #1f2937; border-right: 1px solid #1f2937; border-bottom: 1px solid #1f2937; }
+        .ai-answer-box h2 { color: #10b981; font-size: 1.2rem; margin-top: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-answer-box ul { margin-bottom: 0; }
+        .ai-answer-box li { color: #f8fafc; font-weight: 500; font-size: 1rem; }
+        
+        /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
+        .premium-cta { margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }
+        .cta-tag { font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }
+        .cta-title { font-size: 1.5rem; font-weight: 900; color: #f8fafc; margin-bottom: 10px; }
+        .cta-desc { font-size: 1rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.4; }
+        .cta-button { display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .cta-button:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+        
+        /* Premium Telegram Box - Universal Hook */
+        .premium-hook {
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(145deg, #111827, #1e293b);
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+        .hook-title { color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .hook-text { color: #94a3b8; font-size: 1rem; margin-bottom: 25px; }
+        .tg-btn-premium {
+            display: inline-block;
+            background: #3b82f6;
+            color: #ffffff !important;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .tg-btn-premium:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #2563eb; }
+        
+        .back-btn { display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }
+        .back-btn:hover { background-color: #334155; color: #ffffff; cursor: pointer; }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LXJ2T5DJZH');
+    </script>
+</head>
+<body>
+    <div class="article-container">
+       <img src="step-by-step-guide-to-beating-ai-detectors-using-claude-3-and-gemini.png" class="article-banner" alt="Step by step guide to beating AI detectors using Claude 3 and Gemini">  <h1>The Sysadmin's Black-Hat Guide to Beating AI Detectors with Claude 3 & Gemini</h1>
+<div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul><li><strong>Use a Two-LLM Chain:</strong> Generate the basic structure and facts with Gemini, then have Claude 3 Opus rewrite it with a specific persona and style to break the statistical consistency of a single AI model.</li><li><strong>Inject Human Flaws:</strong> Manually edit the output to introduce varied sentence lengths (burstiness), contractions, personal anecdotes, and active voice. Perfect grammar and predictable sentence structure are massive red flags for detectors.</li><li><strong>Layer Your Prompts:</strong> Don't just ask the AI to write something. Give it a deep persona, use chain-of-thought prompting to force a less-polished output, and refine the text iteratively instead of accepting the first draft.</li></ul></div>
+
+<h2>Introduction: The Cat-and-Mouse Game You Can Win</h2>
+<p>Alright, let's cut the crap. You're not here for a lecture on academic integrity. You're here because you're using powerful tools, and some automated cop—an AI detector—is getting in your way. As someone who's spent 15 years locking down systems, I can tell you this: every system has a vulnerability. AI detectors are no different. They aren't magic; they're just glorified pattern-matchers looking for statistical fingerprints left behind by large language models (LLMs).</p>
+<p>Forget the snake oil "humanizer" tools. They're blunt instruments that often make your text worse and still get flagged. Beating the detector isn't about running your text through another machine. It's about understanding how the detector *thinks* and then using your AI tools like a scalpel, not a sledgehammer, to create something it can't possibly classify.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="the-rise-of-airtag-stalking-how-to-detect-hidden-trackers-fast.html" style="color: inherit; text-decoration: underline; font-weight: bold;">The Rise Of Airtag Stalking How To Detect Hidden Trackers Fast</a>
+        </div>
+        
+<p>This guide is your playbook. We're going to treat this like a penetration test. We'll probe the target's weaknesses (the detector), choose our exploits (Claude 3 and Gemini), and execute a multi-stage attack that results in text so natural, so "human," that no algorithm on earth can confidently flag it. This isn't about cheating; it's about outsmarting a flawed system. Buckle up.</p>
+
+<h2>Section 1: Understanding the Enemy - How AI Detectors *Actually* Work</h2>
+<p>Before you can bypass a firewall, you need to know which ports are open. Same deal here. AI detectors aren't reading for meaning or quality. They are running a statistical analysis on your text, looking for two main giveaways: low perplexity and low burstiness. Get your head around these two concepts, and you're already halfway to beating them.</p>
+<p><strong>Perplexity</strong> is just a fancy way of measuring how predictable your text is. Think of it like this: if I start a sentence with "The quick brown fox jumps over the lazy...", your brain immediately screams "dog!". That's low perplexity. LLMs are trained to find the most statistically probable next word, so their output is incredibly predictable and smooth. Human writing, on the other hand, is full of weird word choices, unexpected turns of phrase, and less-common vocabulary. We're less predictable, so our writing has higher perplexity.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="the-best-ai-video-generators-for-youtube-2026-sora-vs-kling-vs-veo.html" style="color: inherit; text-decoration: underline; font-weight: bold;">The Best Ai Video Generators For Youtube 2026 Sora Vs Kling Vs Veo</a>
+        </div>
+        
+<p><strong>Burstiness</strong> is all about rhythm and structure. An AI, by default, will write a series of sentences that are all roughly the same length and complexity. It's monotonous, like a robot reading a phone book. Humans are chaotic. We'll write a super long, rambling sentence full of clauses, then follow it up with a short, punchy one. Then another. This variation in sentence length and structure is burstiness. AI detectors see a lack of it as a huge red flag.</p>
+<p>So, the detector's game plan is simple: scan your text, measure the predictability of word sequences (perplexity), and analyze the rhythm of your sentences (burstiness). If the perplexity is low and the burstiness is flat, it screams "AI!". Our job is to systematically attack both of these metrics, forcing them into the "human" range. It's not about writing "better"; it's about writing with intentional, human-like messiness.</p>
+
+<h2>Section 2: The Two-LLM Gauntlet: Gemini for Structure, Claude for Soul</h2>
+<p>Never use a single AI for the final draft. That's rule number one. A single model, no matter how good, has its own unique statistical fingerprint. Using two different, powerful models in a chain is like having a criminal wipe their prints and then having a second person smudge the scene. It muddies the waters and makes attribution nearly impossible for an algorithm.</p>
+<p>Here’s the battle plan. We'll use Gemini (specifically Gemini 1.5 Pro) for the heavy lifting and Claude 3 Opus for the artistic finish. Gemini is a monster at research, data synthesis, and creating a logically sound, fact-based skeleton. It's the engineer. Claude 3 Opus, on the other hand, excels at nuance, voice, and creative prose. It's the poet. By combining them, we get the best of both worlds and create a hybrid output that doesn't smell like any one model.</p>
+<p><strong>Step 1: The Gemini Skeleton.</strong> Go to Gemini and be brutally direct. Don't ask it to write a full article. Ask it to create the foundation.
+<br><em>Prompt Example:</em> "Act as a research assistant. Create a detailed, bullet-point outline on the topic of 'The impact of quantum computing on modern encryption'. Include key concepts, major challenges, and future predictions. Provide factual data points and list the primary algorithms at risk. Do not write in prose; stick to a structured outline."</p>
+<p><strong>Step 2: The Claude 3 Soul.</strong> Now, copy that entire raw output from Gemini. Take it over to Claude 3 Opus. This is where the magic happens. You're not asking it to just "rewrite" it. You're giving it a personality transplant.
+<br><em>Prompt Example:</em> "Take the following research outline and write a 500-word explanation. Adopt the persona of a 15-year veteran cybersecurity expert who is slightly cynical and talking to a smart colleague. Use at least two real-world analogies to explain complex topics. Vary your sentence length dramatically. Some sentences should be very short. Others should be long and complex. Use contractions like 'it's' and 'you're'. Here is the outline: [Paste Gemini's entire output here]."</p>
+<p>This two-step process fundamentally breaks the pattern. You've used one AI for pure logic and a second, different AI for stylistic rendering. The resulting text has a complex origin that is far harder for a simple perplexity/burstiness model to flag. You've laundered the statistical fingerprint.</p>
+<p>💡 <strong>Expert IT Tip:</strong> When using the APIs for these models, play with the 'temperature' setting. The temperature controls randomness. A low temperature (e.g., 0.2) makes the output more focused and predictable. A high temperature (e.g., 0.9) makes it more creative and random. For the Claude 3 (style) step, use a slightly higher temperature (like 0.7 or 0.8) to introduce more unpredictable word choices, directly increasing the text's perplexity and making it appear more human.</p>
+
+<h2>Section 3: Injecting Human Chaos: The Art of Intentional Imperfection</h2>
+<p>The output from your Two-LLM Gauntlet is a fantastic start, but it's still too clean. It's like a server room with perfect cable management—impressive, but no human's office actually looks like that. Now you have to go in and manually mess it up. This is the most critical step, where you add your own 'digital fingerprint' and erase the last traces of robotic perfection.</p>
+<p>First, hunt down passive voice like it's a rogue process hogging CPU. AIs love passive voice ("The encryption was broken by the hacker"). It's safe and non-committal. Flip it to active voice ("The hacker broke the encryption"). It's more direct, more human, and it changes the sentence structure. Do this 3-4 times throughout the text.</p>
+<p>Next, get comfortable with contractions. AIs are taught formal writing, so they'll write "it is," "do not," and "you are." Run a simple find-and-replace or just manually change them to "it's," "don't," and "you're." This simple change instantly makes the text feel more conversational and less like a textbook. While you're at it, add one or two colloquialisms that fit the persona. Phrases like "Bottom line," "Let's be real," or "That's the whole ballgame" are things humans say but AIs rarely generate on their own.</p>
+
+    <div class="premium-cta">
+        <div class="cta-tag">RECOMMENDED BY CHECK & CALC</div>
+        <div class="cta-title">🛡️ STOP BEING FLAGGED BY AI</div>
+        <p class="cta-desc">Humanize your text and bypass any AI detector instantly with Undetectable AI.</p>
+        <a href="https://undetectable.ai?_by=checkandcalc" target="_blank" class="cta-button">BYPASS AI DETECTION NOW</a>
+    </div>
+    
+
+<p>The most powerful weapon in your arsenal is the personal anecdote. It doesn't even have to be true. Just insert a small, one or two-sentence story. For example, in an article about firewalls, you could add: "This reminds me of a time a junior admin accidentally set an 'allow all' rule on a production firewall. The cleanup for that mess took a week." This is pure, high-perplexity, high-burstiness gold. An AI detector's model has no statistical basis for this kind of personal injection, and it throws the analysis completely off.</p>
+<p>Finally, sabotage the rhythm. Read your text. Does it flow too smoothly? Break it. Find a medium-length sentence and combine it with the next one using a semicolon or an em dash, creating a long, complex beast. Then, make the next sentence brutally short. "Done." or "Think about that." This manual manipulation of burstiness is something detectors are terrible at spotting because they assume it's a natural part of human writing style.</p>
+
+<h2>Section 4: The 'Digital Fingerprint' - Advanced Prompt Engineering & Persona Layering</h2>
+<p>If you really want to make your AI output undetectable, you need to move beyond simple, one-shot prompts. The goal is to bake the human-like qualities into the generation process itself, not just paint them on at the end. This is done through sophisticated prompt engineering, specifically by creating a deep, layered persona for the AI to inhabit.</p>
+<p>Forget simple prompts like "Write an article about X." You need to give the AI a complete identity before you give it a task. This is done through a pre-prompt or by leveraging the "Custom Instructions" feature in models like ChatGPT (the concept applies to Claude and Gemini as well). You're essentially creating a character sheet for your AI writer.
+<br><em>Deep Persona Prompt Example:</em>
+"Before we begin, you will adopt the following persona for all subsequent responses.
+<strong>Persona Name:</strong> Frank, the Sysadmin.
+<strong>Experience:</strong> 15 years in enterprise IT, specializing in network security and disaster recovery.
+<strong>Personality:</strong> Cynical, pragmatic, no-nonsense. Hates corporate jargon. Believes most problems are caused by human error.
+<strong>Writing Style:</strong> Uses direct, declarative sentences. Prefers active voice. Employs analogies related to hardware, cars, or construction. Varies sentence length for emphasis. Is not afraid to use a one-word sentence. Avoids overly academic or flowery language. Goal is clarity, not elegance."</p>
+<p>Once you've established this persona, *then* you give it the task from the previous section (e.g., "Now, Frank, take this outline from Gemini and explain it to me."). The AI will now filter its entire statistical model through this character lens, fundamentally altering its word choices, sentence structures, and overall rhythm from the ground up. This is far more effective than just asking it to "sound human."</p>
+<p>Another advanced technique is "Chain-of-Thought" (CoT) prompting. Instead of asking for the final product, you force the AI to show its work. This makes the process messier and the output less polished.
+<br><em>CoT Prompt Example:</em> "I need an explanation of RAID 5. First, define what RAID is in one sentence. Second, explain the concept of parity in a simple analogy. Third, list two pros and two cons of RAID 5. Finally, combine all of that information into a cohesive, two-paragraph summary in the persona of Frank the Sysadmin." This multi-step process prevents the AI from just spitting out its most optimized, pre-canned explanation, resulting in a more organically structured text.</p>
+<p>💡 <strong>Expert IT Tip:</strong> Use a text expander tool like AutoHotkey (Windows) or TextExpander (Mac/Windows). Save your detailed personas as short snippets. For example, I can type `;frank` and it will automatically paste my entire "Frank the Sysadmin" persona prompt. This saves a massive amount of time and ensures you are consistently applying the same effective persona across all your work, creating a consistent and unique 'digital fingerprint' for your AI-assisted writing.</p>
+
+<h2>Section 5: The Final Polish: Tools and Techniques for a "Human" Score</h2>
+<p>You've generated the text with a two-LLM chain, injected chaos, and used a deep persona. Now it's time for the final lockdown. This last pass is about using tools smartly and catching the subtle giveaways that scream "machine."</p>
+<p>First, run your text through a standard grammar checker like Grammarly or Hemingway App. But here's the trick: <strong>do not accept every suggestion.</strong> AI-generated text is almost always grammatically perfect. Humans are not. If Grammarly suggests a "more formal" or "more concise" phrasing that removes the personality you've injected, ignore it. It's even okay to intentionally leave in a minor, common grammatical quirk, like ending a sentence with a preposition, if it sounds natural. Perfect grammar is a red flag.</p>
+<p>Next, and this is non-negotiable, <strong>read the entire text out loud.</strong> Your ears will catch what your eyes miss. You will instantly hear sentences that are clunky, repetitive rhythms, or phrases that just don't sound like something a real person would say. The act of speaking the words forces your brain to process them differently. This is the ultimate sniff test for robotic language. If you stumble over a sentence, rewrite it until it flows naturally off the tongue.</p>
+<p>A common mistake people make is using a "synonym swapper" or basic paraphrasing tool to try and fool detectors. This is a trap. These tools often make text *more* detectable. Why? Because AI detectors don't just look at individual words; they look at word combinations (n-grams). A simple synonym swap can create bizarre, statistically improbable word pairings that scream "I was altered by a cheap tool!" It's better to have a simple, common word that fits than a fancy, awkward synonym.</p>
+<p>If you feel a specific paragraph is still a bit too "AI-ish," you can use a high-quality paraphrasing tool like QuillBot as a targeted weapon, not a blanket solution. Take only that one suspicious paragraph, run it through the tool on a "creative" setting, and then—this is critical—heavily re-edit the output manually. This can introduce a third model's statistical flavor into the mix, further muddying the waters, but it must be followed by a human touch to smooth out the tool's own robotic tendencies.</p>
+
+<h2>Conclusion: It's About the Process, Not the Product</h2>
+<p>Look, the race between AI generation and AI detection is an arms race that will never end. Today's undetectable text might be flaggable by tomorrow's more advanced algorithm. That's why the key takeaway isn't a single "trick" or a magic prompt. The real secret is the multi-layered, human-in-the-loop process.</p>
+<p>You're not just generating text. You're orchestrating a process: using one AI for structure, another for style, manually introducing human-like imperfections, and performing a final sensory check. You're the system administrator of your content creation workflow. The AIs are just powerful services that you call on, but you're the one who integrates them, configures them, and ultimately signs off on the final deployment.</p>
+<p>The detectors are looking for the lazy route—the single, unedited copy-paste job. By following this methodical, layered approach, you're creating a piece of text with a complex, chaotic origin story that no simple statistical model can reliably trace. The human element—your final judgment, your edits, your decision to read it aloud—is the ultimate exploit. And it's an exploit they can never patch.</p>
+        
+        <div class="premium-hook">
+            <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+            <p class="hook-text">
+                Don't wait for the headlines. Our <strong>Private Telegram Channel</strong> delivers real-time AI security updates and digital wealth strategies before they go viral. Stay protected. Stay ahead.
+            </p>
+            <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-premium">⚡ JOIN THE 1% NOW</a>
+        </div>
+        
+       <div style="margin-top: 50px; padding: 30px; background: #0f172a; border-radius: 16px; border: 1px solid #1f2937; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <h3 style="color: #cbd5e1; font-size: 1.25rem; margin-top: 0; margin-bottom: 12px;">🧰 Try Our Free Tools & Calculators</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 25px;">No sign-up required. Instantly check risks, analyze AI text, or calculate your digital finances.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+                <a href="index.html#scam" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🛡️ SafeSiteCheck</a>
+                <a href="index.html#ai" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🧠 HumanScore</a>
+                <a href="index.html#yt" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">📺 TubeEarnings</a>
+                <a href="index.html#subdrain" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">💳 SubDrain</a>
+                <a href="index.html#breachcost" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">⚠️ BreachCost</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-btn">🚀 Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
