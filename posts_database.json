@@ -1131,7 +1131,7 @@
     "text": "🚨 Think AI detectors can't be beaten? Think again—here’s the sysadmin's playbook for making AI-generated text completely indistinguishable from human writing using a two-LLM chain.\n\nRead the full deep-dive here 👇\n#AI #Security #CheckAndCalc",
     "link": "https://checkandcalc.com/step-by-step-guide-to-beating-ai-detectors-using-claude-3-and-gemini.html",
     "image_path": "step-by-step-guide-to-beating-ai-detectors-using-claude-3-and-gemini.png",
-    "published": false
+    "published": true
   },
   {
     "id": 143,
