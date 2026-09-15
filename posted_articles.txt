@@ -119,3 +119,4 @@ the-router-security-checklist-how-to-stop-hackers-at-the-front-door.html
 how-to-use-ai-to-scan-your-own-computer-for-2026-malware.html
 the-job-offer-on-whatsapp-how-scammers-recruit-for-money-laundering.html
 quantum-computing-vs-bitcoin-is-your-crypto-safe-in-2026.html
+step-by-step-guide-to-beating-ai-detectors-using-claude-3-and-gemini.html
