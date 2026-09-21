@@ -253,3 +253,4 @@ the-danger-of-shadow-it-how-your-favorite-apps-put-the-company-at-risk_v2
 how-to-check-a-website-registration-date-to-spot-new-scam-domains_v1
 the-crypto-dusting-attack-2026-update-why-tiny-transactions-are-dangerous_v2
 credit-card-skimming-in-2026-how-digital-pickpockets-steal-your-data_v1
+the-cost-of-ai-subscriptions-are-you-paying-too-much-for-chatgpt-wrappers_v2
