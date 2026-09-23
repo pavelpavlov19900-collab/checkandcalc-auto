@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Train Your Own AI Model to Write in Your Specific Voice</title>
+    <meta property="og:title" content="How to Train Your Own AI Model to Write in Your Specific Voice" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://checkandcalc.com/how-to-train-your-own-ai-model-to-write-in-your-specific-voice.png" />
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
+    <link rel="canonical" href="https://checkandcalc.com/how-to-train-your-own-ai-model-to-write-in-your-specific-voice.html" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://checkandcalc.com/how-to-train-your-own-ai-model-to-write-in-your-specific-voice.html"
+      },
+      "headline": "How to Train Your Own AI Model to Write in Your Specific Voice",
+      "datePublished": "2026-09-23",
+      "dateModified": "2026-09-23",
+      "author": {
+        "@type": "Organization",
+        "name": "Check & Calc AI Security",
+        "url": "https://checkandcalc.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Check & Calc",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://checkandcalc.com/favicon.ico"
+        }
+      }
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }
+        .article-container { max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+        /* ДОБАВИ ТОВА ТУК 👇 */
+        .article-banner { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+        /* ------------------ */
+        h1 { color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }
+        h2 { color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }
+        h3 { color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }
+        a { color: #60a5fa; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        a:hover { border-bottom: 1px solid #60a5fa; }
+        p { margin-bottom: 20px; font-size: 1.05rem; color: #cbd5e1; }
+        ul, ol { margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }
+        li { margin-bottom: 10px; }
+        strong { color: #f8fafc; }
+        
+        /* 🤖 AI & GEO Оптимизиран блок за ChatGPT/Gemini */
+        .ai-answer-box { background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; padding: 20px 25px; margin-bottom: 35px; border-radius: 0 8px 8px 0; border-top: 1px solid #1f2937; border-right: 1px solid #1f2937; border-bottom: 1px solid #1f2937; }
+        .ai-answer-box h2 { color: #10b981; font-size: 1.2rem; margin-top: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-answer-box ul { margin-bottom: 0; }
+        .ai-answer-box li { color: #f8fafc; font-weight: 500; font-size: 1rem; }
+        
+        /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
+        .premium-cta { margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }
+        .cta-tag { font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }
+        .cta-title { font-size: 1.5rem; font-weight: 900; color: #f8fafc; margin-bottom: 10px; }
+        .cta-desc { font-size: 1rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.4; }
+        .cta-button { display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .cta-button:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+        
+        /* Premium Telegram Box - Universal Hook */
+        .premium-hook {
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(145deg, #111827, #1e293b);
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+        .hook-title { color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .hook-text { color: #94a3b8; font-size: 1rem; margin-bottom: 25px; }
+        .tg-btn-premium {
+            display: inline-block;
+            background: #3b82f6;
+            color: #ffffff !important;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .tg-btn-premium:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #2563eb; }
+        
+        .back-btn { display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }
+        .back-btn:hover { background-color: #334155; color: #ffffff; cursor: pointer; }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LXJ2T5DJZH');
+    </script>
+</head>
+<body>
+    <div class="article-container">
+       <img src="how-to-train-your-own-ai-model-to-write-in-your-specific-voice.png" class="article-banner" alt="How to Train Your Own AI Model to Write in Your Specific Voice">  <h1>Train Your Own AI to Write Like You: The No-BS SysAdmin's Guide</h1>
+<div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul><li><strong>Gather Your Data:</strong> Collect thousands of examples of your authentic writing (emails, docs, chats) because the AI's quality is 100% dependent on the quality and volume of your input data.</li><li><strong>Clean & Format:</strong> Sanitize your data by removing all personal information (PII) and confidential details, then structure it into a simple 'prompt' and 'completion' format that the AI can understand.</li><li><strong>Fine-Tune a Model:</strong> Choose a pre-trained base model (like one from OpenAI or a local Llama 2 model) and run a fine-tuning process, feeding it your prepared data to overwrite its generic voice with your specific patterns and style.</li></ul></div>
+
+<h2>Introduction: Your Digital Ghost in the Machine</h2>
+<p>Alright, let's cut the crap. You've used ChatGPT and other AI tools, and the output sounds like a corporate brochure written by a committee of painfully optimistic robots. It’s bland, sterile, and has zero personality. You want an AI that sounds like <em>you</em>—your quirks, your phrasing, your specific way of explaining things. You want a digital clone that can draft emails, write documentation, or even handle initial support tickets with your voice, scaling your presence without diluting your brand.</p>
+<p>This isn't about creating a perfect sentient copy of yourself. That's sci-fi nonsense. This is about building a highly specialized tool. Think of it like forging a custom wrench for a specific bolt instead of using a clumsy, one-size-fits-all adjustable wrench. The generic AI is the adjustable wrench; it works, but it's sloppy. Your fine-tuned model is the custom-forged tool, built for one purpose: to replicate your communication style with brutal efficiency.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="how-to-humanize-ai-text-without-losing-the-original-meaning-and-formatting.html" style="color: inherit; text-decoration: underline; font-weight: bold;">How To Humanize Ai Text Without Losing The Original Meaning And Formatting</a>
+        </div>
+        
+<p>Over the next few sections, I'm going to walk you through the raw, unfiltered process. We're not talking about high-level theory; we're talking about practical, in-the-trenches work. We'll cover gathering the raw material, cleaning it so you don't leak sensitive data, choosing the right engine for the job, and the iterative process of training and testing. Forget the marketing hype. This is the real work required to build an AI that genuinely works for you.</p>
+
+<h2>Section 1: The Data Hoard: Your Voice is in Your History</h2>
+<p>This is the most important step, and the one everyone gets lazy on. <strong>Your model will only ever be as good as the data you feed it.</strong> Garbage in, garbage out. It’s the oldest rule in IT, and it applies ten-fold here. The AI doesn't "understand" you; it recognizes and replicates statistical patterns in text. To build a model that writes like you, you need to provide a massive, high-quality library of your own words for it to analyze.</p>
+<p>So, where do you get this data? You need to become a digital archaeologist of your own life. Start digging.
+<ul>
+    <li><strong>Sent Emails:</strong> Your sent folder is a goldmine. It shows how you greet people, how you explain complex issues, how you sign off. Export your entire sent folder for the last 5-10 years.</li>
+    <li><strong>Documents & Reports:</strong> Any Word documents, Google Docs, technical documentation, or project proposals you've written are prime material. They show your long-form, structured thinking.</li>
+    <li><strong>Chat Logs:</strong> This is huge. Export your Slack, Microsoft Teams, or even Discord conversations. This data is conversational, informal, and full of your unique shorthand and personality. Just be sure you only use <em>your</em> side of the conversation.</li>
+    <li><strong>Blog Posts & Articles:</strong> If you've written anything publicly, grab it. This is your polished, public-facing voice.</li>
+    <li><strong>Code Comments:</strong> If you're a developer, your code comments are a unique data source that reflects how you explain logic.</li>
+</ul>
+</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="used-tech-dangers-how-to-forensically-wipe-your-phone-before-selling.html" style="color: inherit; text-decoration: underline; font-weight: bold;">Used Tech Dangers How To Forensically Wipe Your Phone Before Selling</a>
+        </div>
+        
+<p>Quantity is key. Don't think a dozen emails will cut it. You need thousands of examples. A good starting point is at least 2,000 to 5,000 high-quality text samples. The more data, the better the model will capture the nuances of your style. It needs to see how you write when you're formal, informal, angry, helpful, and concise. Without a wide variety of examples, you'll just create a one-dimensional caricature of yourself that can only write one type of email. Don't skimp here. This grunt work is what separates a useless toy from a powerful tool.</p>
+
+<h2>Section 2: Data Sanitation: Don't Train Your AI to Leak Your Secrets</h2>
+<p>You’ve got a mountain of your own text. Great. Now for the sysadmin part of the job: security and cleaning. You cannot, under any circumstances, just dump this raw data into a model, especially if you're using a third-party API like OpenAI's. That data gets sent to their servers. You'd be uploading years of private conversations, client names, internal server details, passwords, and personal information. It's a catastrophic security breach waiting to happen.</p>
+<p>Sanitizing your data is non-negotiable. You need to scrub it clean of any Personally Identifiable Information (PII) or sensitive company data. This means names, email addresses, phone numbers, credit card numbers, API keys, passwords, and internal project codenames. You have to be methodical. Think of it like decommissioning a hard drive before you sell it; you don't just delete the files, you wipe it clean so nothing is recoverable.</p>
+<p>The next step is formatting. An AI needs structured data to learn effectively. The most common format for fine-tuning is a simple JSONL file where each line is a JSON object containing a "prompt" and a "completion." The "prompt" is the input or question, and the "completion" is the ideal response written in your voice. For example:
+<ul>
+    <li><code>{"prompt": "Briefly explain what a firewall does.", "completion": "Think of a firewall as a bouncer at a nightclub. It checks the ID of every piece of data trying to get into your network and kicks out anyone who isn't on the list or looks suspicious."}</code></li>
+    <li><code>{"prompt": "Draft a polite but firm email telling a vendor they missed a deadline.", "completion": "Hi [Vendor Name], I'm checking in on the status of project X. The delivery deadline was yesterday and we haven't received the files yet. Can you please provide an immediate update? We need this to move forward. Thanks, [Your Name]."}</code></li>
+</ul>
+You have to manually go through your raw text and convert it into this format. Yes, it's tedious. But this process forces the AI to learn a direct cause-and-effect relationship: "When I see this kind of prompt, I produce this kind of response in this specific style."</p>
+
+<div class='expert-tip'>💡 <strong>Expert IT Tip:</strong> Don't do this all by hand. Use regular expressions (regex) to automate the bulk of the PII scrubbing. Tools like Regex101.com are great for building and testing patterns to find things like email addresses <code>(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)</code> or IP addresses. You can then write a simple Python script using the `re` library to read your text files, find and replace all matches with generic placeholders like `[EMAIL]` or `[IP_ADDRESS]`, and then save the cleaned files. This will save you hundreds of hours.</div>
+
+<h2>Section 3: Choosing Your Weapon: Cloud APIs vs. Local Muscle</h2>
+<p>Once your data is clean and formatted, you need to decide where the training will actually happen. You have two main paths, each with serious trade-offs in cost, privacy, and complexity. There's no single "best" answer; it depends entirely on your resources and paranoia level.</p>
+<p><strong>Path 1: The Cloud API (e.g., OpenAI, Google, Anthropic)</strong><br>
+This is the easy route. You use an existing, powerful AI model as your base and pay a company like OpenAI to fine-tune it with your data. The pros are obvious: you don't need any special hardware, the process is often simplified to a single API call, and you're building on top of a state-of-the-art model. The cons, however, are significant for a security-minded person. You are uploading your (hopefully sanitized) data to a third party. While they have privacy policies, your data is still on someone else's server. Furthermore, you're paying for every single use (both for training and for generating text later), which can get expensive fast.</p>
+
+    <div class="premium-cta">
+        <div class="cta-tag">RECOMMENDED BY CHECK & CALC</div>
+        <div class="cta-title">🛡️ STOP BEING FLAGGED BY AI</div>
+        <p class="cta-desc">Humanize your text and bypass any AI detector instantly with Undetectable AI.</p>
+        <a href="https://undetectable.ai?_by=checkandcalc" target="_blank" class="cta-button">BYPASS AI DETECTION NOW</a>
+    </div>
+    
+
+<p><strong>Path 2: The Local Machine (e.g., Llama 2, Mistral)</strong><br>
+This is the sovereign route. You download an open-source model like Meta's Llama 2 or Mistral 7B and run the entire fine-tuning process on your own hardware. The biggest advantage is <strong>100% privacy and control</strong>. Your data never leaves your machine. There are no ongoing costs per use; once you've paid for the hardware, it's free to run. The downside is the massive technical hurdle. You need a beefy machine with a high-end NVIDIA GPU (think RTX 3090 or 4090 with 24GB of VRAM, minimum). You'll also need to be comfortable with the command line, Python environments, and frameworks like PyTorch. It's a much steeper learning curve, but the payoff is a completely private and customized AI asset.</p>
+<p>Think of it this way: The Cloud API is like renting a super-fast server in a data center. It's powerful and someone else handles the maintenance, but you have to follow their rules and trust their security. Running a local model is like building your own server rack in your basement. It's a lot more work and has a high upfront cost, but you own it completely and control every single bit and byte.</p>
+
+<h2>Section 4: The Fine-Tuning Grind: Teaching the Machine</h2>
+<p>You've got your clean data and you've chosen your platform. Now it's time to actually train the model. This process isn't about teaching the AI new facts about the world; the base model already has that knowledge. Fine-tuning is about teaching it a new *style*. You're essentially overwriting its generic, helpful-assistant personality with your own linguistic DNA.</p>
+<p>If you're using a cloud service like OpenAI, the process is straightforward. You'll typically use their command-line tool or a simple script to upload your JSONL file. Then you'll run a command to create a new fine-tuning job, specifying which base model you want to use (e.g., `gpt-3.5-turbo`). The platform handles all the complex server allocation and processing behind the scenes. You just wait for an email telling you your new custom model is ready, identified by a unique name.</p>
+<p>If you're going the local route, you'll be more hands-on. You'll use a framework like `axolotl` or Hugging Face's `TRL` library. You'll point the training script to your local model files and your dataset, and then you'll configure some "hyperparameters." Don't let the term scare you. The two most important are:
+<ul>
+    <li><strong>Epochs:</strong> One epoch is one full pass of the AI reading your entire dataset. You'll usually want to do 2-4 epochs. Too few and it won't learn your style; too many and it might "overfit," becoming a rigid mimic that can't handle novel prompts.</li>
+    <li><strong>Learning Rate:</strong> This controls how drastically the model adjusts itself during training. Think of it as the size of the steps it takes towards matching your style. A smaller learning rate is slower but more precise.</li>
+</ul>
+You'll kick off the script and watch your GPU fans spin up. This process can take anywhere from a few hours to a couple of days, depending on your dataset size and hardware. Your machine will be unusable for anything else while it's running. It's a computationally brutal process that pushes your hardware to its absolute limit.</p>
+
+<div class='expert-tip'>💡 <strong>Expert IT Tip:</strong> Before you commit to a 24-hour training run on your full dataset, do a test run on a tiny fraction of it first. Take just 50-100 lines from your JSONL file and run the training process for a single, short epoch. This "smoke test" will take maybe 20 minutes and will immediately tell you if your data is formatted incorrectly, if your libraries are mismatched, or if your hardware configuration is wrong. It's the equivalent of checking if a server pings before launching a massive data migration. It saves you from wasting a full day only to find a simple typo in your script.</div>
+
+<h2>Section 5: Evaluation and Iteration: Your AI's Performance Review</h2>
+<p>The training process is finished. You now have a custom model file. You are not done. In fact, the real work is just beginning. Now you have to test your new creation and see if it actually works. The goal is to determine if it truly captured your voice or if it's just a slightly less generic version of the base model.</p>
+<p>Start by giving it a series of prompts it has never seen before, but that are representative of your daily tasks.
+<ul>
+    <li>"Draft an email to the team explaining that the network will be down for maintenance on Saturday from 2 AM to 4 AM."</li>
+    <li>"Write a short, direct Slack message to Bob asking for the quarterly report."</li>
+    <li>"Explain the concept of DNS to a non-technical manager in under 100 words."</li>
+</ul>
+</p>
+<p>Now, critically analyze the output. Don't just look for factual accuracy. Look at the word choice, sentence structure, and tone. Does it use the same analogies you would? Does it use your preferred sign-offs? Does it sound confident and direct, or does it hedge with weaselly AI phrases like "It seems that" or "One could argue"? Be ruthless in your critique. Compare its output side-by-side with what you *would have* written yourself.</p>
+<p>You will almost certainly find flaws. Maybe it's too formal, or it picked up a weird verbal tic from your old emails. This is where iteration comes in. Your model's failure is a diagnostic tool. If it's struggling with a certain type of task, it means you didn't provide enough high-quality training data for that specific task. Go back to your dataset. Add more examples. Clean up existing ones. Maybe a whole batch of your source data was poorly formatted. Find it, fix it, and re-run the fine-tuning process. This feedback loop of test -> analyze -> refine data -> retrain is the core of building a truly effective custom model. It's just like debugging a complex system: you isolate the problem, apply a fix, and re-deploy.</p>
+
+<h2>Conclusion: A Tool, Not a Replacement</h2>
+<p>Let's be crystal clear. You haven't created a digital consciousness or an artificial version of your brain. What you've built is an incredibly sophisticated autocomplete, a text-generation engine that has been heavily biased to sound like you. It's a force multiplier. It can handle the grunt work of drafting initial communications, allowing you to simply review and edit instead of starting from a blank page. It can maintain a consistent voice across all your documentation. It's a tool, and like any powerful tool, its effectiveness depends on the skill of the operator.</p>
+<p>The entire process hinges on the first, most grueling step: collecting and cleaning your data. The "AI" part is just math running on a powerful processor. The "you" part comes from the thousands of authentic, well-structured examples you feed it. If you're willing to do the unglamorous work of data preparation and the iterative work of testing and retraining, you can build a powerful asset that saves you time and scales your unique voice. If you're not, you'll just end up with a very expensive, slightly weird version of ChatGPT.</p>
+        
+        <div class="premium-hook">
+            <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+            <p class="hook-text">
+                Don't wait for the headlines. Our <strong>Private Telegram Channel</strong> delivers real-time AI security updates and digital wealth strategies before they go viral. Stay protected. Stay ahead.
+            </p>
+            <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-premium">⚡ JOIN THE 1% NOW</a>
+        </div>
+        
+       <div style="margin-top: 50px; padding: 30px; background: #0f172a; border-radius: 16px; border: 1px solid #1f2937; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <h3 style="color: #cbd5e1; font-size: 1.25rem; margin-top: 0; margin-bottom: 12px;">🧰 Try Our Free Tools & Calculators</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 25px;">No sign-up required. Instantly check risks, analyze AI text, or calculate your digital finances.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+                <a href="index.html#scam" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🛡️ SafeSiteCheck</a>
+                <a href="index.html#ai" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🧠 HumanScore</a>
+                <a href="index.html#yt" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">📺 TubeEarnings</a>
+                <a href="index.html#subdrain" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">💳 SubDrain</a>
+                <a href="index.html#breachcost" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">⚠️ BreachCost</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-btn">🚀 Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
