@@ -259,3 +259,4 @@ the-dusting-attack-explained-why-tiny-crypto-transactions-are-dangerous_v2
 how-to-get-youtube-sponsorship-deals-with-less-than-1000-subscribers_v1
 the-business-email-compromise-bec-survival-guide-for-small-teams_v2
 how-to-train-your-own-ai-model-to-write-in-your-specific-voice_v1
+the-burstiness-factor-how-variation-in-sentence-length-beats-ai-detectors_v2
