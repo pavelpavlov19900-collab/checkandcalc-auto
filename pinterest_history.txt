@@ -261,3 +261,4 @@ the-business-email-compromise-bec-survival-guide-for-small-teams_v2
 how-to-train-your-own-ai-model-to-write-in-your-specific-voice_v1
 the-burstiness-factor-how-variation-in-sentence-length-beats-ai-detectors_v2
 why-the-best-writers-in-2026-are-actually-prompt-engineers_v1
+why-the-best-writers-in-2026-are-actually-prompt-engineers_v2
