@@ -286,3 +286,4 @@ the-future-of-privacy-will-we-ever-be-truly-anonymous-again_v1
 how-scammers-use-ai-to-predict-your-next-move-the-social-engineering-20_v1
 the-future-of-privacy-will-we-ever-be-truly-anonymous-again_v2
 the-qr-code-trap-how-quishing-is-replacing-traditional-phishing_v1
+the-qr-code-trap-how-quishing-is-replacing-traditional-phishing_v2
