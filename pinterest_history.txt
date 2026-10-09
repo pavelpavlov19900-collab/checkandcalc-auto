@@ -288,3 +288,4 @@ the-future-of-privacy-will-we-ever-be-truly-anonymous-again_v2
 the-qr-code-trap-how-quishing-is-replacing-traditional-phishing_v1
 the-qr-code-trap-how-quishing-is-replacing-traditional-phishing_v2
 the-kill-switch-guide-why-your-vpn-is-useless-without-this-setting_v1
+the-kill-switch-guide-why-your-vpn-is-useless-without-this-setting_v2
