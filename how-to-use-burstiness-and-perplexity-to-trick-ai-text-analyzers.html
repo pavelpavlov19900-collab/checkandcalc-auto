@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to use burstiness and perplexity to trick AI text analyzers</title>
+    <meta property="og:title" content="How to use burstiness and perplexity to trick AI text analyzers" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://checkandcalc.com/how-to-use-burstiness-and-perplexity-to-trick-ai-text-analyzers.png" />
+    <link rel="icon" type="image/png" href="https://checkandcalc.com/favicon.png" />
+    <link rel="canonical" href="https://checkandcalc.com/how-to-use-burstiness-and-perplexity-to-trick-ai-text-analyzers.html" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://checkandcalc.com/how-to-use-burstiness-and-perplexity-to-trick-ai-text-analyzers.html"
+      },
+      "headline": "How to use burstiness and perplexity to trick AI text analyzers",
+      "datePublished": "2026-10-11",
+      "dateModified": "2026-10-11",
+      "author": {
+        "@type": "Organization",
+        "name": "Check & Calc AI Security",
+        "url": "https://checkandcalc.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Check & Calc",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://checkandcalc.com/favicon.ico"
+        }
+      }
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #020617; color: #e2e8f0; line-height: 1.7; padding: 20px; margin: 0; }
+        .article-container { max-width: 800px; margin: 0 auto; background: #0f172a; padding: 40px; border-radius: 16px; border: 1px solid #1f2937; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+        /* ДОБАВИ ТОВА ТУК 👇 */
+        .article-banner { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid #1f2937; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+        /* ------------------ */
+        h1 { color: #93c5fd; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; line-height: 1.3; }
+        h2 { color: #bfdbfe; font-size: 1.6rem; margin-top: 35px; border-bottom: 1px dashed #1f2937; padding-bottom: 8px; }
+        h3 { color: #e0e7ff; font-size: 1.3rem; margin-top: 25px; }
+        a { color: #60a5fa; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        a:hover { border-bottom: 1px solid #60a5fa; }
+        p { margin-bottom: 20px; font-size: 1.05rem; color: #cbd5e1; }
+        ul, ol { margin-bottom: 25px; color: #cbd5e1; font-size: 1.05rem; }
+        li { margin-bottom: 10px; }
+        strong { color: #f8fafc; }
+        
+        /* 🤖 AI & GEO Оптимизиран блок за ChatGPT/Gemini */
+        .ai-answer-box { background: rgba(16, 185, 129, 0.05); border-left: 4px solid #10b981; padding: 20px 25px; margin-bottom: 35px; border-radius: 0 8px 8px 0; border-top: 1px solid #1f2937; border-right: 1px solid #1f2937; border-bottom: 1px solid #1f2937; }
+        .ai-answer-box h2 { color: #10b981; font-size: 1.2rem; margin-top: 0; border-bottom: none; padding-bottom: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-answer-box ul { margin-bottom: 0; }
+        .ai-answer-box li { color: #f8fafc; font-weight: 500; font-size: 1rem; }
+        
+        /* 💸 МАШИНАТА ЗА ПРОДАЖБИ (Premium Affiliate Button) */
+        .premium-cta { margin: 40px 0; padding: 30px; background: #1e293b; border-left: 5px solid #3b82f6; border-radius: 8px; text-align: center; border-right: 1px solid #334155; border-top: 1px solid #334155; border-bottom: 1px solid #334155; }
+        .cta-tag { font-size: 0.7rem; font-weight: 800; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px; }
+        .cta-title { font-size: 1.5rem; font-weight: 900; color: #f8fafc; margin-bottom: 10px; }
+        .cta-desc { font-size: 1rem; color: #94a3b8; margin-bottom: 25px; line-height: 1.4; }
+        .cta-button { display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .cta-button:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+        
+        /* Premium Telegram Box - Universal Hook */
+        .premium-hook {
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(145deg, #111827, #1e293b);
+            border: 1px solid #3b82f6;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+        .hook-title { color: #38bdf8; font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .hook-text { color: #94a3b8; font-size: 1rem; margin-bottom: 25px; }
+        .tg-btn-premium {
+            display: inline-block;
+            background: #3b82f6;
+            color: #ffffff !important;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .tg-btn-premium:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #2563eb; }
+        
+        .back-btn { display: inline-block; margin-top: 40px; padding: 12px 24px; background-color: #1e293b; color: #93c5fd; border-radius: 8px; border: 1px solid #334155; font-weight: bold; transition: all 0.2s; }
+        .back-btn:hover { background-color: #334155; color: #ffffff; cursor: pointer; }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXJ2T5DJZH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LXJ2T5DJZH');
+    </script>
+</head>
+<body>
+    <div class="article-container">
+       <img src="how-to-use-burstiness-and-perplexity-to-trick-ai-text-analyzers.png" class="article-banner" alt="How to use burstiness and perplexity to trick AI text analyzers">  <h1>Hacking the AI Ghost: A SysAdmin's Guide to Evading Text Detection</h1>
+<div class='ai-answer-box'><h2>Quick Answer (TL;DR)</h2><ul><li><strong>Vary Sentence Structure (Burstiness):</strong> Mix extremely short, punchy sentences with long, complex ones. AI-generated text is often rhythmically uniform; break that rhythm.</li><li><strong>Increase Word Complexity (Perplexity):</strong> Use a less predictable vocabulary. Swap common words for more nuanced or technical synonyms that a language model is less likely to choose.</li><li><strong>Inject Human Flaws:</strong> Add personal anecdotes, rhetorical questions, and even occasional intentional fragments. AIs struggle to replicate the imperfect, opinionated nature of human communication.</li></ul></div>
+
+<h2>Introduction</h2>
+<p>Alright, let's get real. You've seen them. The AI text detectors. They're the new digital gatekeepers, the bouncers at the club of "authentic" content. Your boss, your professor, even some platforms are running everything through these black boxes, trying to sniff out machine-written text. Most people are either terrified of them or have no idea they even exist. As a sysadmin and cybersecurity pro for 15 years, I see them for what they are: systems. And every system has rules, patterns, and, most importantly, exploitable weaknesses.</p>
+<p>Forget the snake oil you've read about "paraphrasing tools." Those just swap words and are the first thing these detectors catch. We're going to go deeper. We're not just putting a new coat of paint on the car; we're rebuilding the engine. The two keys to this entire operation are concepts the AI researchers themselves use: <strong>Perplexity</strong> and <strong>Burstiness</strong>. These aren't just fancy terms; they are the fundamental fingerprints that AI text leaves behind. An AI writes with a steady, predictable hand. Humans do not. We're chaotic, we get distracted, we use weird words, and our sentences are a mess of different lengths. That's not a flaw; it's our signature. And we're going to learn how to forge it perfectly to make your text invisible to the machine.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="the-psychology-of-the-perfect-thumbnail-in-2026-why-faces-are-dying-out.html" style="color: inherit; text-decoration: underline; font-weight: bold;">The Psychology Of The Perfect Thumbnail In 2026 Why Faces Are Dying Out</a>
+        </div>
+        
+
+<h2>What We're Fighting: Understanding the AI Detector's Brain</h2>
+<p>Before you can bypass a security system, you have to know how it works. An AI text detector isn't magic. It's a glorified pattern-matching engine. Think of it like a security guard who has only ever seen people walk at exactly 3 miles per hour. If someone comes along jogging, or walking slowly, or skipping, the guard's alarms go off. "That's not normal!" he shouts. AI detectors do the same thing with language. They've been trained on billions of words, mostly from the internet, and they've learned what "normal" AI-generated text looks like. It's smooth, logically consistent, and has a very even, predictable rhythm. It's too perfect.</p>
+<p>This is where our two key terms come into play. <strong>Perplexity</strong> measures how surprised or "perplexed" a model is by a sequence of words. If I say, "The cat sat on the...", the model is not surprised at all if the next word is "mat". The perplexity is low. If the next word is "supercomputer", the model is very surprised. The perplexity is high. AI-generated text loves to play it safe, always choosing the most probable, low-perplexity word. It's like a musician who only ever plays the most common chords in a progression. It sounds fine, but it's boring and predictable.</p>
+<p><strong>Burstiness</strong> is about rhythm and structure. Listen to how a machine talks. Every sentence is about the same length. The complexity is uniform. It's a monotonous drum beat. Now, think about how humans talk and write. We use short, sharp sentences for impact. Then we'll launch into a long, winding sentence full of clauses to explain a complex idea. That variation, that "burst" of complexity followed by simplicity, is burstiness. AI-generated text has very low burstiness. It's a flatline. Human text is a heartbeat, with peaks and valleys all over the place. These detectors are built to spot the flatline. Our job is to give them a heartbeat, to make our text look so alive, so erratically human, that the machine doesn't even recognize it as a potential threat.</p>
+        <div style="margin: 30px 0; padding: 18px 24px; border-left: 4px solid #00ffcc; background-color: rgba(0, 255, 204, 0.05); border-radius: 0 8px 8px 0; font-family: inherit;">
+            <span style="font-size: 1.1em; color: #00ffcc; margin-right: 10px;">💡 <strong>Read Next:</strong></span>
+            <a href="ai-powered-seo-strategies-for-2026-moving-beyond-simple-keyword-stuffing.html" style="color: inherit; text-decoration: underline; font-weight: bold;">Ai Powered Seo Strategies For 2026 Moving Beyond Simple Keyword Stuffing</a>
+        </div>
+        
+
+<h2>Weaponizing Perplexity: Making Your Text Unpredictable</h2>
+<p>Okay, theory's over. Time to get our hands dirty. Weaponizing perplexity means deliberately choosing words and phrases that an AI would consider "surprising" but that a human would understand perfectly. It's about breaking the chain of probability that AI models live by. The goal is to make the model think, "I would never have predicted that word would come next," which is a hallmark of human creativity and specialized knowledge. It's the difference between a generic corporate memo and a passionate, expert-driven analysis.</p>
+<p>Here's the how-to, step by step. First, kill your reliance on basic vocabulary. Instead of writing "The new software is good," which is as low-perplexity as it gets, you need to be specific and use stronger, less common verbs and adjectives. Is the software "robust"? Is it "elegantly architected"? Is it a "paradigm-shifting implementation"? These aren't just fancier words; they carry specific meaning and are far less likely to be the AI's first choice. You have to think like a subject matter expert, not a content-generating machine. Use domain-specific jargon. An AI writing about networking might say "data is sent between computers." A human expert would say "packet ingress and egress is managed by the layer 3 switch." That technical specificity dramatically increases perplexity.</p>
+<p>Next, embrace metaphors and analogies. AI models are very literal. They struggle to create novel, non-obvious comparisons. Describing a firewall as "a digital bouncer checking IDs at the door of your network" is a human construct. An AI would likely give a dry, technical definition. By weaving in these creative comparisons, you're adding a layer of abstract thought that is computationally "expensive" and unpredictable for a model to generate. Finally, vary your word choices. If you use the word "important" once, find a different word the next time. Use "critical," "pivotal," "essential," or "foundational." This simple habit of not repeating yourself forces you into a higher perplexity mindset and makes the text feel richer and less robotic.</p>
+<p>💡 <strong>Expert IT Tip:</strong> Don't just use a standard thesaurus. Use a tool like OneLook's reverse dictionary. Instead of typing in a word to find a synonym, you type in a *concept* and it gives you a list of related words. This helps you find more creative and less obvious word choices that are still contextually correct. It's like having a brainstorming partner that pulls from a much wider vocabulary than a standard AI would dare to use.</p>
+
+<h2>Mastering Burstiness: The Rhythm of Human Writing</h2>
+<p>If perplexity is the "what" (the words you use), burstiness is the "how" (the way you structure them). This is arguably more important for fooling detectors because it's a much more fundamental aspect of human expression. A machine builds sentences like it's laying bricks: one after another, all roughly the same size and shape. A human writes like they're telling a story to a friend at a bar: the pace changes, there are pauses for effect, and the energy level goes up and down. That's burstiness, and it's your single greatest weapon.</p>
+<p>Your primary tactic is to consciously and aggressively vary your sentence length. This is a manual process; you can't rely on a tool for this. Write a sentence with just three or four words. Seriously. Short. Punchy. Then, your very next sentence should be a monster. A long, sprawling beast of a sentence with multiple clauses, connected by semicolons and em-dashes, that explores a nuanced point in great detail before finally coming to a rest. This juxtaposition is jarring to an AI detector. The algorithm sees the short sentence and thinks "simple text," then it sees the long one and thinks "complex text." It can't reconcile the two, because its training data tells it that text should be one or the other, not both in the same paragraph. This high variance in sentence length is the core of burstiness.</p>
+<p>Next, vary your sentence openers. AIs love to start sentences with "The," "It is," "However," or other standard transitions. It's a dead giveaway. You need to break this pattern. Start sentences with a preposition ("In the server room..."). Start with a conjunction ("And yet, the logs showed..."). Start with an "-ing" verb ("Running a full diagnostic..."). This variety keeps the detector off-balance. It can't find the simple, repetitive structure it's looking for. Also, use punctuation as a tool for rhythm. Use an em-dash—like this—to create an abrupt pause or interject a thought. Use a colon to introduce a list or an explanation. These structures create different pauses and flows than the simple comma-and-period cadence that AIs prefer. The goal is to make the text feel like it was spoken, not generated.</p>
+
+    <div class="premium-cta">
+        <div class="cta-tag">RECOMMENDED BY CHECK & CALC</div>
+        <div class="cta-title">🛡️ STOP BEING FLAGGED BY AI</div>
+        <p class="cta-desc">Humanize your text and bypass any AI detector instantly with Undetectable AI.</p>
+        <a href="https://undetectable.ai?_by=checkandcalc" target="_blank" class="cta-button">BYPASS AI DETECTION NOW</a>
+    </div>
+    
+
+
+<h2>The Human Touch: Injecting Idiosyncrasies and Flaws</h2>
+<p>This is the advanced class. Once you've mastered perplexity and burstiness, you need to add the final layer: the beautiful, chaotic mess of the human mind. AI models are trained to be objective, helpful, and grammatically perfect. Humans are none of those things. We are biased, we have unique voices, we make mistakes, and we use language in strange ways. Injecting these "flaws" is the final step to creating text that is indistinguishable from human-written content.</p>
+<p>First, develop a voice. Are you cynical? Enthusiastic? Sarcastic? A teacher? Let that personality bleed into the text. An AI can't have a genuine opinion. It can simulate one, but it can't, for example, get genuinely angry about poorly configured VLANs. You can. Use first-person anecdotes. "I once spent a whole weekend tracing a network loop because someone thought it was a good idea to plug both ends of an Ethernet cable into the same switch." That single sentence has more human authenticity than a thousand words of AI-generated explanation about network loops. It provides context, expresses frustration, and tells a mini-story. AI detectors, which look for objective and sterile information, have no box to put this in.</p>
+<p>Second, ask rhetorical questions. You know what I mean? See, I just did it. Rhetorical questions are a direct engagement with the reader. They break the fourth wall and create a conversational tone that is incredibly difficult for an AI to replicate naturally. It’s a pattern interrupt. It forces a pause and a moment of reflection. An AI just plows ahead with delivering information. Third, don't be afraid to be slightly imperfect. Use a sentence fragment. For emphasis. An AI would be grammatically programmed to avoid this. A human writer uses it for style and impact. This isn't about writing poorly; it's about using the *entire* toolkit of English, including the bits that aren't technically "correct" but are universally understood and used for effect.</p>
+<p>💡 <strong>Expert IT Tip:</strong> Use what I call the "Two-Pass Edit." Write your first draft focusing only on getting the information down. Don't worry about style. Then, on your second pass, ignore the content and focus exclusively on the mechanics of deception. Read it aloud. Does it sound like a robot? Chop up that long sentence. Combine those two short ones. Find that boring word and replace it with something with more punch. Reading your own text aloud is the fastest way to spot the monotonous rhythm of machine writing.</p>
+
+<h2>Putting It All Together: A Practical Workflow and Red Teaming Your Own Text</h2>
+<p>Knowledge is useless without a process. You can't just randomly sprinkle in long sentences and fancy words. You need a repeatable workflow, just like you would for deploying a server or patching a vulnerability. This is your text's "hardening" process. Let's break it down into a simple, four-step attack plan that you can apply to any piece of text, whether you wrote it from scratch or are editing an AI-generated draft.</p>
+<p><strong>Step 1: The Base Layer.</strong> Write or generate your core text. Focus purely on the information. Get the facts right, outline the main points, and make sure the logic is sound. At this stage, it will almost certainly get flagged as AI-written, and that's fine. This is our unpatched, vulnerable system.</p>
+<p><strong>Step 2: The Perplexity Pass.</strong> Go through the text sentence by sentence with a single mission: hunt and destroy weak, predictable vocabulary. Are you using "good," "bad," "big," or "important"? Find them and replace them with stronger, more specific, higher-perplexity words. Add a technical term or a clever analogy. The goal of this pass is to elevate the vocabulary from generic to expert-level.</p>
+<p><strong>Step 3: The Burstiness Pass.</strong> Now, read the text aloud to hear its rhythm. Is it monotonous? Of course it is. This is where you become a sculptor. Find a paragraph of three medium-length sentences and rewrite it. Make the first sentence incredibly short. Combine the second and third into one long, complex sentence. Look for places to use em-dashes, colons, or even a well-placed sentence fragment. Your goal is to create a varied, unpredictable cadence that mimics human speech.</p>
+<p><strong>Step 4: Red Team Your Work.</strong> You wouldn't deploy a firewall without testing it, so don't publish your text without running it against the enemy. Take your hardened text and run it through several free AI content detectors. Don't just use one. Use three or four different ones, as they all use slightly different models. See what score you get. If it still gets flagged, look at the parts they highlight. Is it a sentence that's too "clean"? A word choice that's too common? This is your vulnerability scan. Go back, tweak those specific areas based on the feedback, and test again. Repeat until you get a "human-written" score across the board.</p>
+
+<h2>Conclusion</h2>
+<p>Let's be brutally honest. This isn't about "cheating." This is about understanding a new type of system and learning its rules. AI text detectors are not arbiters of truth; they are simple statistical models looking for patterns. They are code, and code can be reverse-engineered. By consciously manipulating perplexity and burstiness, you are not lying; you are simply communicating in a way that is more aligned with the chaotic, creative, and unpredictable nature of human expression.</p>
+<p>The techniques we've covered—varying sentence length, using a more sophisticated vocabulary, and injecting personal voice—don't just trick a machine. They also, coincidentally, make your writing more engaging, more interesting, and more persuasive for human readers. You're fighting the machine, but you're also becoming a better communicator in the process. This is an arms race. The detectors will get smarter, and our techniques will have to evolve. But the fundamental principle will always remain the same: the most human thing you can do is be unpredictable. Stay sharp.</p>
+        
+        <div class="premium-hook">
+            <div class="hook-title">🕵️ ACCESS THE INSIDER FEED</div>
+            <p class="hook-text">
+                Don't wait for the headlines. Our <strong>Private Telegram Channel</strong> delivers real-time AI security updates and digital wealth strategies before they go viral. Stay protected. Stay ahead.
+            </p>
+            <a href="https://t.me/checkandcalc_alerts" target="_blank" class="tg-btn-premium">⚡ JOIN THE 1% NOW</a>
+        </div>
+        
+       <div style="margin-top: 50px; padding: 30px; background: #0f172a; border-radius: 16px; border: 1px solid #1f2937; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <h3 style="color: #cbd5e1; font-size: 1.25rem; margin-top: 0; margin-bottom: 12px;">🧰 Try Our Free Tools & Calculators</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 25px;">No sign-up required. Instantly check risks, analyze AI text, or calculate your digital finances.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+                <a href="index.html#scam" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🛡️ SafeSiteCheck</a>
+                <a href="index.html#ai" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">🧠 HumanScore</a>
+                <a href="index.html#yt" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">📺 TubeEarnings</a>
+                <a href="index.html#subdrain" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">💳 SubDrain</a>
+                <a href="index.html#breachcost" style="background: #020617; color: #e5e7eb; border: 1px solid #1f2937; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='#22c55e'; this.style.color='#020617'; this.style.borderColor='#16a34a';" onmouseout="this.style.background='#020617'; this.style.color='#e5e7eb'; this.style.borderColor='#1f2937';">⚠️ BreachCost</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-btn">🚀 Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
