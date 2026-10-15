@@ -12,22 +12,28 @@ REPORTS_DIR = "data/reports"
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 def get_domain_age_days(domain):
-    """Извлича реалната възраст на домейна чрез WHOIS"""
+    """Извлича възрастта на домейна чрез модерния RDAP HTTP протокол"""
     try:
-        w = whois.whois(domain)
-        creation_date = w.creation_date
+        # Използваме публичен RDAP резолвър
+        url = f"https://rdap.org/domain/{domain}"
+        # Слагаме header, за да не ни режат като бот
+        headers = {"User-Agent": "CheckAndCalc-Security-Engine/1.0"}
+        response = requests.get(url, headers=headers, timeout=10)
         
-        # WHOIS понякога връща списък от дати, взимаме първата
-        if isinstance(creation_date, list):
-            creation_date = creation_date[0]
-            
-        if creation_date:
-            days_alive = (datetime.now() - creation_date).days
-            return days_alive
-        return None
+        if response.status_code == 200:
+            data = response.json()
+            for event in data.get("events", []):
+                # Търсим датата на първоначалната регистрация
+                if event.get("eventAction") == "registration":
+                    date_str = event.get("eventDate")
+                    # RDAP връща формат "1994-11-01T05:00:00Z", режем до деня
+                    creation_date = datetime.strptime(date_str[:10], "%Y-%m-%d")
+                    days_alive = (datetime.now() - creation_date).days
+                    return days_alive
     except Exception as e:
-        print(f"Грешка при WHOIS за {domain}: {e}")
-        return None
+        print(f"Грешка при RDAP за {domain}: {e}")
+        
+    return None
 
 def check_safe_browsing(domain):
     """
