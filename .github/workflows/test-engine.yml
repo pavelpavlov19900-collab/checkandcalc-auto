@@ -21,13 +21,13 @@ jobs:
           pip install python-whois requests
 
       - name: Run Data Engine Script
+        env:
+          GOOGLE_SAFE_BROWSING_KEY: ${{ secrets.GOOGLE_SAFE_BROWSING_KEY }}
         run: python scripts/data_engine.py
 
       - name: Output the generated JSON reports
         run: |
           echo "=== REРОРТ ЗА AMAZON.COM ==="
           cat data/reports/amazon_com.json || true
-          echo -e "\n=== REРОРТ ЗА CHECKANDCALC.COM ==="
-          cat data/reports/checkandcalc_com.json || true
-          echo -e "\n=== REРОРТ ЗА FAKESCAMSHOP.COM ==="
-          cat data/reports/fakescamshop_com.json || true
+          echo -e "\n=== REРОРТ ЗА ТЕСТОВИЯ ДОМЕЙН НА GOOGLE ==="
+          cat data/reports/testsafebrowsing_appspot_com.json || true
