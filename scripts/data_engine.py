@@ -1,32 +1,26 @@
 import json
 import os
 import requests
-import whois
 from datetime import datetime
 
-# Конфигурация
-GOOGLE_API_KEY = "DUMMY_KEY_TEST" # Тук ще сложим реалния ключ по-късно
+# Извличаме ключа от тайните на GitHub
+GOOGLE_API_KEY = os.environ.get("GOOGLE_SAFE_BROWSING_KEY", "")
 REPORTS_DIR = "data/reports"
 
-# Създаваме папката за репортите, ако не съществува
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 def get_domain_age_days(domain):
     """Извлича възрастта на домейна чрез модерния RDAP HTTP протокол"""
     try:
-        # Използваме публичен RDAP резолвър
         url = f"https://rdap.org/domain/{domain}"
-        # Слагаме header, за да не ни режат като бот
         headers = {"User-Agent": "CheckAndCalc-Security-Engine/1.0"}
         response = requests.get(url, headers=headers, timeout=10)
         
         if response.status_code == 200:
             data = response.json()
             for event in data.get("events", []):
-                # Търсим датата на първоначалната регистрация
                 if event.get("eventAction") == "registration":
                     date_str = event.get("eventDate")
-                    # RDAP връща формат "1994-11-01T05:00:00Z", режем до деня
                     creation_date = datetime.strptime(date_str[:10], "%Y-%m-%d")
                     days_alive = (datetime.now() - creation_date).days
                     return days_alive
@@ -36,34 +30,52 @@ def get_domain_age_days(domain):
     return None
 
 def check_safe_browsing(domain):
-    """
-    Симулация на Google Safe Browsing API.
-    Когато сложим истинския ключ, тук ще правим POST заявка към Google.
-    За теста приемаме, че сайтовете са чисти, освен ако нямат 'scam' в името.
-    """
-    if GOOGLE_API_KEY == "DUMMY_KEY_TEST":
-        # Mock логика за локални тестове
-        if "scam" in domain or "fake" in domain:
-            return {"is_safe": False, "threat_type": "SOCIAL_ENGINEERING"}
+    """Реална проверка през Google Safe Browsing API"""
+    if not GOOGLE_API_KEY:
+        print("ВНИМАНИЕ: Липсва Google API ключ. Скриптът не намира тайната в GitHub.")
         return {"is_safe": True, "threat_type": "NONE"}
+
+    url = f"https://safebrowsing.googleapis.com/v4/threatMatches:find?key={GOOGLE_API_KEY}"
     
-    # Тук ще бъде реалната логика по-късно
-    pass
+    payload = {
+        "client": {
+            "clientId": "checkandcalc-engine",
+            "clientVersion": "1.0.0"
+        },
+        "threatInfo": {
+            "threatTypes": ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE"],
+            "platformTypes": ["ANY_PLATFORM"],
+            "threatEntryTypes": ["URL"],
+            "threatEntries": [{"url": domain}]
+        }
+    }
+    
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            if "matches" in data and len(data["matches"]) > 0:
+                threat = data["matches"][0]["threatType"]
+                return {"is_safe": False, "threat_type": threat}
+        else:
+            print(f"Грешка от Google API: {response.status_code} - {response.text}")
+    except Exception as e:
+        print(f"Мрежова грешка при връзка с Google: {e}")
+
+    return {"is_safe": True, "threat_type": "NONE"}
 
 def calculate_trust_score(days_alive, safe_browsing_data):
-    """Математическият алгоритъм за Trust Score (0-100)"""
+    """Изчислява крайния рейтинг на базата на събраните данни"""
     score = 100
     risk_factors = []
     
-    # 1. Проверка за черни списъци (Критичен фактор)
     if not safe_browsing_data["is_safe"]:
         score -= 80
-        risk_factors.append(f"Засечена заплаха: {safe_browsing_data['threat_type']}")
+        risk_factors.append(f"Засечена заплаха от Google: {safe_browsing_data['threat_type']}")
         
-    # 2. Оценка по възраст (Фундаментален индикатор за измами)
     if days_alive is None:
         score -= 40
-        risk_factors.append("Скрита или невалидна WHOIS информация")
+        risk_factors.append("Скрита или невалидна RDAP информация")
     elif days_alive < 30:
         score -= 50
         risk_factors.append(f"Много нов домейн (само на {days_alive} дни)")
@@ -73,12 +85,10 @@ def calculate_trust_score(days_alive, safe_browsing_data):
     else:
         risk_factors.append(f"Домейн с история ({days_alive} дни)")
         
-    # Нормализиране до 0-100
     score = max(0, min(100, score))
     return score, risk_factors
 
 def generate_report(domain):
-    """Оркестрира процеса и записва JSON"""
     print(f"\nАнализиране на: {domain}...")
     
     days_alive = get_domain_age_days(domain)
@@ -100,16 +110,15 @@ def generate_report(domain):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(report, f, indent=4, ensure_ascii=False)
         
-    print(f"✓ Репортът е запазен: {file_path} (Скор: {score}/100)")
+    print(f"✓ Репорт: {file_path} (Скор: {score}/100)")
 
-# Списък за тестване (Един сигурен, един нов/съмнителен, един симулиран опасен)
 domains_to_test = [
-    "amazon.com",         # Сигурен, стар
-    "checkandcalc.com",   # Твоят домейн (за референция)
-    "fakescamshop.com"    # Симулация за опасен
+    "amazon.com",
+    "checkandcalc.com",
+    "testsafebrowsing.appspot.com" # Официален тестов домейн на Google
 ]
 
 if __name__ == "__main__":
-    print("Стартиране на Data Engine...")
+    print("Стартиране на Data Engine (Real API Mode)...")
     for d in domains_to_test:
         generate_report(d)
